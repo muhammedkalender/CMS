@@ -17,30 +17,54 @@ class Database
         }
     }
 
-    public function select($query)
+    public static function select($query)
     {
-        //todo
+        try {
+            global $db;
+            return new Output(true, '', $db->prepare($query)->execute()->fetchAll(PDO::FETCH_ASSOC));
+        } catch (Exception $e) {
+            return new Output(false, $e->getMessage());
+        }
     }
 
-    public function first($query)
+    public static function first($query)
     {
-        //todo
+        try {
+            global $db;
+            return new Output(true, '', $db->prepare($query.' LIMIT 1')->execute()->fetchAll(PDO::FETCH_ASSOC)[0]);
+        } catch (Exception $e) {
+            return new Output(false, $e->getMessage());
+        }
     }
 
-    public function exec($query)
+    public static function exec($query)
     {
-        //todo
+        try {
+            global $db;
+            $db->prepare($query)->execute();
+            return new Output(true);
+        } catch (Exception $e) {
+            return new Output(false, $e->getMessage());
+        }
     }
 
-    public function insert($query)
+    public static function insert($query)
     {
-        //todo
+        try {
+            global $db;
+            $db->prepare($query)->execute();
+            return new Output(true, null, $db->lastInsertId());
+        } catch (Exception $e) {
+            return new Output(false, $e->getMessage());
+        }
     }
 
-    public function isIsset($query){
-        $response = $this->db->query($query, PDO::FETCH_ASSOC);
+    public static function isIsset($query)
+    {
+        global $db;
+        $response = $db->query($query, PDO::FETCH_ASSOC);
 
-        if($response->rowCount() == 0){
+        if ($response->rowCount() == 0) {
             return new Output(false);
         }
 
