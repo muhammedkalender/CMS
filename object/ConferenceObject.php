@@ -10,6 +10,8 @@ class ConferenceObject
         if($id == 0){
             return;
         }
+
+
         //todo
     }
 
@@ -22,6 +24,14 @@ class ConferenceObject
     }
 
     public function delete(){
+        //todo
+    }
+
+    public function select(){
+        //todo
+    }
+
+    public function selectForAjax(){
         //todo
     }
 }

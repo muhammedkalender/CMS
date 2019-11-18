@@ -3,7 +3,7 @@
 
 class Session
 {
-    public function select($requestName)
+    public static function get($requestName)
     {
         //https://stackoverflow.com/a/18542272
         if (session_status() == PHP_SESSION_NONE || !isset($_SESSION[$requestName])) {
@@ -13,7 +13,7 @@ class Session
         return new Output(true, '', $_SESSION[$requestName]);
     }
 
-    public function update($requestName, $requestValue)
+    public static function set($requestName, $requestValue)
     {
         //https://stackoverflow.com/a/18542272
         if (session_status() == PHP_SESSION_NONE) {
@@ -25,7 +25,7 @@ class Session
         return new Output(true,);
     }
 
-    public function delete($requestName)
+    public static function del($requestName)
     {
         //https://stackoverflow.com/a/18542272
         if (session_status() == PHP_SESSION_NONE) {

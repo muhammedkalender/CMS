@@ -1,27 +1,25 @@
 <?php
 
 
+//todo komple elden geçecek
 class Database
 {
     public $db;
 
     public function __construct()
     {
-        //todo
         try {
             $this->db = new PDO("mysql:host=localhost;dbname=test", "root", "123456");
         } catch (PDOException $e) {
-            //todo
             echo 'Connection error';
             die();
         }
     }
 
-    public static function select($query)
+    public function select($query)
     {
         try {
-            global $db;
-            return new Output(true, '', $db->prepare($query)->execute()->fetchAll(PDO::FETCH_ASSOC));
+            return new Output(true, '', $this->prepare($query)->execute()->fetchAll(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
             return new Output(false, $e->getMessage());
         }
@@ -61,14 +59,33 @@ class Database
 
     public static function isIsset($query)
     {
-        global $db;
-        $response = $db->query($query, PDO::FETCH_ASSOC);
+        try{
+            global $db;
+            $response = $db->query($query, PDO::FETCH_ASSOC);
 
-        if ($response->rowCount() == 0) {
-            return new Output(false);
+            if ($response->rowCount() == 0) {
+                return new Output(true, '', false);
+            }
+
+            return new Output(true, '', true);
+        }catch (Exception $e){
+            return new Output(false, '', false);
         }
+    }
 
-        return new Output(true);
+    public static function insertReturnID($query)
+    {
+        try {
+            global $db;
+
+            if($db->prepare($query)->execute() == false){
+                throw new Exception('');
+            }
+
+            return new Output(true, '', $db->lastInsertId());
+        } catch (Exception $e) {
+            return new Output(false, $query);
+        }
     }
 }
 
