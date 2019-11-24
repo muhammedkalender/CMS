@@ -3,11 +3,11 @@
 
 class Session
 {
-    public static function get($requestName)
+    public static function get($requestName, $defaultValue = '')
     {
         //https://stackoverflow.com/a/18542272
         if (session_status() == PHP_SESSION_NONE || !isset($_SESSION[$requestName])) {
-            return '';
+            return $defaultValue;
         }
 
         return $_SESSION[$requestName];

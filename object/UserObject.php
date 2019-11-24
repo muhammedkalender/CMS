@@ -5,6 +5,7 @@ require_once 'core/Session.php';
 require_once 'core/Text.php';
 require_once 'core/EasyCode.php';
 require_once 'core/Mail.php';
+require_once 'core/Log.php';
 
 class UserObject
 {
@@ -83,9 +84,12 @@ class UserObject
 
         if($insertUser->status && $insertUser->data != false){
             Mail::queue($email, Lang::get('mail_title_register'), Lang::get('mail_template_register', $firstName, $lastName, $submission, $ecId, $password), $insertUser->data);
+            Log::insert(Lang::get('log_user_insert', $email,$firstName.' - '.$lastName), $submission);
 
             return new Output(true, Lang::get('register_success', $email));
         }else{
+            Log::insert(Lang::get('log_user_insert_failure', $email,$firstName.' - '.$lastName), $submission);
+
             return new Output(false, Lang::get('register_failure', $email));
         }
 
