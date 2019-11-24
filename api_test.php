@@ -31,17 +31,18 @@ if($callCategory == "user"){
         $_POST['ec_id'] = '1';
         $_POST['web_site'] = '';
 
-        $callResult = $user->registerInputCheck();
-
-        if($callResult->status == false){
-            goto output;
-        }
-
         $callResult = $user->registerWithInput();
     }else if($callRequest == "login"){
         $user = new UserObject();
 
-        $_POST['email'] = 'aaa@gmail.com';
+        $_POST['email'] = 'test@gmail.com';
+        $_POST['password'] = 'vePuXKUW7uGVoPV9';
+
+        $callResult = $user->loginWithInput();
+    }else if($callRequest == "check-login"){
+        $user = new UserObject();
+
+        $callResult = new Output($user->isLogged());
     }
 }
 

@@ -1,5 +1,9 @@
 <?php
 
+//https://stackoverflow.com/a/18542272
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 class Session
 {

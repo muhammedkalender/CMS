@@ -22,7 +22,7 @@ class UserObject
         PERM_SELF_OR_UPPER = 3;
 
     //todo
-    public $id, $submissionID, $email, $fistName, $lastName, $isAdmin, $country, $organization, $webPage, $address, $tel;
+    public $id, $submissionID, $email, $fistName, $lastName, $isAdmin, $country, $organization, $webPage, $address, $tel, $ecID;
     public $noteFood, $noteAccommodation, $noteExtra;
     public $isCorresponding, $isJoined;
     public $permGroup, $isLogged = false;
@@ -38,10 +38,17 @@ class UserObject
 
     //region Register
 
-    public function registerWithInput(){
+    public function registerWithInput()
+    {
+        $inputCheck = $this->registerInputCheck();
+
+        if($inputCheck->status == false){
+            return $inputCheck;
+        }
+
         $password = post('password');
 
-        if($password == ''){
+        if ($password == '') {
             $password = Text::generate(16);
         }
 
@@ -71,24 +78,24 @@ class UserObject
 
         $isAvailable = Database::isIsset("SELECT user_id FROM users WHERE user_email = '{$email}'");
 
-        if($isAvailable->status == false|| $isAvailable->data == true){
+        if ($isAvailable->status == false || $isAvailable->data == true) {
             return new Output(false, Lang::get('user_email_already_registered', $email));
         }
 
         $encryptedPassword = Text::encryptPassword($password);
 
-        $insertUser =  Database::insertReturnID(
+        $insertUser = Database::insertReturnID(
             "INSERT INTO users (user_email, user_password, user_first_name, user_last_name, user_country, user_submission, user_ec_id, user_organization, user_web_page, user_address, user_tel, user_food, user_accommodation, user_extra_note, user_is_corresponding, user_joined) VALUES 
 ('{$email}', '{$encryptedPassword}', '{$firstName}', '{$lastName}', {$country}, {$submission}, {$ecId}, '{$organization}', '{$webSite}', '{$address}', '{$tel}', '{$food}', '{$accommodation}', '{$extra_note}', {$corresponding}, {$joined})"
         );
 
-        if($insertUser->status && $insertUser->data != false){
+        if ($insertUser->status && $insertUser->data != false) {
             Mail::queue($email, Lang::get('mail_title_register'), Lang::get('mail_template_register', $firstName, $lastName, $submission, $ecId, $password), $insertUser->data);
-            Log::insert(Lang::get('log_user_insert', $email,$firstName.' - '.$lastName), $submission);
+            Log::insert(Lang::get('log_user_insert', $email, $firstName . ' - ' . $lastName), $submission);
 
             return new Output(true, Lang::get('register_success', $email));
-        }else{
-            Log::insert(Lang::get('log_user_insert_failure', $email,$firstName.' - '.$lastName), $submission);
+        } else {
+            Log::insert(Lang::get('log_user_insert_failure', $email, $firstName . ' - ' . $lastName), $submission);
 
             return new Output(false, Lang::get('register_failure', $email));
         }
@@ -96,24 +103,25 @@ class UserObject
         //todo
     }
 
-    public function registerInputCheck(){
+    public function registerInputCheck()
+    {
         return InputCheck::checkAll([
-            new Input("email", Input::METHOD_POST, "input_email", Input::TYPE_EMAIL,3, 64),
-            new Input('password', Input::METHOD_POST, 'input_password', Input::TYPE_STRING, 0,32),
+            new Input("email", Input::METHOD_POST, "input_email", Input::TYPE_EMAIL, 3, 64),
+            new Input('password', Input::METHOD_POST, 'input_password', Input::TYPE_STRING, 0, 32),
             new Input('name', Input::METHOD_POST, 'input_name', Input::TYPE_STRING, 2, 32),
             new Input('surname', Input::METHOD_POST, 'input_surname', Input::TYPE_STRING, 2, 32),
             new Input('country', Input::METHOD_POST, 'input_country', Input::TYPE_INT, 1, 8),
             new Input('submission', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
             new Input('ec_id', Input::METHOD_POST, 'input_ec_id', Input::TYPE_INT, 1, 8),
-            new Input('organization', Input::METHOD_POST, 'input_organization', Input::TYPE_STRING,0, 128),
-            new Input('web_site', Input::METHOD_POST, 'input_web_site', Input::TYPE_URL,0, 128),
-            new Input('address', Input::METHOD_POST, 'input_address', Input::TYPE_STRING,0, 128),
-            new Input('tel', Input::METHOD_POST, 'input_tel', Input::TYPE_STRING,0, 128),
-            new Input('food', Input::METHOD_POST, 'input_food', Input::TYPE_STRING,0, 256),
-            new Input('accommodation', Input::METHOD_POST, 'input_accommodation', Input::TYPE_STRING,0, 256),
-            new Input('extra_note', Input::METHOD_POST, 'input_extra_note', Input::TYPE_STRING,0, 256),
-            new Input('corresponding', Input::METHOD_POST, 'input_corresponding', Input::TYPE_CHECK,0, 2),
-            new Input('joined', Input::METHOD_POST, 'input_joined', Input::TYPE_CHECK,0, 2),
+            new Input('organization', Input::METHOD_POST, 'input_organization', Input::TYPE_STRING, 0, 128),
+            new Input('web_site', Input::METHOD_POST, 'input_web_site', Input::TYPE_URL, 0, 128),
+            new Input('address', Input::METHOD_POST, 'input_address', Input::TYPE_STRING, 0, 128),
+            new Input('tel', Input::METHOD_POST, 'input_tel', Input::TYPE_STRING, 0, 128),
+            new Input('food', Input::METHOD_POST, 'input_food', Input::TYPE_STRING, 0, 256),
+            new Input('accommodation', Input::METHOD_POST, 'input_accommodation', Input::TYPE_STRING, 0, 256),
+            new Input('extra_note', Input::METHOD_POST, 'input_extra_note', Input::TYPE_STRING, 0, 256),
+            new Input('corresponding', Input::METHOD_POST, 'input_corresponding', Input::TYPE_CHECK, 0, 2),
+            new Input('joined', Input::METHOD_POST, 'input_joined', Input::TYPE_CHECK, 0, 2),
         ]);
     }
 
@@ -129,25 +137,39 @@ class UserObject
             return new Output(false); //todo
         }
 
-        $selectToken = Database::first("SELECT token_id FROM token WHERE token_lock = '{$tokenLock}' AND token_key = '{$tokenKey}' AND token_user = '{$userID}' AND is_deleted = 0");
+        $selectToken = Database::first("SELECT token_id FROM tokens WHERE token_lock = '{$tokenLock}' AND token_key = '{$tokenKey}' AND token_user = '{$userID}' AND token_active = 1");
 
-        if ($selectToken->status == false || $selectToken->data == null) {
+        if ($selectToken->status == false) {
             return new Output(false);
         }
 
         $this->tokenID = $selectToken->data['token_id'];
 
-        $getUser = Database::first('SELECT * FROM users WHERE user_id = {$userID}');
+        $getUser = Database::first("SELECT * FROM users WHERE user_id = {$userID}");
 
-        if ($getUser->status == false || $getUser->data == null) {
+        if ($getUser->status == false) {
             return new Output(false);
         }
+
+        $getUser = $getUser->data;
 
         $this->id = $getUser['user_id'];
         $this->email = $getUser['user_email'];
         $this->fistName = $getUser['user_first_name'];
         $this->lastName = $getUser['user_last_name'];
         $this->isAdmin = $getUser['user_is_admin'];
+        $this->country = $getUser['user_country'];
+        $this->organization = $getUser['user_organization'];
+        $this->webPage = $getUser['user_web_page'];
+        $this->address = $getUser['user_address'];
+        $this->tel = $getUser['user_tel'];
+        $this->noteFood = $getUser['user_food'];
+        $this->noteAccommodation = $getUser['user_accommodation'];
+        $this->isCorresponding = $getUser['user_is_corresponding'];
+        $this->noteExtra = $getUser['user_extra_note'];
+        $this->isJoined = $getUser['user_joined'];
+        $this->submissionID = $getUser['user_submission'];
+        $this->ecID = $getUser['user_ec_id'];
         $this->permGroup = ($this->isAdmin ? self::PERM_GROUP_ADMIN : self::PERM_GROUP_USER);
 
         $this->isLogged = true;
@@ -155,23 +177,33 @@ class UserObject
         return new Output(true, '', $this);
     }
 
+    public function loginInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input("email", Input::METHOD_POST, "input_email", Input::TYPE_EMAIL, 3, 64),
+            new Input('password', Input::METHOD_POST, 'input_password', Input::TYPE_STRING, 3, 32),
+        ]);
+    }
+
+    public function loginWithInput(){
+        $inputCheck = $this->loginInputCheck();
+
+        if($inputCheck->status == false){
+            return $inputCheck;
+        }
+
+        return $this->login(post('email'), post('password'));
+    }
+
     public function login($userName, $password)
     {
         $userName = strtolower($userName);
 
-        global $database;
+        $encryptedPassword = Text::encryptPassword($password);
 
-        $suffix = $database->first('SELECT user_suffix, user_id FROM users WHERE (user_email = "' . $userName . '" OR custom_email = "' . $userName . '") AND is_deleted = 0');
+        $user = Database::first("SELECT * FROM users WHERE user_email = '{$userName}'  AND user_password = '{$encryptedPassword}' AND user_active = 1");
 
-        if ($suffix->status == false || $suffix->data == null || !isset($suffix->data['user_id'])) {
-            return new Output(false, 'user_not_found', null);
-        }
-
-        $encryptedPassword = Text::encryptPassword($password, $suffix->data['user_suffix']);
-
-        $user = $database->first('SELECT * FROM users WHERE user_email = "' . $userName . '" AND user_password = "' . $encryptedPassword . '" AND is_deleted = 0');
-
-        if ($user->status == false || $user->data == null || !isset($user->data['user_id'])) {
+        if ($user->status == false) {
             return new Output(false, 'user_wrong_login', null);
         }
 
@@ -181,14 +213,14 @@ class UserObject
         $tokenKey = Text::generate();
         $userIP = $this->getIP()->data;
 
-        while (Database::isIsset("SELECT token_id FROM token WHERE token_user = {$userID} AND token_lock =  '{$tokenLock}' AND token_key = '{$tokenKey}'")->data) {
+        while (Database::isIsset("SELECT token_id FROM tokens WHERE token_user = {$userID} AND token_lock =  '{$tokenLock}' AND token_key = '{$tokenKey}'")->data) {
             $tokenLock = Text::generate();
             $tokenKey = Text::generate();
         }
 
-        Database::exec("UPDATE token SET token_active = 0 WHERE token_user = {$userID}");
+        Database::exec("UPDATE tokens SET token_active = 0 WHERE token_user = {$userID}");
 
-        $insertToken = Database::insertReturnID("INSERT INTO token (token_user, token_lock, token_key, token_ip) VALUES ({$userID}, '{$tokenLock}', '{$tokenKey}','$userIP')");
+        $insertToken = Database::insertReturnID("INSERT INTO tokens (token_user, token_lock, token_key, token_ip) VALUES ({$userID}, '{$tokenLock}', '{$tokenKey}','{$userIP}')");
 
         if ($insertToken->status) {
             Session::set('token_id', $insertToken->data);
@@ -196,9 +228,9 @@ class UserObject
             Session::set('token_key', $tokenKey);
             Session::set('user_id', $userID);
 
-            return new Output(true, 'login_success', [$insertToken->data, $tokenLock, $tokenKey, $userID]);
+            return new Output(true, Lang::get('login_success'), [$insertToken->data, $tokenLock, $tokenKey, $userID]);
         } else {
-            return new Output(false, 'system_error_login', null);
+            return new Output(false, Lang::get('system_error_login'), null);
         }
     }
 
@@ -240,7 +272,8 @@ class UserObject
         return $this->isAdmin;
     }
 
-    public function isLogged(){
+    public function isLogged()
+    {
         return $this->isLogged;
     }
 

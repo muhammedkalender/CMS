@@ -27,7 +27,17 @@ class Database
     {
         try {
             global $db;
-            return new Output(true, '', $db->prepare($query.' LIMIT 1')->execute()->fetchAll(PDO::FETCH_ASSOC)[0]);
+            $statement = $db->prepare($query.' LIMIT 1');
+
+            if(!$statement->execute()){
+                return new Output(false, 'db_first_error');
+            }
+
+            if($statement->rowCount() == 0){
+                return new Output(false, 'query_error');
+            }
+
+            return new Output(true, '', $statement->fetchAll(PDO::FETCH_ASSOC)[0]);
         } catch (Exception $e) {
             return new Output(false, $e->getMessage());
         }
@@ -62,17 +72,17 @@ class Database
         try{
             global $db;
 
-            $response = $db->query($query, PDO::FETCH_ASSOC);
+            $response = $db->prepare($query);
 
             $response->execute();
 
             if ($response->rowCount() == 0) {
-                return new Output(true, '', false);
+                return new Output(false);
             }
 
-            return new Output(true, '', true);
+            return new Output(true);
         }catch (Exception $e){
-            return new Output(false, '', false);
+            return new Output(false);
         }
     }
 

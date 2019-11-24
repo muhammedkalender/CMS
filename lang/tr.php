@@ -12,11 +12,14 @@ class Lang
         'check_input_type' => '[[FIRST_PARAM]], [[SECOND_PARAM]] olmalıdır.',
 
         'user_email_already_registered' => '[[FIRST_PARAM]] Zaten kullanılıyor',
+        'user_wrong_login' => 'Kullanıcı adı veya şifre yanlış',
+        'login_success' => 'Giriş yapıldı',
 
         'type_email' => 'Eposta adresi',
         'type_int' => 'Sayısal değer',
 
         'input_email' => 'Eposta Adresi',
+        'input_password' => 'Şifre',
         'input_name' => 'İsim',
         'input_surname' => 'Soyisim',
         'input_country' => 'Ülke',
@@ -32,6 +35,8 @@ class Lang
 
         'log_user_insert' => '[[FIRST_PARAM]] Mail adresli [[SECOND_PARAM]] için hesap oluşturuldu.',
         'log_user_insert_failure' => '[[FIRST_PARAM]] Mail adresli [[SECOND_PARAM]] için hesap oluşturulamadı',
+
+        'system_error_login' => 'Giriş yaparken sorun oluştu',
     ];
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')
