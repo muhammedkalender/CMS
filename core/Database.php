@@ -2,24 +2,22 @@
 
 
 //todo komple elden geçecek
+$db = null;
+
+try {
+    $db = new PDO("mysql:host=localhost:3307;dbname=cms;charset=utf8mb4", "root", "");
+} catch (PDOException $e) {
+    echo 'Connection error';
+    die();
+}
+
 class Database
 {
-    public $db;
-
-    public function __construct()
-    {
-        try {
-            $this->db = new PDO("mysql:host=localhost;dbname=test", "root", "123456");
-        } catch (PDOException $e) {
-            echo 'Connection error';
-            die();
-        }
-    }
-
     public function select($query)
     {
         try {
-            return new Output(true, '', $this->prepare($query)->execute()->fetchAll(PDO::FETCH_ASSOC));
+            global $db;
+            return new Output(true, '', $db->prepare($query)->execute()->fetchAll(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
             return new Output(false, $e->getMessage());
         }
@@ -53,7 +51,7 @@ class Database
             $db->prepare($query)->execute();
             return new Output(true, null, $db->lastInsertId());
         } catch (Exception $e) {
-            return new Output(false, $e->getMessage());
+            return new Output(false, $e->getMessage(), false);
         }
     }
 
@@ -61,7 +59,10 @@ class Database
     {
         try{
             global $db;
+
             $response = $db->query($query, PDO::FETCH_ASSOC);
+
+            $response->execute();
 
             if ($response->rowCount() == 0) {
                 return new Output(true, '', false);
@@ -77,7 +78,6 @@ class Database
     {
         try {
             global $db;
-
             if($db->prepare($query)->execute() == false){
                 throw new Exception('');
             }

@@ -7,10 +7,10 @@ class Session
     {
         //https://stackoverflow.com/a/18542272
         if (session_status() == PHP_SESSION_NONE || !isset($_SESSION[$requestName])) {
-            return new Output(false);
+            return '';
         }
 
-        return new Output(true, '', $_SESSION[$requestName]);
+        return $_SESSION[$requestName];
     }
 
     public static function set($requestName, $requestValue)
@@ -22,7 +22,7 @@ class Session
 
         $_SESSION[$requestName] = $requestValue;
 
-        return new Output(true,);
+        return new Output(true);
     }
 
     public static function del($requestName)

@@ -1,6 +1,10 @@
 <?php
 
 require_once 'core/Database.php';
+require_once 'core/Session.php';
+require_once 'core/Text.php';
+require_once 'core/EasyCode.php';
+require_once 'core/Mail.php';
 
 class UserObject
 {
@@ -17,7 +21,10 @@ class UserObject
         PERM_SELF_OR_UPPER = 3;
 
     //todo
-    public $id, $email, $fistName, $lastName, $isAdmin, $isAuthor, $permGroup;
+    public $id, $submissionID, $email, $fistName, $lastName, $isAdmin, $country, $organization, $webPage, $address, $tel;
+    public $noteFood, $noteAccommodation, $noteExtra;
+    public $isCorresponding, $isJoined;
+    public $permGroup, $isLogged = false;
 
     private $tokenID;
 
@@ -28,31 +35,89 @@ class UserObject
     }
 
 
-    public function register($email, $firstName, $lastName, $password)
+    //region Register
+
+    public function registerWithInput(){
+        $password = post('password');
+
+        if($password == ''){
+            $password = Text::generate(16);
+        }
+
+        return $this->register(
+            post('email'),
+            $password,
+            post('name'),
+            post('surname'),
+            post('country'),
+            post('submission'),
+            post('ec_id'),
+            post('organization'),
+            post('web_site'),
+            post('address'),
+            post('tel'),
+            post('food'),
+            post('accommodation'),
+            post('extra_note'),
+            post('corresponding'),
+            post('joined', 0)
+        );
+    }
+
+    public function register($email, $password, $firstName, $lastName, $country, $submission, $ecId, $organization, $webSite, $address, $tel, $food, $accommodation, $extra_note, $corresponding, $joined)
     {
         $email = strtolower($email);
 
-        if(($isAvailable = Database::isIsset("SELECT user_id FROM users WHERE user_email = '{$email}'"))->status == false|| $isAvailable->data == false){
-            return new Output(false, 'user_already_registered');
+        $isAvailable = Database::isIsset("SELECT user_id FROM users WHERE user_email = '{$email}'");
+
+        if($isAvailable->status == false|| $isAvailable->data == true){
+            return new Output(false, Lang::get('user_email_already_registered', $email));
         }
 
-        $passwordSuffix = Text::generate(32);
-        $password = Text::encryptPassword($password, $passwordSuffix);
+        $encryptedPassword = Text::encryptPassword($password);
 
-        $insertUser =  Database::insert("INSERT INTO users (user_email, user_first_name, user_last_name, user_password, user_suffix) VALUES ('{$email}', '{$firstName}', '{$lastName}', '{$password}', '{$passwordSuffix}')");
+        $insertUser =  Database::insertReturnID(
+            "INSERT INTO users (user_email, user_password, user_first_name, user_last_name, user_country, user_submission, user_ec_id, user_organization, user_web_page, user_address, user_tel, user_food, user_accommodation, user_extra_note, user_is_corresponding, user_joined) VALUES 
+('{$email}', '{$encryptedPassword}', '{$firstName}', '{$lastName}', {$country}, {$submission}, {$ecId}, '{$organization}', '{$webSite}', '{$address}', '{$tel}', '{$food}', '{$accommodation}', '{$extra_note}', {$corresponding}, {$joined})"
+        );
 
-        if($insertUser->status){
-            return new Output(true, 'register_success');
+        if($insertUser->status && $insertUser->data != false){
+            Mail::queue($email, Lang::get('mail_title_register'), Lang::get('mail_template_register', $firstName, $lastName, $submission, $ecId, $password), $insertUser->data);
+
+            return new Output(true, Lang::get('register_success', $email));
         }else{
-            return new Output(false);
+            return new Output(false, Lang::get('register_failure', $email));
         }
 
         //todo
     }
 
+    public function registerInputCheck(){
+        return InputCheck::checkAll([
+            new Input("email", Input::METHOD_POST, "input_email", Input::TYPE_EMAIL,3, 64),
+            new Input('password', Input::METHOD_POST, 'input_password', Input::TYPE_STRING, 0,32),
+            new Input('name', Input::METHOD_POST, 'input_name', Input::TYPE_STRING, 2, 32),
+            new Input('surname', Input::METHOD_POST, 'input_surname', Input::TYPE_STRING, 2, 32),
+            new Input('country', Input::METHOD_POST, 'input_country', Input::TYPE_INT, 1, 8),
+            new Input('submission', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
+            new Input('ec_id', Input::METHOD_POST, 'input_ec_id', Input::TYPE_INT, 1, 8),
+            new Input('organization', Input::METHOD_POST, 'input_organization', Input::TYPE_STRING,0, 128),
+            new Input('web_site', Input::METHOD_POST, 'input_web_site', Input::TYPE_URL,0, 128),
+            new Input('address', Input::METHOD_POST, 'input_address', Input::TYPE_STRING,0, 128),
+            new Input('tel', Input::METHOD_POST, 'input_tel', Input::TYPE_STRING,0, 128),
+            new Input('food', Input::METHOD_POST, 'input_food', Input::TYPE_STRING,0, 256),
+            new Input('accommodation', Input::METHOD_POST, 'input_accommodation', Input::TYPE_STRING,0, 256),
+            new Input('extra_note', Input::METHOD_POST, 'input_extra_note', Input::TYPE_STRING,0, 256),
+            new Input('corresponding', Input::METHOD_POST, 'input_corresponding', Input::TYPE_CHECK,0, 2),
+            new Input('joined', Input::METHOD_POST, 'input_joined', Input::TYPE_CHECK,0, 2),
+        ]);
+    }
+
+    //endregion
+
     public function checkLogin()
     {
-        $userID = Session::get("member_id");
+        $userID = Session::get("user_id");
         $tokenLock = Session::get("token_lock");
         $tokenKey = Session::get("token_key");
 
@@ -79,8 +144,9 @@ class UserObject
         $this->fistName = $getUser['user_first_name'];
         $this->lastName = $getUser['user_last_name'];
         $this->isAdmin = $getUser['user_is_admin'];
-        $this->isAuthor = $getUser['user_is_author'];
         $this->permGroup = ($this->isAdmin ? self::PERM_GROUP_ADMIN : self::PERM_GROUP_USER);
+
+        $this->isLogged = true;
 
         return new Output(true, '', $this);
     }
@@ -91,7 +157,7 @@ class UserObject
 
         global $database;
 
-        $suffix = $database->first('SELECT user_suffix, user_id FROM users WHERE user_email = "' . $userName . '" AND is_deleted = 0');
+        $suffix = $database->first('SELECT user_suffix, user_id FROM users WHERE (user_email = "' . $userName . '" OR custom_email = "' . $userName . '") AND is_deleted = 0');
 
         if ($suffix->status == false || $suffix->data == null || !isset($suffix->data['user_id'])) {
             return new Output(false, 'user_not_found', null);
@@ -168,6 +234,10 @@ class UserObject
     public function isAdmin()
     {
         return $this->isAdmin;
+    }
+
+    public function isLogged(){
+        return $this->isLogged;
     }
 
     private function getIP()

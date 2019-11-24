@@ -27,8 +27,8 @@ class Text
         return htmlspecialchars_decode($rawText, ENT_QUOTES);
     }
 
-    public static function encryptPassword($password, $suffix)
+    public static function encryptPassword($password)
     {
-        return sha1(md5($password) . $suffix);
+        return md5($password);
     }
 }

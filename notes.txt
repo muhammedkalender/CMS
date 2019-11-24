@@ -1,0 +1,3 @@
+Kullanıcı Oluşturma
+    - Kullanıcı kendi kayıt olabilecek
+    - Makale oluşturulduktan sonra custom email ile yeni kullanıcılar oluşturulacak ( authors )
