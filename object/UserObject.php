@@ -127,6 +127,8 @@ class UserObject
 
     //endregion
 
+    //region Login
+
     public function checkLogin()
     {
         $userID = Session::get("user_id");
@@ -233,6 +235,8 @@ class UserObject
             return new Output(false, Lang::get('system_error_login'), null);
         }
     }
+
+    //endregion
 
     public function perm($permType, $optionalFirst = 0, $optionalSecond = 0)
     {
