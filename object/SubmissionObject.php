@@ -24,6 +24,28 @@ class SubmissionObject
     {
         //todo
         $submission = Database::first("SELECT * FROM submissions WHERE submission_id = {$submissionID}");
+
+        if(!$submission->status){
+            return new Output(false, Lang::get('submission_null'));
+        }
+
+        $submission = $submission->data;
+
+        $this->submissionID = $submissionID;
+        $this->ecID = $submission['submission_ec_id'];
+        $this->submitDate = $submission['submission_submit_date'];
+        $this->paperTitle = $submission['submission_paper_title'];
+        $this->presentationType = $submission['submission_presentation_type'];
+        $this->keywords = $submission['submission_keywords'];
+        $this->ecKeyphrases = $submission['submission_ec_keyprases'];
+        $this->topics = $submission['submission_topics'];
+        $this->typeOfContribution = $submission['submission_type_of_contribution'];
+        $this->invoice = $submission['submission_invoice'];
+        $this->abstractPaper = $submission['submission_abstract_paper'];
+        $this->fullPaper = $submission['submission_full_paper'];
+        $this->amount = $submission['submission_amount'];
+
+        return new Output(true, '', $this);
     }
 
     public function insertWithInput()
@@ -114,7 +136,7 @@ class SubmissionObject
     {
         $message = '';
 
-        $submissionID = Database::insertReturnID("INSERT INTO submissions (submission_ec_id, submission_submİt_date, submission_paper_title, submission_presentation_type, submission_keywords, submission_ec_keyprases, submission_topics, submission_type_of_contribution, submission_abstract_paper, submission_full_paper) VALUES  
+        $submissionID = Database::insertReturnID("INSERT INTO submissions (submission_ec_id, submission_submit_date, submission_paper_title, submission_presentation_type, submission_keywords, submission_ec_keyprases, submission_topics, submission_type_of_contribution, submission_abstract_paper, submission_full_paper) VALUES  
 ({$ecID}, '{$submitDate}', '{$paperTitle}', '{$presentationType}', '{$keywords}', '{$ecKeyprases}', '{$topics}', '{$typeOfContribution}', '{$abstractPaper}', '{$fullPaper}')");
 
         if (!$submissionID->status) {

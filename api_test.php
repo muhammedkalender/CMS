@@ -65,6 +65,14 @@ if($callCategory == "user"){
 
 
         $callResult = $submission->insertWithInput();
+    }else if($callRequest == 'shown'){
+        setPost('submission', 20);
+        setPost('submission', 50);
+        $submission = new SubmissionObject();
+
+        $submission = $submission->loadObject($_POST['submission']);
+
+        $callResult = $submission;
     }
 }
 

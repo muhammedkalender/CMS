@@ -53,6 +53,8 @@ class Lang
 
         'user_input_wrong' => 'Bir sorun oluştu, lütfen daha sonra tekrar deneyin',
 
+        'submission_null' => 'Makale bulunamadı',
+
     ];
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')
