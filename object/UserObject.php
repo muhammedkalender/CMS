@@ -109,11 +109,11 @@ class UserObject
 
         if ($insertUser->status && $insertUser->data != false) {
             Mail::queue($email, Lang::get('mail_title_register'), Lang::get('mail_template_register', $firstName, $lastName, $submission, $ecId, $password), $insertUser->data);
-            Log::insert(Lang::get('log_user_insert', $email, $firstName . ' - ' . $lastName), $submission);
+            Log::insertWithKey('log_user_insert', [$submission], [$email, $firstName . ' - ' .$lastName]);
 
             return new Output(true, Lang::get('register_success', $email));
         } else {
-            Log::insert(Lang::get('log_user_insert_failure', $email, $firstName . ' - ' . $lastName), $submission);
+            Log::insert('log_user_insert_failure', [$submission], [$email, $firstName . ' - ' .$lastName]);
 
             return new Output(false, Lang::get('register_failure', $email));
         }

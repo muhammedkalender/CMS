@@ -16,15 +16,22 @@ class Log
         return Database::insert("INSERT INTO logs (log_text, log_first_param, log_second_param, log_third_param, log_created_by) VALUES ('{$text}', {$firstParamID}, {$secondParamID}, {$thirdParamID}, {$userID})");
     }
 
-    public static function insertWithKey($text, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = ''){
+    public static function insertWithKey($text, $ids, $keys){
         $text = Text::encode($text);
-        $firstParam = Text::encode($firstParam);
-        $secondParam = Text::encode($secondParam);
-        $thirdParam = Text::encode($thirdParam);
-        $fourthParam = Text::encode($fourthParam);
+
+        $newKeys = ['', '', '', ''];
+        $newIds = [0, 0, 0];
+
+        for($i = 0; $i < count($keys); $i++){
+            $newKeys[$i] = Text::encode($keys[$i]);
+        }
+
+        for($i = 0; $i < count($ids); $i++){
+            $newIds[$i] = $ids[$i];
+        }
 
         $userID = Session::get('user_id', 0);
 
-        return Database::insert("INSERT INTO logs (log_text, log_param_text_first, log_param_text_second, log_param_text_third, log_param_text_fourth, log_created_by) VALUES ('{$text}', '{$firstParam}', '{$secondParam}', '{$thirdParam}', '{$fourthParam}' {$userID})");
+        return Database::insert("INSERT INTO logs (log_text, log_param_text_first, log_param_text_second, log_param_text_third, log_param_text_fourth, log_id_for_text, log_first_param, log_second_param, log_third_param, log_created_by) VALUES ('{$text}', '{$newKeys[0]}', '{$newKeys[1]}', '{$newKeys[2]}', '{$newKeys[3]}', {$newIds[0]}, {$newIds[1]}, {$newIds[2]}, {$userID})");
     }
 }
