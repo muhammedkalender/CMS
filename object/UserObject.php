@@ -35,10 +35,23 @@ class UserObject
         $this->checkLogin();
     }
 
+    public function loadPostData($arr, $type, $submission = 1){
+        if($type == 'SUBMISSION_TEST'){
+            setPost('name', $arr[0]);
+            setPost('surname', $arr[1]);
+            setPost('email', $arr[2]);
+            setPost('country', $arr[3]);
+            setPost('submission', $submission);
+            setPost('organization', $arr[4]);
+            setPost('web_site', $arr[5]);
+            setPost('corresponding', $arr[6]);
+            setPost('joined', $arr[7]);
+        }
+    }
 
     //region Register
 
-    public function registerWithInput()
+    public function registerWithInput($isTest = false)
     {
         $inputCheck = $this->registerInputCheck();
 
@@ -68,18 +81,23 @@ class UserObject
             post('accommodation'),
             post('extra_note'),
             post('corresponding'),
-            post('joined', 0)
+            post('joined', 0),
+            $isTest
         );
     }
 
-    public function register($email, $password, $firstName, $lastName, $country, $submission, $ecId, $organization, $webSite, $address, $tel, $food, $accommodation, $extra_note, $corresponding, $joined)
+    public function register($email, $password, $firstName, $lastName, $country, $submission, $ecId, $organization, $webSite, $address, $tel, $food, $accommodation, $extra_note, $corresponding, $joined, $isTest = false)
     {
         $email = strtolower($email);
 
         $isAvailable = Database::isIsset("SELECT user_id FROM users WHERE user_email = '{$email}'");
 
-        if ($isAvailable->status == false || $isAvailable->data == true) {
+        if ($isAvailable->status == true) {
             return new Output(false, Lang::get('user_email_already_registered', $email));
+        }
+
+        if($isTest){
+            return new Output(true);
         }
 
         $encryptedPassword = Text::encryptPassword($password);

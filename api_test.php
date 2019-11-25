@@ -4,11 +4,12 @@ require_once 'lang/tr.php'; //todo
 require_once 'core/Output.php'; //todo
 require_once 'core/InputCheck.php'; //todo
 require_once 'core/Input.php'; //todo
+require_once 'core/EasyCode.php'; //todo
+
+$callResult = null;
 
 $_POST['call_category'] = $_GET['c'];
 $_POST['call_request'] = $_GET['r'];
-
-$callResult = null;
 
 if (isset($_POST["call_category"]) == false || isset($_POST["call_request"]) == false) {
     goto nothing;
@@ -43,6 +44,27 @@ if($callCategory == "user"){
         $user = new UserObject();
 
         $callResult = new Output($user->isLogged());
+    }
+}else if($callCategory == "submission"){
+    require_once 'object/SubmissionObject.php';
+
+    if($callRequest == 'insert'){
+        $submission = new SubmissionObject();
+
+        setPost('ec_id', 1);
+        setPost('submit_date', '10:18:13 30-12-2019');
+        setPost('paper_title', 'Test');
+        setPost('presentation_type', 'Test_PT');
+        setPost('type_of_contribution', 'NASIL KATKI?');
+        setPost('users',
+            [
+                'Ali'.DEFAULT_HTML_SPLITTER.'Veli'.DEFAULT_HTML_SPLITTER.'120aaa@gmail.com'.DEFAULT_HTML_SPLITTER.'1'.DEFAULT_HTML_SPLITTER.'TEST ORGz'.DEFAULT_HTML_SPLITTER.'http://www.google.com'.DEFAULT_HTML_SPLITTER.''.DEFAULT_HTML_SPLITTER.'1',
+                'Ali'.DEFAULT_HTML_SPLITTER.'Veli'.DEFAULT_HTML_SPLITTER.'13aaa@gmail.com'.DEFAULT_HTML_SPLITTER.'1'.DEFAULT_HTML_SPLITTER.'TEST ORGz'.DEFAULT_HTML_SPLITTER.'http://www.google.com'.DEFAULT_HTML_SPLITTER.''.DEFAULT_HTML_SPLITTER.'1'
+            ]
+        );
+
+
+        $callResult = $submission->insertWithInput();
     }
 }
 

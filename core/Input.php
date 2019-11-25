@@ -21,7 +21,9 @@ class Input
         //Email
         TYPE_EMAIL = 7,
         //URL
-        TYPE_URL = 8;
+        TYPE_URL = 8,
+        //ARRAY
+        TYPE_ARRAY = 10;
 
     const
         METHOD_GET = 0,

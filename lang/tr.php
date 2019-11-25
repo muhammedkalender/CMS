@@ -10,6 +10,7 @@ class Lang
         'check_input_short' => '[[FIRST_PARAM]], [[SECOND_PARAM]] Karakterden kısa olamaz',
         'check_input_long' => '[[FIRST_PARAM]], [[SECOND_PARAM]] Karakterden uzun olamaz',
         'check_input_type' => '[[FIRST_PARAM]], [[SECOND_PARAM]] olmalıdır.',
+        'check_input_date' => '[[FIRST_PARAM]], Kabul edilen standartta bir tarih değil',
 
         'user_email_already_registered' => '[[FIRST_PARAM]] Zaten kullanılıyor',
         'user_wrong_login' => 'Kullanıcı adı veya şifre yanlış',
@@ -25,6 +26,17 @@ class Lang
         'input_country' => 'Ülke',
         'input_submission' => 'Makale',
         'input_ec_id' => 'EC Id',
+        'input_submit_date' => 'Gönderim Tarihi',
+        'input_paper_title' => 'Makale Başlığı',
+        'input_presentation_type' => 'Sunum Türü',
+        'input_type_of_contribution' => 'Katkı Türü',
+        'input_users' => 'Yazarlar',
+        'users_input_wrong' => 'Yazarlarla ilgili bir sorun var',
+
+        'submission_insert_failure' => 'Makale oluşturulurken sorun oluştu',
+        'submission_insert_success' => 'Makale başarıyla oluşturuldu. ID : [[FIRST_PARAM]]',
+        'users_insert_to_submission_failure' => '[[FIRST_PARAM]]. Yazar Makaleye eklenemedi',
+        'users_insert_to_submission_success' => '[[FIRST_PARAM]] Yazarı Oluşturuldu',
 
         'register_success' => '[[FIRST_PARAM]] başarıyla kayıt edildi',
         'register_failure' => '[[FIRST_PARAM]] Kayıt olurken sorun oluştu',
@@ -35,8 +47,12 @@ class Lang
 
         'log_user_insert' => '[[FIRST_PARAM]] Mail adresli [[SECOND_PARAM]] için hesap oluşturuldu.',
         'log_user_insert_failure' => '[[FIRST_PARAM]] Mail adresli [[SECOND_PARAM]] için hesap oluşturulamadı',
+        'log_submission_insert' => 'Makale oluşturuldu',
 
         'system_error_login' => 'Giriş yaparken sorun oluştu',
+
+        'user_input_wrong' => 'Bir sorun oluştu, lütfen daha sonra tekrar deneyin',
+
     ];
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')

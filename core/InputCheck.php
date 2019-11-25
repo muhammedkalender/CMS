@@ -1,5 +1,6 @@
 <?php
 
+require_once 'core/Text.php';
 require_once 'core/Output.php';
 
 class InputCheck
@@ -45,11 +46,11 @@ class InputCheck
             goto skipControls;
         }
 
-        if (strlen($data) < $minCharacter) {
+        if ($inputType != Input::TYPE_ARRAY && strlen($data) < $minCharacter) {
             return new Output(false, Lang::get('check_input_short', Lang::get($name), $minCharacter));
         }
 
-        if (strlen($data) > $maxCharacter) {
+        if ($inputType != Input::TYPE_ARRAY && strlen($data) > $maxCharacter) {
             return new Output(false, Lang::get('check_input_long', Lang::get($name), $maxCharacter));
         }
 
@@ -68,11 +69,12 @@ class InputCheck
             $data = preg_replace("[^\S]|[^a-zA-Z_-]", '', $data);
         } else if ($inputType == Input::TYPE_TEXT) {
             //todo varsa özel karakter encode edecek
+            $data = Text::encode($data);
         } else if ($inputType == Input::TYPE_DATE) {
-            if (($time_stamp = strtolower($data)) == false) {
+            if (($time_stamp = strtotime($data)) == false) {
                 return new Output(false, Lang::get('check_input_date', Lang::get($name)));
             } else {
-                $data = date('d-m-Y', $time_stamp);
+                $data = date('Y-m-d', $time_stamp);
             }
         }else if($inputType == Input::TYPE_EMAIL){
             $data = strtolower($data);
@@ -85,6 +87,10 @@ class InputCheck
 
             if(!filter_var($data, FILTER_VALIDATE_URL)){
                 return new Output(false, Lang::getWithKey('check_input_type', $name, 'type_url'));
+            }
+        }else if($inputType == Input::TYPE_ARRAY){
+            if($data == '' || !is_array($data)){
+                return new Output(false, Lang::getWithKey('check_input_array', $name, 'type_array'));
             }
         }
 

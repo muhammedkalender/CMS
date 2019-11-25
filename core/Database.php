@@ -59,8 +59,6 @@ class Database
         try {
             global $db;
             $db->prepare($query)->execute();
-
-            echo $query;
             return new Output(true, null, $db->lastInsertId());
         } catch (Exception $e) {
             return new Output(false, $e->getMessage(), false);
@@ -100,5 +98,3 @@ class Database
         }
     }
 }
-
-$database = new Database();
