@@ -31,7 +31,10 @@ class Lang
         'input_presentation_type' => 'Sunum Türü',
         'input_type_of_contribution' => 'Katkı Türü',
         'input_users' => 'Yazarlar',
+        'input_message' => 'Mesaj',
         'users_input_wrong' => 'Yazarlarla ilgili bir sorun var',
+
+        'perm_error' => 'Bu işlemi yapmak için yetkiniz yok',
 
         'submission_insert_failure' => 'Makale oluşturulurken sorun oluştu',
         'submission_insert_success' => 'Makale başarıyla oluşturuldu. ID : [[FIRST_PARAM]]',
@@ -54,6 +57,9 @@ class Lang
         'user_input_wrong' => 'Bir sorun oluştu, lütfen daha sonra tekrar deneyin',
 
         'submission_null' => 'Makale bulunamadı',
+
+        'comment_insert_failure' => 'Yorum eklenemedi',
+        'comment_insert_success' => 'Yorum başarıyla eklendi',
 
     ];
 

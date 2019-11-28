@@ -13,3 +13,7 @@ function post($name, $defaultValue = ''){
 function setPost($name, $value){
     $_POST[$name] = $value;
 }
+
+function getDate(){
+    return date('Y-m-d h:m:s');
+}

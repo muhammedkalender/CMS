@@ -261,32 +261,33 @@ class UserObject
         switch ($permType) {
             case self::PERM_IS:
                 //First => İstenilen Perm
+
                 if ($this->permGroup != $optionalFirst) {
-                    return new Output(false);
+                    return false;
                 }
                 break;
             case self::PERM_SELF:
                 //First => İstenilen datadaki ID
                 if ($this->id != $optionalFirst) {
-                    return new Output(false);
+                    return false;
                 }
                 break;
             case self::PERM_SELF_OR_UPPER:
                 //First => İstenilen Kullanıcı ID
                 //Seond => Min. Gereken Grup
                 if ($this->id != $optionalFirst && $optionalSecond > $this->permGroup) {
-                    return new Output(false);
+                    return false;
                 }
                 break;
             case self::PERM_UPPER:
                 //First => İstenilen Grup ID
                 if ($this->permGroup < $optionalFirst) {
-                    return new Output(false);
+                    return false;
                 }
                 break;
         }
 
-        return new Output(true);
+        return true;
     }
 
     public function isAdmin()
@@ -297,6 +298,10 @@ class UserObject
     public function isLogged()
     {
         return $this->isLogged;
+    }
+
+    public function getFullName(){
+        return $this->fistName + ' ' +$this->lastName;
     }
 
     private function getIP()
@@ -317,3 +322,5 @@ class UserObject
         }
     }
 }
+
+$user = new UserObject();
