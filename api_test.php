@@ -161,6 +161,31 @@ if($callCategory == "user"){
 
         $callResult = $announcement->selectWithInput();
     }
+}else if($callCategory == 'user-announcement-message'){
+    require_once 'object/UserAnnouncementMessageObject.php';
+
+
+    if($callRequest == 'insert'){
+        $announcement = new UserAnnouncementMessageObject();
+
+        setPost('announcement', '1');
+        setPost('message', 'mesaj');
+        setPost('user', '7');
+
+        $callResult = $announcement->insertWithInput();
+    }else if($callRequest == 'delete'){
+        $announcement = new UserAnnouncementMessageObject();
+
+        setPost('user_announcement_message', '1');
+
+        $callResult = $announcement->deleteWithInput();
+    }else if($callRequest == 'select'){
+        $announcement = new UserAnnouncementMessageObject();
+
+        setPost('announcement', '1');
+
+        $callResult = $announcement->selectWithInput();
+    }
 }
 
 nothing:

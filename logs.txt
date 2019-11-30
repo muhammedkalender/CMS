@@ -8,6 +8,11 @@
 91 => user_announcement_delete [ ID ]
 94 => user_announcement_select_success [ USER_ID ] ***
 
+100 => user_announcement_message_insert [ ANNOUNCEMENT_ID, ANNOUNCEMENT_MESSAGE_ID ]
+101 => user_announcement_message_delete [ ANNOUNCEMENT_MESSAGE_ID ]
+104 => user_announcement_message_select_success [ ANNOUNCEMENT_ID ]
+
+
 120 => INSERT SUBMISSION COMMENT
 121 => comment_set_complete
 122 => comment_set_canceled

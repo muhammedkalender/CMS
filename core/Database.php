@@ -95,7 +95,6 @@ class Database
     {
         try {
             global $db;
-            echo $query;
             if($db->prepare($query)->execute() == false){
                 throw new Exception('');
             }
