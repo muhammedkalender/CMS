@@ -33,6 +33,10 @@ class Lang
         'input_users' => 'Yazarlar',
         'input_message' => 'Mesaj',
         'users_input_wrong' => 'Yazarlarla ilgili bir sorun var',
+        'input_language_code' => 'Dil',
+        'input_title' => 'Başlık',
+        'input_announcement' => 'Duyuru',
+        'input_language' => 'Dil',
 
         'perm_error' => 'Bu işlemi yapmak için yetkiniz yok',
 

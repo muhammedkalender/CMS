@@ -58,7 +58,7 @@ class SubmissionCommentObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $updateComment = Database::exec("UPDATE submission_comments SET comment_status = 1, updated_by = {$user->id}, updated_at = '".getDate()."' WHERE comment_id  = {$commentID}");
+        $updateComment = Database::exec("UPDATE submission_comments SET comment_status = 1, updated_by = {$user->id}, updated_at = '".getCustomDate()."' WHERE comment_id  = {$commentID}");
 
 
         if ($updateComment->status) {
@@ -77,7 +77,7 @@ class SubmissionCommentObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $updateComment = Database::exec("UPDATE submission_comments SET comment_status = 2, updated_by = {$user->id}, updated_at = '".getDate()."' WHERE comment_id  = {$commentID}");
+        $updateComment = Database::exec("UPDATE submission_comments SET comment_status = 2, updated_by = {$user->id}, updated_at = '".getCustomDate()."' WHERE comment_id  = {$commentID}");
 
 
         if ($updateComment->status) {
@@ -96,7 +96,7 @@ class SubmissionCommentObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $updateComment = Database::exec("UPDATE submission_comments SET comment_status = 0, updated_by = {$user->id}, updated_at = '".getDate()."' WHERE comment_id  = {$commentID}");
+        $updateComment = Database::exec("UPDATE submission_comments SET comment_status = 0, updated_by = {$user->id}, updated_at = '".getCustomDate()."' WHERE comment_id  = {$commentID}");
 
 
         if ($updateComment->status) {
@@ -115,7 +115,7 @@ class SubmissionCommentObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $updateComment = Database::exec("UPDATE submission_comments SET comment_is_active = 0, updated_by = {$user->id}, updated_at = '".getDate()."' WHERE comment_id  = {$commentID}");
+        $updateComment = Database::exec("UPDATE submission_comments SET comment_active = 0, comment_updated_by = {$user->id}, comment_updated_at = '".getCustomDate()."' WHERE comment_id  = {$commentID}");
 
 
         if ($updateComment->status) {

@@ -13,11 +13,18 @@ try {
 
 class Database
 {
-    public function select($query)
+    public static function select($query)
     {
         try {
             global $db;
-            return new Output(true, '', $db->prepare($query)->execute()->fetchAll(PDO::FETCH_ASSOC));
+
+            $stm = $db->prepare($query);
+
+            if(!$stm->execute()){
+                throw new Exception('');
+            }
+
+            return new Output(true, '', $stm->fetchAll(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
             return new Output(false, $e->getMessage());
         }

@@ -14,6 +14,6 @@ function setPost($name, $value){
     $_POST[$name] = $value;
 }
 
-function getDate(){
+function getCustomDate(){
     return date('Y-m-d h:m:s');
 }

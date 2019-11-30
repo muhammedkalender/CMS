@@ -6,6 +6,8 @@ require_once 'core/InputCheck.php'; //todo
 require_once 'core/Input.php'; //todo
 require_once 'core/EasyCode.php'; //todo
 
+require_once 'object/UserObject.php';
+
 $callResult = null;
 
 $_POST['call_category'] = $_GET['c'];
@@ -108,6 +110,31 @@ if($callCategory == "user"){
         setPost('comment_id', '1');
 
         $callResult = $submissionComment->deleteWithInput();
+    }
+}else if($callCategory == 'announcement'){
+    require_once 'object/AnnouncementObject.php';
+
+
+    if($callRequest == 'insert'){
+        $announcement = new AnnouncementObject();
+
+        setPost('title', 'başlık');
+        setPost('message', 'mesaj');
+        setPost('language_code', '1'); //globe
+
+        $callResult = $announcement->insertWithInput();
+    }else if($callRequest == 'delete'){
+        $announcement = new AnnouncementObject();
+
+        setPost('announcement', '1');
+
+        $callResult = $announcement->deleteWithInput();
+    }else if($callRequest == 'select'){
+        $announcement = new AnnouncementObject();
+
+        setPost('language', '2');
+
+        $callResult = $announcement->selectWithInput();
     }
 }
 

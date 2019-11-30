@@ -1,0 +1,4 @@
+TODO FIX Yazılar encode edildikten sonra veritabanına sığmayabilir, veritabanı karakterlerini yükselt
+TODO IS_ACTIVELER SADECE ACTIVE OLACAK ( user_active )
+TODO SELECTLER DECODE EDİLECEK
+TODO HATA LGOLARI
