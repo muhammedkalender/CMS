@@ -136,6 +136,31 @@ if($callCategory == "user"){
 
         $callResult = $announcement->selectWithInput();
     }
+}else if($callCategory == 'user-announcement'){
+    require_once 'object/UserAnnouncementObject.php';
+
+
+    if($callRequest == 'insert'){
+        $announcement = new UserAnnouncementObject();
+
+        setPost('title', 'başlık');
+        setPost('message', 'mesaj');
+        setPost('user', '7');
+
+        $callResult = $announcement->insertWithInput();
+    }else if($callRequest == 'delete'){
+        $announcement = new UserAnnouncementObject();
+
+        setPost('user_announcement', '1');
+
+        $callResult = $announcement->deleteWithInput();
+    }else if($callRequest == 'select'){
+        $announcement = new UserAnnouncementObject();
+
+        setPost('user', '7');
+
+        $callResult = $announcement->selectWithInput();
+    }
 }
 
 nothing:

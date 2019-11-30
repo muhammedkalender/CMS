@@ -37,6 +37,8 @@ class Lang
         'input_title' => 'Başlık',
         'input_announcement' => 'Duyuru',
         'input_language' => 'Dil',
+        'input_user' => 'Kullanıcı',
+        'input_user_announcement' => 'Kullanıcı Duyurusu',
 
         'perm_error' => 'Bu işlemi yapmak için yetkiniz yok',
 

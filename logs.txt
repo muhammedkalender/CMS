@@ -4,6 +4,10 @@
 81 => announcement_delete [ ID ]
 82 => announcement_select [ Lang ] ***
 
+90 => user_announcement_insert [ID, USER_ID]
+91 => user_announcement_delete [ ID ]
+94 => user_announcement_select_success [ USER_ID ] ***
+
 120 => INSERT SUBMISSION COMMENT
 121 => comment_set_complete
 122 => comment_set_canceled
