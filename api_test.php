@@ -1,6 +1,6 @@
 <?php
 
-require_once 'lang/tr.php'; //todo
+require_once 'core/Lang.php';
 require_once 'core/Output.php'; //todo
 require_once 'core/InputCheck.php'; //todo
 require_once 'core/Input.php'; //todo

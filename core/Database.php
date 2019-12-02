@@ -1,5 +1,6 @@
 <?php
 
+require_once 'core/Output.php';
 
 //todo komple elden geçecek
 $db = null;
