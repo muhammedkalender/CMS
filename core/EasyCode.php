@@ -31,10 +31,18 @@ function folder()
 
 function inputLang($key)
 {
-    return Lang::get('input_' . $key);
+    return '[input_'. $key.']';
+    //todo return Lang::get('input_' . $key);
 }
 
 function uiLang($key)
 {
-    return Lang::get('ui_' . $key);
+    return '[ui_'. $key.']';
+    //todo return Lang::get('ui_' . $key);
+}
+
+function hintLang($key)
+{
+    return '[hint_'. $key.']';
+    //todo return Lang::get('hint_' . $key);
 }

@@ -93,7 +93,11 @@ class InputCheck
                 return new Output(false, Lang::getWithKey('check_input_array', $name, 'type_array'));
             }
         }else if($inputType == Input::TYPE_CHECK){
-            $data = ($data == 0 ?? 1);
+            if($data == '' || $data == null){
+                $data = 0;
+            }else{
+                $data = 1;
+            }
         }
 
         skipControls:

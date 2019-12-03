@@ -26,8 +26,6 @@ function checkForm(form) {
             'method': form.attr('method'),
             'data': form.serializeArray(),
             success: function (response) {
-                //todo
-
                 response = JSON.parse(response);
 
                 if (response.status) {
@@ -49,7 +47,7 @@ function checkForm(form) {
                 hideLoader();
             },
             error: function () {
-                //todo
+                formError(form, langErrorSystem);
 
                 hideLoader();
             }
@@ -79,4 +77,16 @@ function showLoader() {
 
 function hideLoader() {
     //todo
+}
+
+function clearForm(form){
+    form = $(form);
+
+    form.find('input').each(
+        function (index) {
+            $(this).val(''); //todo
+        }
+    );
+
+    form.find('#message').html('');
 }

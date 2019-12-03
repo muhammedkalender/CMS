@@ -8,8 +8,8 @@ $db = null;
 try {
     $db = new PDO("mysql:host=localhost:3307;dbname=cms;charset=utf8mb4", "root", "");
 } catch (PDOException $e) {
-    echo 'Connection error';
-    die();
+   // todo echo 'Connection error';
+ //   die();
 }
 
 class Database
