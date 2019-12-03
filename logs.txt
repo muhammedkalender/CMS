@@ -1,10 +1,14 @@
 *** => Gereksiz Oldu Silindi
+60 => log_submission_insert [ ID ]
+
+70 => log_user_insert [ SUBMISSION_ID] [EMAIL, NAME SURNAME]
+71 => log_user_insert_failure [ SUBMISSION_ID] [EMAIL, NAME SURNAME]
 
 80 => announcement_insert [ ID ]
 81 => announcement_delete [ ID ]
 82 => announcement_select [ Lang ] ***
 
-90 => user_announcement_insert [ID, USER_ID]
+90 => user_announcement_insert [ ID, USER_ID]
 91 => user_announcement_delete [ ID ]
 94 => user_announcement_select_success [ USER_ID ] ***
 

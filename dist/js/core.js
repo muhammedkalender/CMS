@@ -62,6 +62,8 @@ function formError(form, message) {
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
         '<h4><i class="icon fa fa-check"></i> ' + langErrorTitle + '</h4>' + message +
         '</div>');
+
+    window.location.href = '#message';
 }
 
 function formSuccess(form, message) {
@@ -69,6 +71,8 @@ function formSuccess(form, message) {
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
         '<h4><i class="icon fa fa-check"></i> ' + langSuccessTitle + '</h4>' + message +
         '</div>');
+
+    window.location.href = '#message';
 }
 
 function showLoader() {

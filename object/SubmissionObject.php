@@ -145,7 +145,7 @@ class SubmissionObject
 
         $submissionID = $submissionID->data;
 
-        Log::insert('log_submission_insert', $submissionID);
+        Log::insert('log_submission_insert', 60, $submissionID);
 
         $message = Lang::get('submission_insert_success', $submissionID).'<br>';
         $index = 0;

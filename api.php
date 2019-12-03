@@ -23,14 +23,6 @@ if($callCategory == "user"){
     if($callRequest == "register"){
         $user = new UserObject();
 
-        $_POST['email'] = "test@gmail.com";
-        $_POST['name'] = "Test Name";
-        $_POST['surname'] = "Surname";
-        $_POST['country'] = "1";
-        $_POST['submission'] = '1';
-        $_POST['ec_id'] = '1';
-        $_POST['web_site'] = '';
-
         $callResult = $user->registerWithInput();
     }else if($callRequest == "login"){
         $user = new UserObject();
@@ -46,19 +38,6 @@ if($callCategory == "user"){
 
     if($callRequest == 'insert'){
         $submission = new SubmissionObject();
-
-        setPost('ec_id', 1);
-        setPost('submit_date', '10:18:13 30-12-2019');
-        setPost('paper_title', 'Test');
-        setPost('presentation_type', 'Test_PT');
-        setPost('type_of_contribution', 'NASIL KATKI?');
-        setPost('users',
-            [
-                'Ali'.DEFAULT_HTML_SPLITTER.'Veli'.DEFAULT_HTML_SPLITTER.'13210aaa@gmail.com'.DEFAULT_HTML_SPLITTER.'1'.DEFAULT_HTML_SPLITTER.'TEST ORGz'.DEFAULT_HTML_SPLITTER.'http://www.google.com'.DEFAULT_HTML_SPLITTER.''.DEFAULT_HTML_SPLITTER.'a1',
-                'Ali'.DEFAULT_HTML_SPLITTER.'Veli'.DEFAULT_HTML_SPLITTER.'1133aaa@gmail.com'.DEFAULT_HTML_SPLITTER.'1'.DEFAULT_HTML_SPLITTER.'TEST ORGz'.DEFAULT_HTML_SPLITTER.'http://www.google.com'.DEFAULT_HTML_SPLITTER.''.DEFAULT_HTML_SPLITTER.'a1'
-            ]
-        );
-
 
         $callResult = $submission->insertWithInput();
     }else if($callRequest == 'shown'){

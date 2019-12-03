@@ -8,14 +8,17 @@
         <div class="card-body login-card-body">
             <form action="/api.php" method="post" onsubmit="return checkForm(this)"
                   submit-redirect="test.html" submit-delay="2000">
-                <input type="hidden" name="call_category" value="user">
-                <input type="hidden" name="call_request" value="register">
+<!--                todo url redictect-->
+                <input type="hidden" name="call_category" value="submission">
+                <input type="hidden" name="call_request" value="insert">
+
+                <div id="divUsers"></div>
 
                 <div id="message"></div>
 
                 <div class="form-group">
                     <label><?= inputLang('ec_id') ?></label>
-                    <input type="number" class="form-control" placeholder="<?= hintLang('ec_id') ?>" name="email"
+                    <input type="number" class="form-control" placeholder="<?= hintLang('ec_id') ?>" name="ec_id"
                            minlength="1" maxlength="64" required>
                 </div>
                 <div class="form-group">
@@ -30,13 +33,14 @@
                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                         </div>
                         <input type="text" class="form-control" data-inputmask-alias="datetime"
-                               data-inputmask-inputformat="mm/dd/yyyy" data-mask="" im-insert="false" name="submit_date"
+                               data-inputmask-inputformat="mm/dd/yyyy" data-mask="" im-insert="false"
+                               name="submit_date"
                                placeholder="<?= inputLang('submit_date') ?>" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="presentation_type"><?= inputLang('presentation_lang') ?></label>
-                    <select class="form-control" id="presentation_type">
+                    <select class="form-control" id="presentation_type" name="presentation_type">
                         <option>option 1</option>
                         <!--todo-->
                     </select>
@@ -73,16 +77,11 @@
                     <input type="text" class="form-control" data-role="tagsinput" id="authors">
                 </div>
 
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-author">
-                    Launch Primary Modal
-                </button>
+                <div class="form-group">
+                    <input type="submit" class="form-control btn-success" value="<?= uiLang('save') ?>"
+                           onclick="loadAuthors();">
+                </div>
             </form>
-            <p class="mb-1">
-                <a href="forgot-password.html"><?= uiLang('forgot_password') ?></a>
-            </p>
-            <p class="mb-0">
-                <a href="register.html" class="text-center"><?= uiLang('register') ?></a>
-            </p>
         </div>
     </div>
 </div>
@@ -96,31 +95,27 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)"
-                      submit-redirect="test.html" submit-delay="2000">
-                    <input type="hidden" name="call_category" value="user">
-                    <input type="hidden" name="call_request" value="login">
-
-                    <div id="message"></div>
+                <form onsubmit="saveAuthor(); return false;">
+                    <input type="hidden" id="key">
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label><?= inputLang('email') ?></label>
                                 <input type="email" class="form-control" placeholder="<?= hintLang('email') ?>"
-                                       name="email"
-                                       maxlength="64">
+                                       name="email" id="email"
+                                       maxlength="64" required>
                             </div>
                             <div class="form-group">
                                 <label><?= inputLang('name') ?></label>
                                 <input type="text" class="form-control" placeholder="<?= hintLang('name') ?>"
-                                       name="name"
+                                       name="name" id="name"
                                        minlength="2" maxlength="32" required>
                             </div>
                             <div class="form-group">
                                 <label><?= inputLang('country') ?></label>
-                                <select class="form-control" name="country" required>
-                                    <option value="test">Option 1</option>
+                                <select class="form-control" name="country" id="country" required>
+                                    <option value="1">Option 1</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -136,19 +131,19 @@
                             <div class="form-group">
                                 <label><?= inputLang('organization') ?></label>
                                 <input type="text" class="form-control" placeholder="<?= hintLang('organization') ?>"
-                                       name="keywords"
+                                       name="organization" id="organization"
                                        maxlength="128">
                             </div>
                             <div class="form-group">
                                 <label><?= inputLang('surname') ?></label>
                                 <input type="text" class="form-control" placeholder="<?= hintLang('surname') ?>"
-                                       name="surname"
+                                       name="surname" id="surname"
                                        minlength="2" maxlength="32" required>
                             </div>
                             <div class="form-group">
                                 <label><?= inputLang('web_site') ?></label>
                                 <input type="url" class="form-control" placeholder="<?= hintLang('webs_ite') ?>"
-                                       name="web_site" maxlength="128">
+                                       name="web_site" id="web_site" maxlength="128">
                             </div>
                             <div class="form-group">
                                 <div class="icheck-info">
@@ -160,11 +155,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <input type="submit" class="form-control" value="<?= uiLang('save') ?>">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-light" onclick="saveAuthor()">Save changes</button>
             </div>
         </div>
     </div>
@@ -196,10 +193,9 @@
 
         if (objData == null) {
             //todo
-console.log('asdas');
+            console.log('asdas');
             return;
         }
-        console.log(objData);
 
         $('#email').val(objData.email);
         $('#organization').val(objData.organization);
@@ -207,14 +203,16 @@ console.log('asdas');
         $('#surname').val(objData.surname);
         $('#country').val(objData.country);
         $('#web_site').val(objData.web_site);
-        $('#corresponding').val(objData.corresponding ? 'check' : 'uncheck'); //todo
-        $('#joined').val(objData.joined ? 'check' : 'uncheck');
+        $('#corresponding').prop('checked', objData.corresponding == 1 ? true : false);
+        $('#joined').prop('checked', objData.joined == 1 ? true : false);
 
-
+        $('#key').val(key);
         $('#modal-author').modal('show');
     }
 
-    function saveAuthor(key) {
+    function saveAuthor() {
+        var key = $('#key').val();
+
         for (var i = 0; i < itemList.length; i++) {
             if (itemList[i].key == key) {
                 itemList[i] = {
@@ -225,8 +223,8 @@ console.log('asdas');
                     surname: $('#surname').val(),
                     country: $('#country').val(),
                     web_site: $('#web_site').val(),
-                    corresponding: $('#corresponding').val() == 'on' ? 1 : 0,
-                    joined: $('#joined').val() == 'on' ? 1 : 0
+                    corresponding: $('#corresponding').prop('checked') ? 1 : 0,
+                    joined: $('#joined').prop('checked') ? 1 : 0
                 };
 
                 break;
@@ -234,6 +232,16 @@ console.log('asdas');
         }
 
         $('#modal-author').modal('hide');
+    }
+
+    function loadAuthors() {
+        var html = '';
+
+        for (var i = 0; i < itemList.length; i++) {
+            html += '<input type="hidden" name="users[]" value="' + itemList[i].name + DEFAULT_HTML_SPLITTER + itemList[i].surname + DEFAULT_HTML_SPLITTER + itemList[i].email + DEFAULT_HTML_SPLITTER + itemList[i].country + DEFAULT_HTML_SPLITTER + itemList[i].organization + DEFAULT_HTML_SPLITTER + itemList[i].web_site + DEFAULT_HTML_SPLITTER + itemList[i].corresponding + DEFAULT_HTML_SPLITTER + itemList[i].joined + '">';
+        }
+
+        $('#divUsers').html(html);
     }
 </script>
 
