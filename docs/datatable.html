@@ -1,0 +1,47 @@
+<table id="announcements" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th><?= uiLang('title') ?></th>
+        <th><?= uiLang('public_date') ?></th>
+        <th class="no-sort"><?= uiLang('options') ?></th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    $('#announcements').DataTable({
+        'processing': true,
+        'serverSide': true,
+        'ordering': false,
+        'paging': false,
+        'searching': false,
+        "info" : false,
+        'serverMethod': 'post',
+        'columns': [
+            {'data': 'announcement_title'},
+            {'data': 'announcement_created_at'},
+            {'data': 'options'}
+        ],
+        'ajax': {
+            'url': 'api.php',
+            'type': 'post',
+            'dataType': 'json',
+            'data': {
+                'call_category': 'announcement',
+                'call_request': 'select',
+                'language': '<?= Lang::get('lang_code') ?>',
+            },
+            'dataSrc': function (json) {
+                for (var i = 0; i < json.data.length; i++) {
+                    json.data[i].announcement_created_at = formatDMYOnlyDate(json.data[i].announcement_created_at);
+                    json.data[i].options = '<a class="btn btn-primary" onclick="showDetailAnnouncement(' + i + ')"><span class="fas fa-eye"></span></a>'; //todo
+                }
+
+                arrAnnouncements = json.data;
+
+                return json.data;
+            }
+        }
+    });
+</script>

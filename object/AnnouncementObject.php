@@ -21,7 +21,7 @@ class AnnouncementObject
         return $this->insert(
             post('title'),
             post('message'),
-            post('language_code'),
+            post('language_code')
             );
     }
 
@@ -127,7 +127,7 @@ class AnnouncementObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $select = Database::select("SELECT announcement_id, announcement_title, announcement_message, announcement_language FROM announcements WHERE announcement_active = 1 AND (announcement_language = 1 OR announcement_language = {$language})");
+        $select = Database::select("SELECT announcement_id, announcement_title, announcement_message, announcement_language, announcement_created_at FROM announcements WHERE announcement_active = 1 AND (announcement_language = 1 OR announcement_language = {$language})");
 
         if($select->status){
             //Log::insert('announcement_select_success', 84, $language);

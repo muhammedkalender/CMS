@@ -20,7 +20,7 @@ class UserAnnouncementObject
         return $this->insert(
             post('title'),
             post('message'),
-            post('user'),
+            post('user')
             );
     }
 
@@ -128,7 +128,7 @@ class UserAnnouncementObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $select = Database::select("SELECT user_announcement_id, user_announcement_title, user_announcement_message, user_announcement_user FROM user_announcements WHERE user_announcement_active = 1 AND user_announcement_user = {$userID}");
+        $select = Database::select("SELECT user_announcement_id, user_announcement_title, user_announcement_message, user_announcement_user, user_announcement_created_at, (SELECT COUNT(*) FROM user_announcement_messages WHERE user_announcement_message_announcement = user_announcement_id AND user_announcement_message_active = 1 AND user_announcement_message_read = 0) as unread_message_count FROM user_announcements WHERE user_announcement_active = 1 AND user_announcement_user = {$userID}");
 
         if ($select->status) {
             //Log::insert('user_announcement_select_success', 94, $userID);

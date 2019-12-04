@@ -83,7 +83,7 @@ function hideLoader() {
     //todo
 }
 
-function clearForm(form){
+function clearForm(form) {
     form = $(form);
 
     form.find('input').each(
@@ -93,4 +93,44 @@ function clearForm(form){
     );
 
     form.find('#message').html('');
+}
+
+function formatOnlyDate(datetime) {
+    if (datetime == null || datetime == '') {
+        return '-';
+    }
+
+    var _arrDate = datetime.split(' ');
+
+    if (_arrDate.length != 2) {
+        return '-';
+    }
+
+    return _arrDate[0];
+}
+
+function formatDMYOnlyDate(datetime, splitter = '-') {
+    var _dateTime = formatOnlyDate(datetime);
+
+    if (_dateTime == '-') {
+        return '-';
+    }
+
+    var _arrDateTime = _dateTime.split('-');
+
+    if (_arrDateTime.length != 3) {
+        return '-';
+    }
+
+    return _arrDateTime[2] + splitter + _arrDateTime[1] + splitter + _arrDateTime[0];
+}
+
+function showModalOverlay(name) {
+    $('#' + name).find('.modal-body').append(
+        '<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>'
+    );
+}
+
+function hideModalOverlay(name) {
+    $('#' + name).find('.overlay').remove();
 }

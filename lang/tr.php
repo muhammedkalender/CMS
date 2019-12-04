@@ -5,6 +5,7 @@ class Lang
 {
     private static $data = [
         'test' => 'TR',
+        'lang_code' => '2',
 
         'check_input_null' =>  '[[FIRST_PARAM]] değeri boş olamaz',
         'check_input_short' => '[[FIRST_PARAM]], [[SECOND_PARAM]] Karakterden kısa olamaz',
@@ -40,6 +41,9 @@ class Lang
         'input_user' => 'Kullanıcı',
         'input_user_announcement' => 'Kullanıcı Duyurusu',
         'input_user_announcement_message' => 'Mesaj',
+
+        'ui_error' => 'Hata',
+        'ui_success' => 'Başarılı',
 
         'perm_error' => 'Bu işlemi yapmak için yetkiniz yok',
 

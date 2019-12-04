@@ -105,8 +105,6 @@ if($callCategory == "user"){
     }else if($callRequest == 'select'){
         $announcement = new AnnouncementObject();
 
-        setPost('language', '2');
-
         $callResult = $announcement->selectWithInput();
     }
 }else if($callCategory == 'user-announcement'){
@@ -130,8 +128,6 @@ if($callCategory == "user"){
     }else if($callRequest == 'select'){
         $announcement = new UserAnnouncementObject();
 
-        setPost('user', '7');
-
         $callResult = $announcement->selectWithInput();
     }
 }else if($callCategory == 'user-announcement-message'){
@@ -154,8 +150,6 @@ if($callCategory == "user"){
         $callResult = $announcement->deleteWithInput();
     }else if($callRequest == 'select'){
         $announcement = new UserAnnouncementMessageObject();
-
-        setPost('announcement', '1');
 
         $callResult = $announcement->selectWithInput();
     }

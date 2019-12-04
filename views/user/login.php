@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-body login-card-body">
             <form action="/api.php" method="post" onsubmit="return checkForm(this)"
-                  submit-redirect="test.html" submit-delay="2000">
+                  submit-redirect="/" submit-delay="2000">
                 <input type="hidden" name="call_category" value="user">
                 <input type="hidden" name="call_request" value="login">
 

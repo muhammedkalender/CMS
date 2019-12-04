@@ -1,13 +1,38 @@
 <?php
 
-require_once 'lang/tr.php';
-require_once 'core/InputCheck.php';
-require_once 'core/Input.php';
-require_once 'core/Database.php';
+require_once 'core/EasyCode.php';
+require_once 'object/UserObject.php';
 
-//$ic = new InputCheck();
-//var_dump($ic->checkAll([
-//    new Input('test', InputCheck::METHOD_GET, 'test', InputCheck::TYPE_TEXT, 12, 11)
-//]));
+if (!isset($_GET['c']) || !isset($_GET['r'])) {
+    require_once 'views/header.php';
 
-//echo preg_match("/[a-z]&[A-Z]&[0-9]*$/", "PP");
+    if ($user->isLogged()) {
+        require_once 'views/basic/home.php';
+    } else {
+        require_once 'views/user/login.php';
+    }
+
+    require_once 'views/footer.php';
+
+    die();
+}
+
+$category = $_GET['c'];
+$request = $_GET['r'];
+
+require_once 'views/header.php';
+
+
+if ($category == 'user') {
+    if ($request == 'login') {
+        require_once 'views/user/login.php';
+    }
+} else if ($category == 'basic') {
+
+} else if ($category == 'submission') {
+    if ($request == 'insert') {
+        require_once 'views/submission/insert.php';
+    }
+}
+
+require_once 'views/footer.php';

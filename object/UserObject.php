@@ -224,7 +224,7 @@ class UserObject
         $user = Database::first("SELECT * FROM users WHERE user_email = '{$userName}'  AND user_password = '{$encryptedPassword}' AND user_active = 1");
 
         if ($user->status == false) {
-            return new Output(false, 'user_wrong_login', null);
+            return new Output(false, Lang::get('user_wrong_login'), null);
         }
 
         $userID = $user->data['user_id'];
@@ -301,7 +301,7 @@ class UserObject
     }
 
     public function getFullName(){
-        return $this->fistName + ' ' +$this->lastName;
+        return $this->fistName . ' ' . $this->lastName;
     }
 
     private function getIP()

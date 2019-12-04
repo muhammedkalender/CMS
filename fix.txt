@@ -2,3 +2,7 @@ TODO FIX Yazılar encode edildikten sonra veritabanına sığmayabilir, veritaba
 TODO IS_ACTIVELER SADECE ACTIVE OLACAK ( user_active )
 TODO SELECTLER DECODE EDİLECEK
 TODO HATA LGOLARI
+
+TODO User messages mark as read eklenecek
+TODO Datatable orderları düzenlenecek ( varsayılan için )
+TODO Datatable messages may can too long

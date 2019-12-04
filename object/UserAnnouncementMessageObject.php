@@ -17,7 +17,7 @@ class UserAnnouncementMessageObject
 
         return $this->insert(
             post('message'),
-            post('announcement'),
+            post('announcement')
             );
     }
 
@@ -25,7 +25,7 @@ class UserAnnouncementMessageObject
     {
         return InputCheck::checkAll([
             new Input('message', Input::METHOD_POST, 'input_message', Input::TYPE_TEXT, 1, 2048),
-            new Input('announcement', Input::METHOD_POST, 'input_announcement', Input::TYPE_INT, 1, 32),
+            new Input('announcement', Input::METHOD_POST, 'input_announcement', Input::TYPE_INT, 1, 32)
         ]);
     }
 
@@ -111,14 +111,14 @@ class UserAnnouncementMessageObject
         }
 
         return $this->select(
-            post('announcement')
+            post('user-announcement')
         );
     }
 
     public function selectInputCheck()
     {
         return InputCheck::checkAll([
-            new Input('announcement', Input::METHOD_POST, 'input_announcement', Input::TYPE_INT, 1, 8),
+            new Input('user-announcement', Input::METHOD_POST, 'input_announcement', Input::TYPE_INT, 1, 8),
         ]);
     }
 
@@ -136,7 +136,7 @@ class UserAnnouncementMessageObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $select = Database::select("SELECT user_announcement_message_id, user_announcement_message_message, user_announcement_message_announcement, user_announcement_message_created_at, user_announcement_message_created_by FROM user_announcement_messages WHERE user_announcement_message_active = 1 AND user_announcement_message_announcement = {$announcementID}");
+        $select = Database::select("SELECT user_announcement_message_id, user_announcement_message_message, user_announcement_message_announcement, user_announcement_message_created_at, user_announcement_message_created_by, (SELECT CONCAT_WS(' ', user_first_name, user_last_name) FROM users WHERE user_id = user_announcement_message_created_by) as userFullName FROM user_announcement_messages WHERE user_announcement_message_active = 1 AND user_announcement_message_announcement = {$announcementID}");
 
         if ($select->status) {
             //Log::insert('user_announcement_message_select_success', 104, $announcementID);
