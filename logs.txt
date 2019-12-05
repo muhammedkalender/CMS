@@ -7,6 +7,7 @@
 80 => announcement_insert [ ID ]
 81 => announcement_delete [ ID ]
 82 => announcement_select [ Lang ] ***
+86 => announcement_update [ ID ]
 
 90 => user_announcement_insert [ ID, USER_ID]
 91 => user_announcement_delete [ ID ]

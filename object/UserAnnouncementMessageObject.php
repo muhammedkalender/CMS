@@ -17,7 +17,7 @@ class UserAnnouncementMessageObject
 
         return $this->insert(
             post('message'),
-            post('announcement')
+            post('user-announcement')
             );
     }
 
@@ -25,7 +25,7 @@ class UserAnnouncementMessageObject
     {
         return InputCheck::checkAll([
             new Input('message', Input::METHOD_POST, 'input_message', Input::TYPE_TEXT, 1, 2048),
-            new Input('announcement', Input::METHOD_POST, 'input_announcement', Input::TYPE_INT, 1, 32)
+            new Input('user-announcement', Input::METHOD_POST, 'input_announcement', Input::TYPE_INT, 1, 32)
         ]);
     }
 

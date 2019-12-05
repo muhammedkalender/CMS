@@ -31,18 +31,33 @@ function folder()
 
 function inputLang($key)
 {
-    return '[input_'. $key.']';
+    return '[input_' . $key . ']';
     //todo return Lang::get('input_' . $key);
 }
 
 function uiLang($key)
 {
-    return '[ui_'. $key.']';
+    return '[ui_' . $key . ']';
     //todo return Lang::get('ui_' . $key);
 }
 
 function hintLang($key)
 {
-    return '[hint_'. $key.']';
+    return '[hint_' . $key . ']';
     //todo return Lang::get('hint_' . $key);
+}
+
+function dataTablesLikeQuery($keyword, $columns)
+{
+    $query = "";
+
+    foreach ($columns as $column) {
+        if ($query) {
+            $query .= " OR ";
+        }
+
+        $query .= "{$column} LIKE '%{$keyword}%'";
+    }
+
+    return " AND (  $query  ) ";
 }

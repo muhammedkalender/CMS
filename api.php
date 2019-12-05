@@ -2,6 +2,7 @@
 
 require_once 'core/Lang.php';
 require_once 'core/Output.php'; //todo
+require_once 'core/DataTablesOutput.php'; //todo
 require_once 'core/InputCheck.php'; //todo
 require_once 'core/Input.php'; //todo
 require_once 'core/EasyCode.php'; //todo
@@ -91,21 +92,23 @@ if($callCategory == "user"){
     if($callRequest == 'insert'){
         $announcement = new AnnouncementObject();
 
-        setPost('title', 'başlık');
-        setPost('message', 'mesaj');
-        setPost('language_code', '1'); //globe
-
         $callResult = $announcement->insertWithInput();
-    }else if($callRequest == 'delete'){
+    }else if($callRequest == 'update'){
         $announcement = new AnnouncementObject();
 
-        setPost('announcement', '1');
+        $callResult = $announcement->updateWithInput();
+    }else if($callRequest == 'delete'){
+        $announcement = new AnnouncementObject();
 
         $callResult = $announcement->deleteWithInput();
     }else if($callRequest == 'select'){
         $announcement = new AnnouncementObject();
 
         $callResult = $announcement->selectWithInput();
+    }else if($callRequest == 'data-tables'){
+        $announcement = new AnnouncementObject();
+
+        $callResult = $announcement->dataTablesWithInput();
     }
 }else if($callCategory == 'user-announcement'){
     require_once 'object/UserAnnouncementObject.php';
@@ -136,10 +139,6 @@ if($callCategory == "user"){
 
     if($callRequest == 'insert'){
         $announcement = new UserAnnouncementMessageObject();
-
-        setPost('announcement', '1');
-        setPost('message', 'mesaj');
-        setPost('user', '7');
 
         $callResult = $announcement->insertWithInput();
     }else if($callRequest == 'delete'){

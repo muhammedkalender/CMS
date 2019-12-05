@@ -55,8 +55,12 @@ class InputCheck
         }
 
         if ($inputType == Input::TYPE_INT) {
-            if (!filter_var($data, FILTER_VALIDATE_INT)) {
-                return new Output(false, Lang::getWithKey('check_input_type', $name, 'type_int'));
+            if($data == "0"){
+                $data = 0;
+            }
+
+            if ($data != 0 && !filter_var($data, FILTER_VALIDATE_INT)) {
+                return new Output(false, Lang::getWithKey('check_input_type', $name, 'type_int'), $data);
             }
         } else if ($inputType == Input::TYPE_FLOAT) {
             if (!filter_var($data, FILTER_VALIDATE_FLOAT)) {
@@ -65,7 +69,7 @@ class InputCheck
         } else if ($inputType == Input::TYPE_STRING) {
             //todo varsa hata vericek özel karakter felan
         } else if ($inputType == Input::TYPE_CLEAN_STRING) {
-            //todo güncellenebilir
+            //todo güncellenebilir hata verdi işyeirnde php sürümü ?
             $data = preg_replace("[^\S]|[^a-zA-Z_-]", '', $data);
         } else if ($inputType == Input::TYPE_TEXT) {
             //todo varsa özel karakter encode edecek

@@ -1,25 +1,23 @@
 function checkForm(form) {
     form = $(form);
 
-    $isValid = true;
+    var isValid = true;
+    var isModalLoader = $(form).attr('modal-loader') == null ? false : true;
 
-    form.find('input').each(
+    $(form.find('input')).each(
         function (index) {
-            var obj = $(this);
-//            console.log(obj.attr('type'));
+
 
             //   $isValid = false;
         }
     );
 
-    if ($isValid) {
-        showLoader();
-
-        console.log(form.serializeArray());
-        console.log(form.attr('action'));
-        console.log(form.attr('submit-delay'));
-        console.log(form.attr('submit-redirect'));
-        console.log(form.attr('method'));
+    if (isValid) {
+        if (isModalLoader) {
+            showModalOverlay($(form).attr('modal-loader'));
+        } else {
+            showLoader();
+        }
 
         $.ajax({
             'url': form.attr('action'),
@@ -40,16 +38,32 @@ function checkForm(form) {
                             window.location.href = form.attr('submit-redirect');
                         }
                     }
+
+                    if (form.attr('submit-clear') != null) {
+                        clearForm(form);
+                    }
+
+                    if (form.attr('submit-datatable') != null) {
+                        $('#' + form.attr('submit-datatable')).DataTable().ajax.reload();
+                    }
                 } else {
                     formError(form, response.message);
                 }
 
-                hideLoader();
+                if (isModalLoader) {
+                    hideModalOverlay($(form).attr('modal-loader'));
+                } else {
+                    hideLoader();
+                }
             },
             error: function () {
                 formError(form, langErrorSystem);
 
-                hideLoader();
+                if (isModalLoader) {
+                    hideModalOverlay($(form).attr('modal-loader'));
+                } else {
+                    hideLoader();
+                }
             }
         });
     }
@@ -86,9 +100,30 @@ function hideLoader() {
 function clearForm(form) {
     form = $(form);
 
-    form.find('input').each(
+    $(form.find('input')).each(
         function (index) {
-            $(this).val(''); //todo
+            if (!($(this).attr('name') == 'call_category' || $(this).attr('name') == 'call_request')) {
+                console.log($(this).attr('name'));
+                console.log();
+                $(this).val(''); //todo
+            }
+        }
+    );
+
+    $(form.find('textarea')).each(
+        function (index) {
+            $(this).val('');
+        }
+    );
+
+    $(form.find('select')).each(
+        function (index) {
+            if ($(this).attr('default-option') == null || $(this).attr('default-option') == '') {
+                $(this).val('');
+            } else {
+                $(this).val($(this).attr('default-option'));
+            }
+
         }
     );
 
@@ -133,4 +168,36 @@ function showModalOverlay(name) {
 
 function hideModalOverlay(name) {
     $('#' + name).find('.overlay').remove();
+}
+
+function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
+    form = $('#' + formID);
+
+    $(form.find('input')).each(
+        function (index) {
+            if (object[prefix + $(this).attr('name')] != null) {
+                $(this).val(object[prefix + $(this).attr('name')]);
+            }
+        }
+    );
+
+    $(form.find('textarea')).each(
+        function (index) {
+            if (object[prefix + $(this).attr('name')] != null) {
+                $(this).val(object[prefix + $(this).attr('name')]);
+            }
+        }
+    );
+
+    $(form.find('select')).each(
+        function (index) {
+            if (object[prefix + $(this).attr('name')] != null) {
+                $(this).val(object[prefix + $(this).attr('name')]);
+            }
+        }
+    );
+
+    if(deleteKey != ''){
+        $(form.find('.objectName')).html(object[prefix + deleteKey]);
+    }
 }

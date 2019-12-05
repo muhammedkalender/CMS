@@ -9,6 +9,8 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?= folder() ?>plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="<?= folder() ?>plugins/fontawesome-free/css/core.css">
+
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- icheck bootstrap -->

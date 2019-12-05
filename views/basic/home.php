@@ -47,7 +47,7 @@ require_once 'views/sidebar.php';
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><?= uiLang('announcements') ?></h3>
+                            <h3 class="card-title"><?= uiLang('user_announcements') ?></h3>
                         </div>
                         <div class="card-body">
                             <table id="user-announcements" class="table table-bordered table-hover">
@@ -121,11 +121,13 @@ require_once 'views/sidebar.php';
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <form action="#" method="post">
+                        <form action="#" onsubmit="sendUserAnnouncementMessage(); return false;" method="post">
                             <div class="input-group">
-                                <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                <input type="hidden" id="user-announcement-id">
+                                <input type="text" name="message" id="user-announcement-message-message" placeholder="<?= hintLang('type_message') ?>"
+                                       class="form-control" required>
                                 <span class="input-group-append">
-                      <button type="submit" class="btn btn-primary">Send</button>
+                      <button type="submit" class="btn btn-primary"><?= uiLang('send') ?></button>
                     </span>
                             </div>
                         </form>
@@ -289,16 +291,15 @@ require_once 'views/sidebar.php';
 
                 var html = '';
 
-                for (var i = 0; i < response.data.length; i++) {
-                    //response.data[i]
-                    html += '<div class="direct-chat-msg '+(response.data[i].user_announcement_created_by == USER_ID ? '' : 'right')+'"><div class="direct-chat-infos clearfix text-dark"><span class="direct-chat-name float-left">' + response.data[i].userFullName + '</span><span class="direct-chat-timestamp float-right">' + response.data[i].user_announcement_created_at + '</span></div><img class="direct-chat-img" src="../dist/img/user1-128x128.jpg"><div class="direct-chat-text">'+response.data[i].user_announcement_message_message+'</div></div>';
-
-                    console.log(response.data[i].userFullName);
+                for (var i = response.data.length - 1; i != 0; i--) {
+                    html += '<div class="direct-chat-msg ' + (response.data[i].user_announcement_message_created_by == USER_ID ? '' : 'right') + '"><div class="direct-chat-infos clearfix text-dark"><span class="direct-chat-name float-'+ (response.data[i].user_announcement_message_created_by == USER_ID ? 'right' : 'left')+'">' + response.data[i].userFullName + '</span><span class="direct-chat-timestamp float-'+(response.data[i].user_announcement_message_created_by == USER_ID ? 'left' : 'right')+'">' + response.data[i].user_announcement_message_created_at + '</span></div><img class="direct-chat-img" src="../dist/img/user1-128x128.jpg"><div class="direct-chat-text">' + response.data[i].user_announcement_message_message + '</div></div>';
                 }
 
                 $('#direct-chat-messages').html(html);
 
-                console.log(html);
+                $('#user-announcement-id').val(user_announcement_id);
+
+                $('#direct-chat-messages').scrollTop(0);
 
                 hideModalOverlay('modal-user-announcement-message');
             },
@@ -309,5 +310,34 @@ require_once 'views/sidebar.php';
         });
 
         //todo
+    }
+
+    function sendUserAnnouncementMessage() {
+        showModalOverlay('modal-user-announcement-message');
+
+        $.ajax({
+            'url': 'api.php',
+            'type': 'post',
+            'dataType': 'json',
+            'data': {
+                'call_category': 'user-announcement-message',
+                'call_request': 'insert',
+                'user-announcement': $('#user-announcement-id').val(),
+                'message': $('#user-announcement-message-message').val()
+            },
+            'success': function (response) {
+                //todo
+
+                $('#user-announcement-message-message').val('');
+                hideModalOverlay('modal-user-announcement-message');
+
+                showMessagesUserAnnouncement($('#user-announcement-id').val());
+            },
+            'error': function () {
+                //todo
+
+                hideModalOverlay('modal-user-announcement-message');
+            }
+        });
     }
 </script>

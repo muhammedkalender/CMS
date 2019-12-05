@@ -33,6 +33,10 @@ if ($category == 'user') {
     if ($request == 'insert') {
         require_once 'views/submission/insert.php';
     }
+}else if($category == 'admin'){
+    if($request == 'announcement'){
+        require_once 'views/admin/announcement.php';
+    }
 }
 
 require_once 'views/footer.php';
