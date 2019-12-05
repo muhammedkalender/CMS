@@ -321,6 +321,128 @@ class UserObject
             return new Output(false, '', -1);
         }
     }
+
+    public function selectInputCheck()
+    {
+        return InputCheck::checkAll([]);
+    }
+
+    public function selectWithInput(){
+        $inputCheck = $this->selectInputCheck();
+
+        if($inputCheck->status == false){
+            return $inputCheck;
+        }
+
+        return $this->select();
+    }
+
+    private function select(){
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_UPPER, UserObject::PERM_GROUP_USER)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $select = Database::select("SELECT user_id, user_first_name, user_last_name, user_created_at, user_submission, user_ec_id, user_joined, user_is_admin FROM users WHERE user_active = 1");
+
+        if ($select->status) {
+            //Log::insert('announcement_select_success', 84, $language);
+
+            return new Output(true, Lang::get('user_select_success'), $select->data);
+        } else {
+            return new Output(false, Lang::get('user_select_failure'));
+        }
+    }
+
+    //region Data Tables
+
+    public function dataTablesWithInput()
+    {
+        $inputCheck = $this->dataTablesInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->dataTables(
+            post('start'),
+            post('length'),
+            post('keyword'),
+            post('orderColumn'),
+            post('orderDir')
+        );
+    }
+
+    public function dataTablesInputCheck()
+    {
+        if (isset($_POST['search']) && isset($_POST['search']['value'])) {
+            setPost('keyword', $_POST['search']['value']);
+        } else {
+            setPost('keyword', '');
+        }
+
+        if (isset($_POST['order']) && isset($_POST['order'][0]['column']) && isset($_POST['order'][0]['dir'])) {
+            setPost('orderColumn', $_POST['order'][0]['column']);
+            setPost('orderDir', $_POST['order'][0]['dir'] == 'asc' ? 'ASC' : 'DESC');
+        } else {
+            setPost('orderColumn', 1);
+            setPost('orderDir', 'ASC');
+        }
+
+        return InputCheck::checkAll([
+            new Input('start', Input::METHOD_POST, 'input_start', Input::TYPE_INT, 1, 8),
+            new Input('length', Input::METHOD_POST, 'input_length', Input::TYPE_INT, 1, 8),
+            new Input('keyword', Input::METHOD_POST, 'input_keyword', Input::TYPE_TEXT, 0, 64),
+            new Input('orderColumn', Input::METHOD_POST, 'input_order_column', Input::TYPE_INT, 1, 8),
+            new Input('orderDir', Input::METHOD_POST, 'input_order_dir', Input::TYPE_TEXT, 3, 4),
+        ]);
+    }
+
+    public function dataTables($start, $length, $keyword, $orderColumn, $orderDir)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $columns = [
+            'user_id',
+            'user_ec_id',
+            'user_submission',
+            'user_first_name',
+            'user_last_name',
+            'user_email',
+            'user_created_at'
+        ];
+
+        $querySearch = "";
+
+        if (post('keyword')) {
+            $querySearch = dataTablesLikeQuery($keyword, [
+                'user_id',
+                'user_ec_id',
+                'user_submission',
+                'user_first_name',
+                'user_last_name',
+                'user_email',
+                'user_created_at'
+            ]);
+        }
+
+        $select = Database::select("SELECT user_id, user_ec_id, user_submission, user_first_name, user_last_name, user_email, user_created_at FROM users WHERE user_active = 1 {$querySearch} ORDER BY " . $columns[$orderColumn] . ' ' . $orderDir . ' LIMIT ' . $length . ' OFFSET ' . $start);
+        $stats = Database::select("SELECT COUNT(*) as recordsFiltered, (SELECT COUNT(*) FROM users WHERE user_active = 1) as recordsTotal FROM users WHERE user_active = 1 {$querySearch}");
+
+        if ($select->status && $stats->status) {
+            return new DataTablesOutput(true, Lang::get('user_select_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);
+        } else {
+            return new DataTablesOutput(false, Lang::get('user_select_failure'));
+        }
+
+    }
+
+    //endregion
 }
 
 $user = new UserObject();

@@ -36,6 +36,10 @@ if ($category == 'user') {
 }else if($category == 'admin'){
     if($request == 'announcement'){
         require_once 'views/admin/announcement.php';
+    }else if($request == 'user-announcement'){
+        require_once 'views/admin/user-announcement.php';
+    }else if($request == 'user'){
+        require_once 'views/admin/user.php';
     }
 }
 

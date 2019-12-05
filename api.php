@@ -19,6 +19,8 @@ $callCategory = $_POST["call_category"];
 $callRequest = $_POST["call_request"];
 
 if($callCategory == "user"){
+    //region User
+
     require_once 'object/UserObject.php';
 
     if($callRequest == "register"){
@@ -33,8 +35,20 @@ if($callCategory == "user"){
         $user = new UserObject();
 
         $callResult = new Output($user->isLogged());
+    }else if($callRequest == 'select'){
+        $user = new UserObject();
+
+        $callResult = $user->selectWithInput();
+    }else if($callRequest == 'data-tables'){
+        $user = new UserObject();
+
+        $callResult = $user->dataTablesWithInput();
     }
+
+    //endregion
 }else if($callCategory == "submission"){
+    //region Submission
+
     require_once 'object/SubmissionObject.php';
 
     if($callRequest == 'insert'){
@@ -50,7 +64,11 @@ if($callCategory == "user"){
 
         $callResult = $submission;
     }
+
+    //endregion
 }else if($callCategory == 'submission_comment'){
+    //region Submission Comment
+
     require_once 'object/SubmissionCommentObject.php';
 
     if($callRequest == 'insert'){
@@ -85,7 +103,11 @@ if($callCategory == "user"){
 
         $callResult = $submissionComment->deleteWithInput();
     }
+
+    //endregion
 }else if($callCategory == 'announcement'){
+    //region Announcement
+
     require_once 'object/AnnouncementObject.php';
 
 
@@ -110,30 +132,39 @@ if($callCategory == "user"){
 
         $callResult = $announcement->dataTablesWithInput();
     }
-}else if($callCategory == 'user-announcement'){
-    require_once 'object/UserAnnouncementObject.php';
 
+    //endregion
+}else if($callCategory == 'user-announcement'){
+    //region User Announcement
+
+    require_once 'object/UserAnnouncementObject.php';
 
     if($callRequest == 'insert'){
         $announcement = new UserAnnouncementObject();
-
-        setPost('title', 'başlık');
-        setPost('message', 'mesaj');
-        setPost('user', '7');
 
         $callResult = $announcement->insertWithInput();
     }else if($callRequest == 'delete'){
         $announcement = new UserAnnouncementObject();
 
-        setPost('user_announcement', '1');
-
         $callResult = $announcement->deleteWithInput();
+    }else if($callRequest == 'update'){
+        $userAnnouncement = new UserAnnouncementObject();
+
+        $callResult = $userAnnouncement->updateWithInput();
     }else if($callRequest == 'select'){
         $announcement = new UserAnnouncementObject();
 
         $callResult = $announcement->selectWithInput();
+    }else if($callRequest == 'data-tables'){
+        $userAnnouncement = new UserAnnouncementObject();
+
+        $callResult = $userAnnouncement->dataTablesWithInput();
     }
+
+    //endregion
 }else if($callCategory == 'user-announcement-message'){
+    //region User Announcement Message
+
     require_once 'object/UserAnnouncementMessageObject.php';
 
 
@@ -152,6 +183,8 @@ if($callCategory == "user"){
 
         $callResult = $announcement->selectWithInput();
     }
+
+    //endregion
 }
 
 nothing:

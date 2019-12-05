@@ -12,6 +12,7 @@
 90 => user_announcement_insert [ ID, USER_ID]
 91 => user_announcement_delete [ ID ]
 94 => user_announcement_select_success [ USER_ID ] ***
+96 => user_announcement_update [ ID, USER_ID ]
 
 100 => user_announcement_message_insert [ ANNOUNCEMENT_ID, ANNOUNCEMENT_MESSAGE_ID ]
 101 => user_announcement_message_delete [ ANNOUNCEMENT_MESSAGE_ID ]
