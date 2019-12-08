@@ -538,6 +538,48 @@ class UserObject
     }
 
     //endregion
+
+    //region Show
+
+    public function showInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input('id', Input::METHOD_POST, 'input_user', Input::TYPE_INT, 1, 8)
+        ]);
+    }
+
+    public function showWithInput()
+    {
+        $inputCheck = $this->showInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->show(post('id'));
+    }
+
+    private function show($userID)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_SELF_OR_UPPER, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        //TODO SELECT
+        $select = Database::first("SELECT * FROM users WHERE user_id = {$userID}");
+
+        if ($select->status) {
+            Log::insert('user_select_success', 79, $userID);
+
+            return new Output(true, Lang::get('user_select_success'), $select->data);
+        } else {
+            return new Output(false, Lang::get('user_select_failure'));
+        }
+    }
+
+    //endregion
 }
 
 $user = new UserObject();

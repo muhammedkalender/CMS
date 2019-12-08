@@ -175,4 +175,94 @@ class SubmissionObject
 
         return new Output(true, $message, $submissionID);
     }
+
+    //region Data Tables
+
+    public function dataTablesWithInput()
+    {
+        $inputCheck = $this->dataTablesInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->dataTables(
+            post('start'),
+            post('length'),
+            post('keyword'),
+            post('orderColumn'),
+            post('orderDir')
+        );
+    }
+
+    public function dataTablesInputCheck()
+    {
+        if (isset($_POST['search']) && isset($_POST['search']['value'])) {
+            setPost('keyword', $_POST['search']['value']);
+        } else {
+            setPost('keyword', '');
+        }
+
+        if (isset($_POST['order']) && isset($_POST['order'][0]['column']) && isset($_POST['order'][0]['dir'])) {
+            setPost('orderColumn', $_POST['order'][0]['column']);
+            setPost('orderDir', $_POST['order'][0]['dir'] == 'asc' ? 'ASC' : 'DESC');
+        } else {
+            setPost('orderColumn', 1);
+            setPost('orderDir', 'ASC');
+        }
+
+        return InputCheck::checkAll([
+            new Input('start', Input::METHOD_POST, 'input_start', Input::TYPE_INT, 1, 8),
+            new Input('length', Input::METHOD_POST, 'input_length', Input::TYPE_INT, 1, 8),
+            new Input('keyword', Input::METHOD_POST, 'input_keyword', Input::TYPE_TEXT, 0, 64),
+            new Input('orderColumn', Input::METHOD_POST, 'input_order_column', Input::TYPE_INT, 1, 8),
+            new Input('orderDir', Input::METHOD_POST, 'input_order_dir', Input::TYPE_TEXT, 3, 4),
+        ]);
+    }
+
+    public function dataTables($start, $length, $keyword, $orderColumn, $orderDir)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $columns = [
+            'submission_id',
+            'submission_ec_id',
+            'submission_submit_date',
+            'submission_paper_title',
+            'submission_presentation_type',
+            'submission_invoice',
+            'submission_abstract_paper',
+            'submission_full_paper',
+            'submission_authors'
+        ];
+
+        $querySearch = "";
+
+        if (post('keyword')) {
+            $querySearch = dataTablesLikeQuery(post('keyword'), [
+                'submission_id',
+                'submission_ec_id',
+                'submission_submit_date',
+                'submission_paper_title',
+                'submission_presentation_type',
+                'submission_authors'
+            ]);
+        }
+//SELECT GROUP_CONCAT(user_first_name SEPARATOR ', ') FROM users WHERE user_active = 1 AND user_submission = submission_id todo
+        $select = Database::select("SELECT submission_id, submission_ec_id, submission_submit_date, submission_paper_title, submission_presentation_type, submission_invoice, submission_abstract_paper, submission_full_paper, (SELECT GROUP_CONCAT(CONCAT_WS(' ', user_first_name, user_last_name) SEPARATOR ', ') FROM users WHERE user_active = 1 AND user_submission = submission_id) as submission_authors FROM submissions WHERE submission_active = 1 {$querySearch} ORDER BY {$columns[$orderColumn]} {$orderDir} LIMIT  {$length} OFFSET {$start}");
+        $stats = Database::select("SELECT COUNT(*) as recordsFiltered, (SELECT COUNT(*) FROM submissions WHERE submission_active = 1) as recordsTotal FROM submissions WHERE submission_active = 1 {$querySearch}");
+
+        if ($select->status && $stats->status) {
+            return new DataTablesOutput(true, Lang::get('announcement_select_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);
+        } else {
+            return new DataTablesOutput(false, Lang::get('announcement_select_failure'));
+        }
+
+    }
+
+    //endregion
 }

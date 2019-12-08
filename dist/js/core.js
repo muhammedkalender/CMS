@@ -182,8 +182,24 @@ function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
 
     $(form.find('input')).each(
         function (index) {
+            if($(this).attr('type') == 'checkbox'){
+                return true;
+            }
+
             if (object[prefix + $(this).attr('name')] != null) {
                 $(this).val(object[prefix + $(this).attr('name')]);
+            }
+        }
+    );
+
+    $(form.find('input[type=checkbox]')).each(
+        function (index) {
+            if (object[prefix + $(this).attr('name')] != null) {
+                if(object[prefix + $(this).attr('name')] == 1){
+                    $(this).prop('checked', true);
+                }else{
+                    $(this).prop('checked', false);
+                }
             }
         }
     );

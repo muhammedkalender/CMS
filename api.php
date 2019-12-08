@@ -51,6 +51,10 @@ if($callCategory == "user"){
         $user = new UserObject();
 
         $callResult = $user->updatePreferencesWithInput();
+    }else if($callRequest == 'profile'){
+        $user = new UserObject();
+
+        $callResult = $user->showWithInput();
     }
 
     //endregion
@@ -71,6 +75,10 @@ if($callCategory == "user"){
         $submission = $submission->loadObject($_POST['submission']);
 
         $callResult = $submission;
+    }else if($callRequest == 'data-tables'){
+        $submission = new SubmissionObject();
+
+        $callResult = $submission->dataTablesWithInput();
     }
 
     //endregion

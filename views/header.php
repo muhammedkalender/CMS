@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="<?= folder() ?>dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
     <script src="<?= folder() ?>plugins/jquery/jquery.min.js"></script>
+    <script src="<?= folder() ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= folder() ?>dist/js/adminlte.min.js"></script>
+    <script src="<?= folder() ?>dist/js/core.js"></script>
 <!--  todo badge için ?  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">-->
 </head>

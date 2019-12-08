@@ -25,11 +25,11 @@ require_once 'views/sidebar.php';
                     <h3 class="card-title"><?= uiLang('user_info') ?></h3>
                 </div>
                 <div class="card-body">
-                    <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-user-insert"
+                    <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-user-update-info"
                           submit-datatable="users"
                           card-loader="ok">
                         <input type="hidden" name="call_category" value="user">
-                        <input type="hidden" name="call_request" value="register">
+                        <input type="hidden" name="call_request" value="update-info">
 
                         <!--                    todo submission seçilince bunu yükliyecek-->
                         <input type="hidden" name="ec_id" id="ec_id">
@@ -45,9 +45,9 @@ require_once 'views/sidebar.php';
                                            maxlength="64" required>
                                 </div>
                                 <div class="form-group">
-                                    <label><?= inputLang('name') ?></label>
-                                    <input type="text" class="form-control" placeholder="<?= hintLang('name') ?>"
-                                           name="name" id="name"
+                                    <label><?= inputLang('first_name') ?></label>
+                                    <input type="text" class="form-control" placeholder="<?= hintLang('first_name') ?>"
+                                           name="first_name" id="first_name"
                                            minlength="2" maxlength="32" required>
                                 </div>
                                 <div class="form-group">
@@ -73,15 +73,15 @@ require_once 'views/sidebar.php';
                                            maxlength="128">
                                 </div>
                                 <div class="form-group">
-                                    <label><?= inputLang('surname') ?></label>
-                                    <input type="text" class="form-control" placeholder="<?= hintLang('surname') ?>"
-                                           name="surname" id="surname"
+                                    <label><?= inputLang('last_name') ?></label>
+                                    <input type="text" class="form-control" placeholder="<?= hintLang('last_name') ?>"
+                                           name="last_name" id="last_name"
                                            minlength="2" maxlength="32" required>
                                 </div>
                                 <div class="form-group">
-                                    <label><?= inputLang('web_site') ?></label>
-                                    <input type="url" class="form-control" placeholder="<?= hintLang('webs_ite') ?>"
-                                           name="web_site" id="web_site" maxlength="128">
+                                    <label><?= inputLang('web_page') ?></label>
+                                    <input type="url" class="form-control" placeholder="<?= hintLang('web_page') ?>"
+                                           name="web_page" id="web_page" maxlength="128">
                                 </div>
                                 <div class="form-group">
                                     <label><?= inputLang('tel') ?></label>
@@ -145,7 +145,7 @@ require_once 'views/sidebar.php';
                         <input type="hidden" name="call_category" value="user">
                         <input type="hidden" name="call_request" value="update-preferences">
 
-                        <input type="hidden" name="id" value="<?=$userID?>">
+                        <input type="hidden" name="id" value="<?= $userID ?>">
 
                         <div id="message"></div>
 
@@ -196,12 +196,13 @@ require_once 'views/sidebar.php';
                         <div class="form-group">
                             <label><?= inputLang('new_password') ?></label>
                             <input type="password" class="form-control" placeholder="<?= hintLang('new_password') ?>"
-                                      name="new_password" id="new_password"
-                                      minlength="3" maxlength="64" required>
+                                   name="new_password" id="new_password"
+                                   minlength="3" maxlength="64" required>
                         </div>
                         <div class="form-group">
                             <label><?= inputLang('confirm_password') ?></label>
-                            <input type="password" class="form-control" placeholder="<?= hintLang('confirm_password') ?>"
+                            <input type="password" class="form-control"
+                                   placeholder="<?= hintLang('confirm_password') ?>"
                                    name="confirm_password" id="confirm_password"
                                    minlength="3" maxlength="64" required>
                         </div>
@@ -213,210 +214,6 @@ require_once 'views/sidebar.php';
             </div>
         </div>
     </section>
-</div>
-<div class="modal fade" id="modal-announcement">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-primary">
-            <div class="modal-header">
-                <h4 class="modal-title"></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-outline-light" data-dismiss="modal"><?= uiLang('close') ?></button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="modal-user-insert">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-primary">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <?= uiLang('insert_user') ?>
-                </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-user-insert"
-                      submit-datatable="users"
-                      modal-loader="modal-user-insert">
-                    <input type="hidden" name="call_category" value="user">
-                    <input type="hidden" name="call_request" value="register">
-
-                    <!--                    todo submission seçilince bunu yükliyecek-->
-                    <input type="hidden" name="ec_id" id="ec_id">
-
-                    <div id="message"></div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label><?= inputLang('email') ?></label>
-                                <input type="email" class="form-control" placeholder="<?= hintLang('email') ?>"
-                                       name="email" id="email"
-                                       maxlength="64" required>
-                            </div>
-                            <div class="form-group">
-                                <label><?= inputLang('name') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('name') ?>"
-                                       name="name" id="name"
-                                       minlength="2" maxlength="32" required>
-                            </div>
-                            <div class="form-group">
-                                <label><?= inputLang('country') ?></label>
-                                <select class="form-control" name="country" id="country" required>
-                                    <option value="1">Option 1</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label><?= inputLang('submission') ?></label>
-                                <select class="form-control" name="submission" id="submission" required>
-                                    <!--                                    todo-->
-                                    <option value="1">Option 1</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label><?= inputLang('organization') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('organization') ?>"
-                                       name="organization" id="organization"
-                                       maxlength="128">
-                            </div>
-                            <div class="form-group">
-                                <label><?= inputLang('surname') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('surname') ?>"
-                                       name="surname" id="surname"
-                                       minlength="2" maxlength="32" required>
-                            </div>
-                            <div class="form-group">
-                                <label><?= inputLang('web_site') ?></label>
-                                <input type="url" class="form-control" placeholder="<?= hintLang('webs_ite') ?>"
-                                       name="web_site" id="web_site" maxlength="128">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div class="icheck-info">
-                                    <input type="checkbox" id="admin" name="admin">
-                                    <label for="admin">
-                                        <?= inputLang('admin') ?>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="icheck-info">
-                                    <input type="checkbox" id="corresponding" name="corresponding">
-                                    <label for="corresponding">
-                                        <?= inputLang('corresponding') ?>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div class="icheck-info">
-                                    <input type="checkbox" id="joined" name="joined">
-                                    <label for="joined">
-                                        <?= inputLang('joined') ?>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success"><?= uiLang('add') ?></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="modal-announcement-update">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-primary">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <?= uiLang('update_announcements') ?>
-                </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-update"
-                      submit-datatable="announcements"
-                      modal-loader="modal-announcement-update">
-                    <input type="hidden" name="call_category" value="announcement">
-                    <input type="hidden" name="call_request" value="update">
-
-                    <div id="message"></div>
-
-                    <input type="hidden" name="id">
-
-                    <div class="form-group">
-                        <label><?= inputLang('language') ?></label>
-                        <select class="form-control" name="language_code" required>
-                            <!--                            todo-->
-                            <option value="1">All</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label><?= inputLang('title') ?></label>
-                        <input type="text" class="form-control" name="title" minlength="1" maxlength="256" required>
-                    </div>
-                    <div class="form-group">
-                        <label><?= inputLang('message') ?></label>
-                        <textarea type="text" class="form-control" name="message" minlength="1" maxlength="2048"
-                                  required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success"><?= uiLang('update') ?></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-user-delete">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-danger">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <?= uiLang('delete_user') ?>
-                </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-user-delete"
-                      submit-datatable="users"
-                      modal-loader="modal-user-delete">
-                    <input type="hidden" name="call_category" value="user">
-                    <input type="hidden" name="call_request" value="delete">
-
-                    <div id="message"></div>
-
-                    <input type="hidden" name="id">
-
-                    <div class="form-group">
-                        <p class="objectName"></p>
-                        <p><?= uiLang('delete_are_you_sure') ?></p>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-warning"><?= uiLang('delete') ?></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script src="<?= folder() ?>plugins/datatables/jquery.dataTables.js"></script>
@@ -486,6 +283,31 @@ require_once 'views/sidebar.php';
                 }
             }
         });
+    });
+
+    showCardOverlay($('#form-user-update-info'));
+    showCardOverlay($('#form-user-preferences-update'));
+
+    $.ajax({
+        'url': 'api.php',
+        'type': 'post',
+        'dataType': 'json',
+        'data': {
+            'call_category': 'user',
+            'call_request': 'profile',
+            'id': <?=$userID?>,
+        },
+        'success': function (response) {
+            //todo
+            loadInputsFromObject('form-user-update-info', response.data, 'user_');
+            hideCardOverlay($('#form-user-update-info'));
+
+            loadInputsFromObject('form-user-preferences-update', response.data, 'user_');
+            hideCardOverlay($('#form-user-preferences-update'));
+        },
+        'error': function () {
+            //todo
+        }
     });
 </script>
 
