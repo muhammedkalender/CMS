@@ -3,6 +3,7 @@ function checkForm(form) {
 
     var isValid = true;
     var isModalLoader = $(form).attr('modal-loader') == null ? false : true;
+    var isCardLoader = $(form).attr('card-loader') == null ? false : true;
 
     $(form.find('input')).each(
         function (index) {
@@ -15,6 +16,8 @@ function checkForm(form) {
     if (isValid) {
         if (isModalLoader) {
             showModalOverlay($(form).attr('modal-loader'));
+        }else if(isCardLoader){
+            showCardOverlay(form);
         } else {
             showLoader();
         }
@@ -52,6 +55,8 @@ function checkForm(form) {
 
                 if (isModalLoader) {
                     hideModalOverlay($(form).attr('modal-loader'));
+                }else if(isCardLoader){
+                    hideCardOverlay(form);
                 } else {
                     hideLoader();
                 }
@@ -61,6 +66,8 @@ function checkForm(form) {
 
                 if (isModalLoader) {
                     hideModalOverlay($(form).attr('modal-loader'));
+                }else if(isCardLoader){
+                    hideCardOverlay(form);
                 } else {
                     hideLoader();
                 }
@@ -200,4 +207,14 @@ function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
     if(deleteKey != ''){
         $(form.find('.objectName')).html(object[prefix + deleteKey]);
     }
+}
+
+function showCardOverlay(form) {
+    $($(form).parent().parent()).append(
+        '<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>'
+    );
+}
+
+function hideCardOverlay(form) {
+    $($(form).parent().parent()).find('.overlay').remove();
 }

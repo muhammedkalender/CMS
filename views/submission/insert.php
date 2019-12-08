@@ -262,9 +262,13 @@
                 joined: 0
             };
 
-            $('.label-info').on("click", function () {
-                showAuthor($(this).text());
+            $('.bootstrap-tagsinput .label-info').on("click", function (sender) {
+                if($(sender.target).attr('data-role') == null){
+                    showAuthor($(this).text());
+                }
             });
+
+            $('.bootstrap-tagsinput .label-info').addClass('badge').addClass('badge-info');
         }).on('itemRemoved', function (event) {
             var tempArray = [];
 

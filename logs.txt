@@ -3,6 +3,8 @@
 
 70 => log_user_insert [ SUBMISSION_ID] [EMAIL, NAME SURNAME]
 71 => log_user_insert_failure [ SUBMISSION_ID] [EMAIL, NAME SURNAME]
+74 => user_delete_success [ USER_ID ]
+78 => user_update_preferences_success [ USER_ID ]
 
 80 => announcement_insert [ ID ]
 81 => announcement_delete [ ID ]

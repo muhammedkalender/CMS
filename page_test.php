@@ -26,6 +26,18 @@ require_once 'views/header.php';
 if ($category == 'user') {
     if ($request == 'login') {
         require_once 'views/user/login.php';
+    }else if($request == 'profile'){
+        $userID = $user->id;
+
+        if($_GET['user']){
+           $userID = intval($_GET['user']);
+
+           if(!$userID){
+               $userID = $user->id;
+           }
+        }
+
+        require_once 'views/user/profile.php';
     }
 } else if ($category == 'basic') {
 

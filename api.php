@@ -43,6 +43,14 @@ if($callCategory == "user"){
         $user = new UserObject();
 
         $callResult = $user->dataTablesWithInput();
+    }else if($callRequest == 'delete'){
+        $user = new UserObject();
+
+        $callResult = $user->deleteWithInput();
+    }else if($callRequest == 'update-preferences'){
+        $user = new UserObject();
+
+        $callResult = $user->updatePreferencesWithInput();
     }
 
     //endregion

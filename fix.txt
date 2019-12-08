@@ -6,3 +6,7 @@ TODO HATA LGOLARI
 TODO User messages mark as read eklenecek
 TODO Datatable orderları düzenlenecek ( varsayılan için )
 TODO Datatable messages may can too long
+
+TODO MODAL-LOADER = OK
+
+TODO MESSAGE İÇİN STANDART ID DEĞİL, CUSTOM ID VER ( BİR SAYFADA BİRDEN ÇOK FORUMJ OLABİİR )

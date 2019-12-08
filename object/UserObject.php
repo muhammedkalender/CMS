@@ -35,8 +35,9 @@ class UserObject
         $this->checkLogin();
     }
 
-    public function loadPostData($arr, $type, $submission = 1){
-        if($type == 'SUBMISSION_TEST'){
+    public function loadPostData($arr, $type, $submission = 1)
+    {
+        if ($type == 'SUBMISSION_TEST') {
             setPost('name', $arr[0]);
             setPost('surname', $arr[1]);
             setPost('email', $arr[2]);
@@ -55,7 +56,7 @@ class UserObject
     {
         $inputCheck = $this->registerInputCheck();
 
-        if($inputCheck->status == false){
+        if ($inputCheck->status == false) {
             return $inputCheck;
         }
 
@@ -82,11 +83,12 @@ class UserObject
             post('extra_note'),
             post('corresponding'),
             post('joined', 0),
+            $this->perm(self::PERM_IS, self::PERM_GROUP_ADMIN) ? post('admin', 0) : 0,
             $isTest
         );
     }
 
-    public function register($email, $password, $firstName, $lastName, $country, $submission, $ecId, $organization, $webSite, $address, $tel, $food, $accommodation, $extra_note, $corresponding, $joined, $isTest = false)
+    public function register($email, $password, $firstName, $lastName, $country, $submission, $ecId, $organization, $webSite, $address, $tel, $food, $accommodation, $extra_note, $corresponding, $joined, $admin, $isTest = false)
     {
         $email = strtolower($email);
 
@@ -96,24 +98,24 @@ class UserObject
             return new Output(false, Lang::get('user_email_already_registered', $email));
         }
 
-        if($isTest){
+        if ($isTest) {
             return new Output(true);
         }
 
         $encryptedPassword = Text::encryptPassword($password);
 
         $insertUser = Database::insertReturnID(
-            "INSERT INTO users (user_email, user_password, user_first_name, user_last_name, user_country, user_submission, user_ec_id, user_organization, user_web_page, user_address, user_tel, user_food, user_accommodation, user_extra_note, user_is_corresponding, user_joined) VALUES 
-('{$email}', '{$encryptedPassword}', '{$firstName}', '{$lastName}', {$country}, {$submission}, {$ecId}, '{$organization}', '{$webSite}', '{$address}', '{$tel}', '{$food}', '{$accommodation}', '{$extra_note}', {$corresponding}, {$joined})"
+            "INSERT INTO users (user_email, user_password, user_first_name, user_last_name, user_country, user_submission, user_ec_id, user_organization, user_web_page, user_address, user_tel, user_food, user_accommodation, user_extra_note, user_is_corresponding, user_joined, user_is_admin) VALUES 
+('{$email}', '{$encryptedPassword}', '{$firstName}', '{$lastName}', {$country}, {$submission}, {$ecId}, '{$organization}', '{$webSite}', '{$address}', '{$tel}', '{$food}', '{$accommodation}', '{$extra_note}', {$corresponding}, {$joined}, {$admin})"
         );
 
         if ($insertUser->status && $insertUser->data != false) {
             Mail::queue($email, Lang::get('mail_title_register'), Lang::get('mail_template_register', $firstName, $lastName, $submission, $ecId, $password), $insertUser->data);
-            Log::insertWithKey('log_user_insert', [70, $submission], [$email, $firstName . ' - ' .$lastName]);
+            Log::insertWithKey('log_user_insert', [70, $submission], [$email, $firstName . ' - ' . $lastName]);
 
             return new Output(true, Lang::get('register_success', $email));
         } else {
-            Log::insert('log_user_insert_failure', [71, $submission], [$email, $firstName . ' - ' .$lastName]);
+            Log::insert('log_user_insert_failure', [71, $submission], [$email, $firstName . ' - ' . $lastName]);
 
             return new Output(false, Lang::get('register_failure', $email));
         }
@@ -140,6 +142,7 @@ class UserObject
             new Input('extra_note', Input::METHOD_POST, 'input_extra_note', Input::TYPE_STRING, 0, 256),
             new Input('corresponding', Input::METHOD_POST, 'input_corresponding', Input::TYPE_CHECK, 0, 2),
             new Input('joined', Input::METHOD_POST, 'input_joined', Input::TYPE_CHECK, 0, 2),
+            new Input('admin', Input::METHOD_POST, 'input_admin', Input::TYPE_CHECK, 0, 2),
         ]);
     }
 
@@ -205,10 +208,11 @@ class UserObject
         ]);
     }
 
-    public function loginWithInput(){
+    public function loginWithInput()
+    {
         $inputCheck = $this->loginInputCheck();
 
-        if($inputCheck->status == false){
+        if ($inputCheck->status == false) {
             return $inputCheck;
         }
 
@@ -300,7 +304,8 @@ class UserObject
         return $this->isLogged;
     }
 
-    public function getFullName(){
+    public function getFullName()
+    {
         return $this->fistName . ' ' . $this->lastName;
     }
 
@@ -327,17 +332,19 @@ class UserObject
         return InputCheck::checkAll([]);
     }
 
-    public function selectWithInput(){
+    public function selectWithInput()
+    {
         $inputCheck = $this->selectInputCheck();
 
-        if($inputCheck->status == false){
+        if ($inputCheck->status == false) {
             return $inputCheck;
         }
 
         return $this->select();
     }
 
-    private function select(){
+    private function select()
+    {
         global $user;
 
         if (!$user->perm(UserObject::PERM_UPPER, UserObject::PERM_GROUP_USER)) {
@@ -440,6 +447,94 @@ class UserObject
             return new DataTablesOutput(false, Lang::get('user_select_failure'));
         }
 
+    }
+
+    //endregion
+
+    //region Delete
+
+    public function deleteInputCheck()
+    {
+        return InputCheck::checkAll([]);
+    }
+
+    public function deleteWithInput()
+    {
+        $inputCheck = $this->deleteInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->delete(post('id'));
+    }
+
+    private function delete($userID)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $select = Database::exec("UPDATE users SET user_active = 0 WHERE user_id = {$userID}");
+
+        if ($select->status) {
+            Log::insert('user_delete_success', 74, $userID);
+
+            return new Output(true, Lang::get('user_delete_success'));
+        } else {
+            return new Output(false, Lang::get('user_delete_failure'));
+        }
+    }
+
+    //endregion
+
+    //region Update Preferences
+
+    public function updatePreferencesInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input('id', Input::METHOD_POST, 'input_user', Input::TYPE_INT, 1, 8),
+            new Input('food', Input::METHOD_POST, 'input_food', Input::TYPE_STRING, 0, 256),
+            new Input('accommodation', Input::METHOD_POST, 'input_accommodation', Input::TYPE_STRING, 0, 256),
+            new Input('extra_note', Input::METHOD_POST, 'input_extra_note', Input::TYPE_STRING, 0, 256),
+        ]);
+    }
+
+    public function updatePreferencesWithInput()
+    {
+        $inputCheck = $this->updatePreferencesInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->updatePreferences(
+            post('id'),
+            post('food'),
+            post('accommodation'),
+            post('extra_note')
+        );
+    }
+
+    private function updatePreferences($userID, $food, $accommodation, $extra_note)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_SELF_OR_UPPER, $userID, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $select = Database::exec("UPDATE users SET user_food = '{$food}', user_accommodation = '{$accommodation}', user_extra_note = '{$extra_note}' WHERE user_id = {$userID}");
+
+        if ($select->status) {
+            Log::insert('user_update_preferences_success', 78, $userID);
+
+            return new Output(true, Lang::get('user_update_preferences_success'));
+        } else {
+            return new Output(false, Lang::get('user_update_preferences_failure'));
+        }
     }
 
     //endregion
