@@ -82,7 +82,7 @@ if($callCategory == "user"){
     }
 
     //endregion
-}else if($callCategory == 'submission_comment'){
+}else if($callCategory == 'submission-comment'){
     //region Submission Comment
 
     require_once 'object/SubmissionCommentObject.php';
@@ -118,6 +118,10 @@ if($callCategory == "user"){
         setPost('comment_id', '1');
 
         $callResult = $submissionComment->deleteWithInput();
+    }else if($callRequest == 'data-tables'){
+        $submissionComment = new SubmissionCommentObject();
+
+        $callResult = $submissionComment->dataTablesWithInput();
     }
 
     //endregion

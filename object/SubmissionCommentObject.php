@@ -17,7 +17,7 @@ class SubmissionCommentObject
 
         return $this->insert(
             post('message'),
-            post('submission_id'),
+            post('submission_id')
             );
     }
 
@@ -25,7 +25,7 @@ class SubmissionCommentObject
     {
         return InputCheck::checkAll([
             new Input("message", Input::METHOD_POST, "input_message", Input::TYPE_TEXT, 1, 256),
-            new Input('submission_id', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 32),
+            new Input('submission_id', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 32)
         ]);
     }
 
@@ -136,14 +136,14 @@ class SubmissionCommentObject
         }
 
         return $this->setCompleted(
-            post('comment_id'),
-            );
+            post('comment_id')
+        );
     }
 
     public function setCompletedInputCheck()
     {
         return InputCheck::checkAll([
-            new Input("comment_id", Input::METHOD_POST, "input_comment", Input::TYPE_INT, 1, 16),
+            new Input("comment_id", Input::METHOD_POST, "input_comment", Input::TYPE_INT, 1, 16)
         ]);
     }
 
@@ -156,14 +156,14 @@ class SubmissionCommentObject
         }
 
         return $this->setPending(
-            post('comment_id'),
-            );
+            post('comment_id')
+        );
     }
 
     public function setPendingInputCheck()
     {
         return InputCheck::checkAll([
-            new Input("comment_id", Input::METHOD_POST, "input_comment", Input::TYPE_INT, 1, 16),
+            new Input("comment_id", Input::METHOD_POST, "input_comment", Input::TYPE_INT, 1, 16)
         ]);
     }
 
@@ -176,14 +176,14 @@ class SubmissionCommentObject
         }
 
         return $this->setCanceled(
-            post('comment_id'),
-            );
+            post('comment_id')
+        );
     }
 
     public function setCanceledInputCheck()
     {
         return InputCheck::checkAll([
-            new Input("comment_id", Input::METHOD_POST, "input_comment", Input::TYPE_INT, 1, 16),
+            new Input("comment_id", Input::METHOD_POST, "input_comment", Input::TYPE_INT, 1, 16)
         ]);
     }
 
@@ -196,14 +196,99 @@ class SubmissionCommentObject
         }
 
         return $this->delete(
-            post('comment_id'),
-            );
+            post('comment_id')
+        );
     }
 
     public function deleteInputCheck()
     {
         return InputCheck::checkAll([
-            new Input("comment_id", Input::METHOD_POST, "input_comment", Input::TYPE_INT, 1, 16),
+            new Input("comment_id", Input::METHOD_POST, "input_comment", Input::TYPE_INT, 1, 16)
         ]);
     }
+
+    //region Data Tables
+
+    public function dataTablesWithInput()
+    {
+        $inputCheck = $this->dataTablesInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->dataTables(
+            post('submission'),
+            post('start'),
+            post('length'),
+            post('keyword'),
+            post('orderColumn'),
+            post('orderDir')
+        );
+    }
+
+    public function dataTablesInputCheck()
+    {
+        if (isset($_POST['search']) && isset($_POST['search']['value'])) {
+            setPost('keyword', $_POST['search']['value']);
+        } else {
+            setPost('keyword', '');
+        }
+
+        if (isset($_POST['order']) && isset($_POST['order'][0]['column']) && isset($_POST['order'][0]['dir'])) {
+            setPost('orderColumn', $_POST['order'][0]['column']);
+            setPost('orderDir', $_POST['order'][0]['dir'] == 'asc' ? 'ASC' : 'DESC');
+        } else {
+            setPost('orderColumn', 1);
+            setPost('orderDir', 'ASC');
+        }
+
+        return InputCheck::checkAll([
+            new Input('submission', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
+            new Input('start', Input::METHOD_POST, 'input_start', Input::TYPE_INT, 1, 8),
+            new Input('length', Input::METHOD_POST, 'input_length', Input::TYPE_INT, 1, 8),
+            new Input('keyword', Input::METHOD_POST, 'input_keyword', Input::TYPE_TEXT, 0, 64),
+            new Input('orderColumn', Input::METHOD_POST, 'input_order_column', Input::TYPE_INT, 1, 8),
+            new Input('orderDir', Input::METHOD_POST, 'input_order_dir', Input::TYPE_TEXT, 3, 4),
+        ]);
+    }
+
+    public function dataTables($submission, $start, $length, $keyword, $orderColumn, $orderDir)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $columns = [
+            'submission_comment_id',
+            'submission_comment_submission',
+            'submission_comment_message',
+            'submission_comment_created_at',
+            'submission_comment_fullName'
+        ];
+
+        $querySearch = "";
+
+        if (post('keyword')) {
+            $querySearch = dataTablesLikeQuery(post('keyword'), [
+                'submission_comment_id',
+                'submission_comment_submission',
+                'submission_comment_message',
+                'submission_comment_created_at',
+            ]);
+        }
+
+        $select = Database::select("SELECT submission_comment_id, submission_comment_submission, submission_comment_message, submission_comment_created_at, submission_comment_status, (SELECT CONCAT_WS(' ', user_first_name, user_last_name) FROM users WHERE user_id = submission_comment_created_by) as submission_comment_fullName FROM submission_comments WHERE submission_comment_active = 1 {$querySearch} ORDER BY {$columns[$orderColumn]} {$orderDir} LIMIT  {$length} OFFSET {$start}");
+        $stats = Database::select("SELECT COUNT(*) as recordsFiltered, (SELECT COUNT(*) FROM submission_comments WHERE submission_comment_active = 1) as recordsTotal FROM submission_comments WHERE submission_comment_active = 1 {$querySearch}");
+
+        if ($select->status && $stats->status) {
+            return new DataTablesOutput(true, Lang::get('submission_select_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);
+        } else {
+            return new DataTablesOutput(false, Lang::get('submission_select_failure'));
+        }
+    }
+
+    //endregion
 }

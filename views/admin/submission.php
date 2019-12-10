@@ -52,6 +52,24 @@ require_once 'views/sidebar.php';
                             </table>
                         </div>
                     </div>
+                    <div class="card card-warning" id="divSubmissionComments">
+                        <div class="card-header">
+                            <h3 class="card-title"><?= uiLang('submission_comments') ?></h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="submissionComments" class="table table-bordered table-hover">
+                                <thead>
+                                    <th><?= uiLang('id') ?></th>
+                                    <th><?= uiLang('submission') ?></th>
+                                    <th><?= uiLang('message') ?></th>
+                                    <th><?= uiLang('created_at') ?></th>
+                                    <th><?= uiLang('created_by') ?></th>
+                                    <th class="no-sort"><?= uiLang('options') ?></th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -161,7 +179,6 @@ require_once 'views/sidebar.php';
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="modal-announcement-delete">
     <div class="modal-dialog modal-lg">
         <div class="modal-content bg-danger">
@@ -190,6 +207,49 @@ require_once 'views/sidebar.php';
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-warning"><?= uiLang('delete') ?></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-submission-message">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-primary">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <?= uiLang('submission_messages') ?>
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-insert"
+                      submit-datatable="submission_messages"
+                      modal-loader="modal-announcement-insert">
+                    <input type="hidden" name="call_category" value="announcement">
+                    <input type="hidden" name="call_request" value="insert">
+
+                    <div id="message"></div>
+
+                    <div class="form-group">
+                        <label><?= inputLang('language') ?></label>
+                        <select class="form-control" name="language_code" required>
+                            <!--                            todo-->
+                            <option value="1">All</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><?= inputLang('title') ?></label>
+                        <input type="text" class="form-control" name="title" minlength="1" maxlength="256" required>
+                    </div>
+                    <div class="form-group">
+                        <label><?= inputLang('message') ?></label>
+                        <textarea type="text" class="form-control" name="message" minlength="1" maxlength="2048"
+                                  required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success"><?= uiLang('add') ?></button>
                     </div>
                 </form>
             </div>
@@ -239,8 +299,10 @@ require_once 'views/sidebar.php';
                     'call_request': 'data-tables'
                 },
                 'dataSrc': function (json) {
+                    console.log(json);
                     for (var i = 0; i < json.data.length; i++) {
-                        json.data[i].options = '';
+
+                        json.data[i].options = '<a class="btn btn-info" onclick="loadSubmissionComments('+json.data[i].submission_id+')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span></a>';
                         //json.data[i].options = '<a class="btn btn-primary" onclick="showDetailAnnouncement(' + i + ')" title="<?//=uiLang("announcement_view")?>//"><span class="fas fa-eye"></span></a>'
                         //    + ' <a class="btn btn-warning" onclick="showUpdateAnnouncement(' + i + ')" title="<?//=uiLang("announcement_update")?>//"><span class="fas fa-edit"></span></a>'
                         //    + ' <a class="btn btn-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?//=uiLang("announcement_delete")?>//"><span class="fas fa-trash"></span></a>'; //todo
@@ -265,6 +327,59 @@ require_once 'views/sidebar.php';
             }
         });
     });
+
+    function loadSubmissionComments(submissionID){
+        $('#submissionComments').DataTable().destroy();
+        $('#submissionComments').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'ordering': true,
+            'paging': true,
+            'searching': true,
+            'info': true,
+            'lengthMenu': [[10, 25, 50, 100, 400], [10, 25, 50, 100, 400]],
+            'serverMethod': 'post',
+            'columns': [
+                {'data': 'submission_comment_id'},
+                {'data': 'submission_comment_submission'},
+                {'data': 'submission_comment_message'},
+                {'data': 'submission_comment_created_at'},
+                {'data': 'submission_comment_fullName'},
+                {'data': 'options', 'orderable': false}
+            ],
+            'ajax': {
+                'url': 'api.php',
+                'type': 'post',
+                'dataType': 'json',
+                'data': {
+                    'call_category': 'submission-comment',
+                    'call_request': 'data-tables',
+                    'submission': submissionID
+                },
+                'dataSrc': function (json) {
+                    for (var i = 0; i < json.data.length; i++) {
+                        json.data[i].options = '<a class="btn btn-info" onclick="showSubmissionMessages()" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span></a>';
+                    }
+
+                    window.location.href = '#divSubmissionComments';
+
+                    return json.data;
+                }
+            },
+            'language': {
+                'lengthMenu': '<?=uiLang("dt_length_menu")?>',
+                'zeroRecords': '<?=uiLang("dt_zero_records")?>',
+                'info': '<?=uiLang("dt_info")?>',
+                'infoEmpty': '<?=uiLang("dt_info_empty")?>',
+                'infoFiltered': '<?=uiLang("dt_info_filtered")?>',
+                'search': '<?=uiLang("dt_search")?>',
+                'paginate': {
+                    'previous': '<?=uiLang("dt_previous")?>',
+                    'next': '<?=uiLang("dt_next")?>',
+                }
+            }
+        });
+    }
 </script>
 
 <script>
