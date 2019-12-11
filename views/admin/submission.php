@@ -1,6 +1,8 @@
 <?php
 require_once 'views/sidebar.php';
 ?>
+<link rel="stylesheet" href="<?= folder() ?>plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -30,7 +32,7 @@ require_once 'views/sidebar.php';
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header bg-primary">
                             <h3 class="card-title"><?= uiLang('submissions') ?></h3>
                         </div>
                         <div class="card-body">
@@ -380,6 +382,8 @@ require_once 'views/sidebar.php';
             'paging': true,
             'searching': true,
             'info': true,
+            "scrollX": true,
+            "scrollY": true,
             'lengthMenu': [[10, 25, 50, 100, 400], [10, 25, 50, 100, 400]],
             'serverMethod': 'post',
             'columns': [
@@ -440,6 +444,8 @@ require_once 'views/sidebar.php';
             'paging': true,
             'searching': true,
             'info': true,
+            "scrollX": true,
+            "scrollY": true,
             'lengthMenu': [[10, 25, 50, 100, 400], [10, 25, 50, 100, 400]],
             'serverMethod': 'post',
             'columns': [
