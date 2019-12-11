@@ -23,7 +23,7 @@
 
 
 120 => INSERT SUBMISSION COMMENT
-121 => comment_set_complete
-122 => comment_set_canceled
-123 => comment_set_pending
-124 => comment_delete
+121 => submission_comment_set_complete COMMENT_ID
+122 => submission_comment_set_canceled  COMMENT_ID
+123 => submission_comment_set_pending  COMMENT_ID
+124 => submission_comment_delete COMMENT_ID

@@ -16,7 +16,7 @@ class Log
         return Database::insert("INSERT INTO logs (log_text, log_first_param, log_second_param, log_third_param, log_created_by) VALUES ('{$text}', {$firstParamID}, {$secondParamID}, {$thirdParamID}, {$userID})");
     }
 
-    public static function insertWithKey($text, $ids, $keys){
+    public static function insertWithKey($text, $ids, $keys = []){
         $text = Text::encode($text);
 
         $newKeys = ['', '', '', ''];

@@ -90,32 +90,21 @@ if($callCategory == "user"){
     if($callRequest == 'insert'){
         $submissionComment = new SubmissionCommentObject();
 
-        setPost('message', 'TEST MESAJ"');
-        setPost('submission_id', '1');
-
         $callResult = $submissionComment->insertWithInput();
     }else if($callRequest == 'set_completed'){
         $submissionComment = new SubmissionCommentObject();
-
-        setPost('comment_id', '1');
 
         $callResult = $submissionComment->setCompletedWithInput();
     }else if($callRequest == 'set_pending'){
         $submissionComment = new SubmissionCommentObject();
 
-        setPost('comment_id', '1');
-
         $callResult = $submissionComment->setPendingWithInput();
     }else if($callRequest == 'set_canceled'){
         $submissionComment = new SubmissionCommentObject();
 
-        setPost('comment_id', '1');
-
         $callResult = $submissionComment->setCanceledWithInput();
     }else if($callRequest == 'delete'){
         $submissionComment = new SubmissionCommentObject();
-
-        setPost('comment_id', '1');
 
         $callResult = $submissionComment->deleteWithInput();
     }else if($callRequest == 'data-tables'){
