@@ -1,3 +1,5 @@
+//region Form Check
+
 function checkForm(form) {
     form = $(form);
 
@@ -96,13 +98,9 @@ function formSuccess(form, message) {
     window.location.href = '#message';
 }
 
-function showLoader() {
-    //todo
-}
+//endregion
 
-function hideLoader() {
-    //todo
-}
+//region Form Clear
 
 function clearForm(form) {
     form = $(form);
@@ -137,45 +135,50 @@ function clearForm(form) {
     form.find('#message').html('');
 }
 
-function formatOnlyDate(datetime) {
-    if (datetime == null || datetime == '') {
-        return '-';
-    }
+//endregion
 
-    var _arrDate = datetime.split(' ');
+//region Form To View
 
-    if (_arrDate.length != 2) {
-        return '-';
-    }
+function formToView(formID) {
+    var form = $('#' + formID);
 
-    return _arrDate[0];
-}
+    $(form.find('input, textarea, select')).each(
+        function (index) {
+            if ($(this).attr('type') == 'submit') {
+                $(this).remove();
+                return true;
+            }
 
-function formatDMYOnlyDate(datetime, splitter = '-') {
-    var _dateTime = formatOnlyDate(datetime);
+            if ($(this).attr('type') == 'hidden') {
+                $(this).remove();
+                return true;
+            }
 
-    if (_dateTime == '-') {
-        return '-';
-    }
+            if ($(this).attr('type') == 'checkbox') {
+                $(this).prop('disabled', 'true');
+                return true;
+            }
 
-    var _arrDateTime = _dateTime.split('-');
+            if (!$(this).attr('name')) {
+                return true;
+            }
 
-    if (_arrDateTime.length != 3) {
-        return '-';
-    }
+            var html = '<div class="form-control>"<label>' + ($(this).val() ? $(this).val() : '-') + '</label></div>';
 
-    return _arrDateTime[2] + splitter + _arrDateTime[1] + splitter + _arrDateTime[0];
-}
+            if ($(this).attr('data-inputmask-alias')) {
+                $($(this).parent()).html(html);
+            } else {
+                $($(this).parent()).append(html);
+            }
 
-function showModalOverlay(name) {
-    $('#' + name).find('.modal-body').append(
-        '<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>'
+            $(this).remove();
+        }
     );
 }
 
-function hideModalOverlay(name) {
-    $('#' + name).find('.overlay').remove();
-}
+//endregion
+
+//region Form Load
 
 function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
     form = $('#' + formID);
@@ -249,6 +252,70 @@ function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
     }
 }
 
+//endregion
+
+//region Loader
+
+function showLoader() {
+    //todo
+}
+
+function hideLoader() {
+    //todo
+}
+
+//endregion
+
+//region Date Format
+
+function formatOnlyDate(datetime) {
+    if (datetime == null || datetime == '') {
+        return '-';
+    }
+
+    var _arrDate = datetime.split(' ');
+
+    if (_arrDate.length != 2) {
+        return '-';
+    }
+
+    return _arrDate[0];
+}
+
+function formatDMYOnlyDate(datetime, splitter = '-') {
+    var _dateTime = formatOnlyDate(datetime);
+
+    if (_dateTime == '-') {
+        return '-';
+    }
+
+    var _arrDateTime = _dateTime.split('-');
+
+    if (_arrDateTime.length != 3) {
+        return '-';
+    }
+
+    return _arrDateTime[2] + splitter + _arrDateTime[1] + splitter + _arrDateTime[0];
+}
+
+//endregion
+
+//region Modal Overlay
+
+function showModalOverlay(name) {
+    $('#' + name).find('.modal-body').append(
+        '<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>'
+    );
+}
+
+function hideModalOverlay(name) {
+    $('#' + name).find('.overlay').remove();
+}
+
+//endregion
+
+//region Card Overlay
+
 function showCardOverlay(form) {
     $($(form).parent().parent()).append(
         '<div class="overlay d-flex justify-content-center align-items-center"><i class="fas fa-2x fa-sync fa-spin"></i></div>'
@@ -258,6 +325,8 @@ function showCardOverlay(form) {
 function hideCardOverlay(form) {
     $($(form).parent().parent()).find('.overlay').remove();
 }
+
+//endregion
 
 //region Dialog Error
 
@@ -285,42 +354,7 @@ function dialogError(message, title = '', redirect = '') {
 
 //endregion
 
-function formToView(formID) {
-    var form = $('#' + formID);
-
-    $(form.find('input, textarea, select')).each(
-        function (index) {
-            if ($(this).attr('type') == 'submit') {
-                $(this).remove();
-                return true;
-            }
-
-            if ($(this).attr('type') == 'hidden') {
-                $(this).remove();
-                return true;
-            }
-
-            if ($(this).attr('type') == 'checkbox') {
-                $(this).prop('disabled', 'true');
-                return true;
-            }
-
-            if (!$(this).attr('name')) {
-                return true;
-            }
-
-            var html = '<div class="form-control>"<label>' + ($(this).val() ? $(this).val() : '-') + '</label></div>';
-
-            if ($(this).attr('data-inputmask-alias')) {
-                $($(this).parent()).html(html);
-            } else {
-                $($(this).parent()).append(html);
-            }
-
-            $(this).remove();
-        }
-    );
-}
+//region Initialize
 
 function initialize() {
     $("#modal-dialog-error").on('hide.bs.modal', function () {
@@ -331,3 +365,5 @@ function initialize() {
         $($(this).find('button')[0]).trigger('click');
     });
 }
+
+//endregion

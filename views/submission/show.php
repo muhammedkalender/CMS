@@ -20,133 +20,139 @@ require_once 'views/sidebar.php';
     </section>
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="login-logo">
-                    <a href="../../index2.html"><b>Admin</b>LTE</a>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h5 class="card-title"><?= uiLang('submission') ?></h5>
                 </div>
-                <!-- /.login-logo -->
-                <div class="card col-12">
-                    <div class="card-body login-card-body">
-                        <form action="/api.php" method="post" onsubmit="return checkForm(this)"
-                              id="form-submission-update" submit-delay="2000" card-loader="ok">
-                            <!--                todo url redictect-->
-                            <input type="hidden" name="call_category" value="submission">
-                            <input type="hidden" name="call_request" value="insert">
+                <div class="card-body submission-update-body">
+                    <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                          id="form-submission-update" submit-delay="2000" card-loader="ok">
+                        <!--                todo url redictect-->
+                        <input type="hidden" name="call_category" value="submission">
+                        <input type="hidden" name="call_request" value="insert">
 
-                            <div id="divUsers"></div>
+                        <div id="divUsers"></div>
 
-                            <div id="message"></div>
+                        <div id="message"></div>
 
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label><?= inputLang('id') ?></label>
-                                        <input type="number" class="form-control" placeholder="<?= hintLang('id') ?>"
-                                               name="id"
-                                               minlength="1" maxlength="64" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label><?= inputLang('ec_id') ?></label>
-                                        <input type="number" class="form-control" placeholder="<?= hintLang('ec_id') ?>"
-                                               name="ec_id"
-                                               minlength="1" maxlength="64" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label><?= inputLang('full_paper') ?></label>
-                                    <div class="form-group inputStatus" data-name="full_paper">
-                                        <!--                                        todo generic birşey, varsa badge çakacak ?-->
-<!--                                        <label class="badge badge-success">Onaylandı</label>-->
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label><?= inputLang('invoice') ?></label>
-                                    <div class="form-group inputStatus" data-name="invoice">
-                                        <!--                                        todo generic birşey, varsa badge çakacak ?-->
-<!--                                        <label class="badge badge-success">Onaylandı</label>-->
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><?= inputLang('id') ?></label>
+                                    <input type="number" class="form-control" placeholder="<?= hintLang('id') ?>"
+                                           name="id"
+                                           minlength="1" maxlength="64" required>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="presentation_type"><?= inputLang('presentation_lang') ?></label>
-                                        <select class="form-control" id="presentation_type" name="presentation_type">
-                                            <option>option 1</option>
-                                            <!--todo-->
-                                        </select>
-                                    </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><?= inputLang('ec_id') ?></label>
+                                    <input type="number" class="form-control" placeholder="<?= hintLang('ec_id') ?>"
+                                           name="ec_id"
+                                           minlength="1" maxlength="64" required>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label><?= inputLang('submit_date') ?></label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
+                            </div>
+                            <div class="col-md-3">
+                                <label><?= inputLang('full_paper') ?></label>
+                                <div class="form-group inputStatus" data-name="full_paper">
+                                    <!--                                        todo generic birşey, varsa badge çakacak ?-->
+                                    <!--                                        <label class="badge badge-success">Onaylandı</label>-->
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label><?= inputLang('invoice') ?></label>
+                                <div class="form-group inputStatus" data-name="invoice">
+                                    <!--                                        todo generic birşey, varsa badge çakacak ?-->
+                                    <!--                                        <label class="badge badge-success">Onaylandı</label>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="presentation_type"><?= inputLang('presentation_lang') ?></label>
+                                    <select class="form-control" id="presentation_type" name="presentation_type">
+                                        <option>option 1</option>
+                                        <!--todo-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><?= inputLang('submit_date') ?></label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
                                                 <span class="input-group-text"><i
                                                             class="far fa-calendar-alt"></i></span>
-                                            </div>
-                                            <input type="text" class="form-control" data-inputmask-alias="datetime"
-                                                   data-inputmask-inputformat="mm/dd/yyyy" data-mask=""
-                                                   im-insert="false"
-                                                   name="submit_date"
-                                                   placeholder="<?= inputLang('submit_date') ?>" required>
                                         </div>
+                                        <input type="text" class="form-control" data-inputmask-alias="datetime"
+                                               data-inputmask-inputformat="mm/dd/yyyy" data-mask=""
+                                               im-insert="false"
+                                               name="submit_date"
+                                               placeholder="<?= inputLang('submit_date') ?>" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label><?= inputLang('paper_title') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('paper_title') ?>"
-                                       name="paper_title" minlength="3" maxlength="256" required>
-                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><?= inputLang('paper_title') ?></label>
+                            <input type="text" class="form-control" placeholder="<?= hintLang('paper_title') ?>"
+                                   name="paper_title" minlength="3" maxlength="256" required>
+                        </div>
 
 
-                            <div class="form-group">
-                                <label><?= inputLang('keywords') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('keywords') ?>"
-                                       name="keywords"
-                                       maxlength="256">
-                            </div>
-                            <div class="form-group">
-                                <label><?= inputLang('ec_keyprases') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('ec_keyprases') ?>"
-                                       name="ec_keyprases" maxlength="256">
-                            </div>
-                            <div class="form-group">
-                                <label><?= inputLang('topics') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('topics') ?>"
-                                       name="topics"
-                                       maxlength="256">
-                            </div>
-                            <div class="form-group">
-                                <label><?= inputLang('type_of_contribution') ?></label>
-                                <input type="text" class="form-control"
-                                       placeholder="<?= hintLang('type_of_contribution') ?>"
-                                       name="type_of_contribution" maxlength="256">
-                            </div>
-                            <!--                todo wsync-->
-                            <div class="form-group">
-                                <label><?= inputLang('abstract_paper') ?></label>
-                                <textarea class="form-control" name="abstract_paper"
-                                          placeholder="<?= hintLang('abstract_paper') ?>"
-                                          maxlength="1024"></textarea>
-                            </div>
+                        <div class="form-group">
+                            <label><?= inputLang('keywords') ?></label>
+                            <input type="text" class="form-control" placeholder="<?= hintLang('keywords') ?>"
+                                   name="keywords"
+                                   maxlength="256">
+                        </div>
+                        <div class="form-group">
+                            <label><?= inputLang('ec_keyprases') ?></label>
+                            <input type="text" class="form-control" placeholder="<?= hintLang('ec_keyprases') ?>"
+                                   name="ec_keyprases" maxlength="256">
+                        </div>
+                        <div class="form-group">
+                            <label><?= inputLang('topics') ?></label>
+                            <input type="text" class="form-control" placeholder="<?= hintLang('topics') ?>"
+                                   name="topics"
+                                   maxlength="256">
+                        </div>
+                        <div class="form-group">
+                            <label><?= inputLang('type_of_contribution') ?></label>
+                            <input type="text" class="form-control"
+                                   placeholder="<?= hintLang('type_of_contribution') ?>"
+                                   name="type_of_contribution" maxlength="256">
+                        </div>
+                        <!--                todo wsync-->
+                        <div class="form-group">
+                            <label><?= inputLang('abstract_paper') ?></label>
+                            <textarea class="form-control" name="abstract_paper"
+                                      placeholder="<?= hintLang('abstract_paper') ?>"
+                                      maxlength="1024"></textarea>
+                        </div>
 
-                            <div class="form-group">
-                                <label><?= inputLang('authors') ?></label>
-                                <input type="text" class="form-control" data-role="tagsinput" id="authors">
-                            </div>
+                        <div class="form-group">
+                            <label><?= inputLang('authors') ?></label>
+                            <input type="text" class="form-control" data-role="tagsinput" id="authors">
+                        </div>
 
-                            <div class="form-group">
-                                <input type="submit" class="form-control btn-success" value="<?= uiLang('save') ?>"
-                                       onclick="loadAuthors();">
-                            </div>
-                        </form>
-                    </div>
+                        <div class="form-group">
+                            <input type="submit" class="form-control btn-success" value="<?= uiLang('save') ?>"
+                                   onclick="loadAuthors();">
+                        </div>
+                    </form>
                 </div>
             </div>
+            <div class="card card-warning">
+                <div class="card-header">
+                    <h5 class="card-title"><?= uiLang('submission_full_paper') ?></h5>
+                </div>
+                <div class="card-body">
+
+                </div>
+            </div>
+
 
             <div class="modal" id="modal-author">
                 <div class="modal-dialog modal-lg">
@@ -332,7 +338,7 @@ require_once 'views/sidebar.php';
             'success': function (response) {
                 //todo
 
-                if(response.status == false){
+                if (response.status == false) {
                     dialogError(response.message, '', '/');
                     return;
                 }
