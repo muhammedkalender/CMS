@@ -29,7 +29,7 @@ if ($category == 'user') {
     }else if($request == 'profile'){
         $userID = $user->id;
 
-        if($_GET['user']){
+        if(isset($_GET['user'])){
            $userID = intval($_GET['user']);
 
            if(!$userID){
@@ -44,6 +44,16 @@ if ($category == 'user') {
 } else if ($category == 'submission') {
     if ($request == 'insert') {
         require_once 'views/submission/insert.php';
+    }else if($request == 'view'){
+        $submissionID = 0;
+
+        if(isset($_GET['submission'])){
+            $userID = intval($_GET['submission']);
+        }else{
+            redirect('/');
+        }
+
+        require_once 'views/submission/view.php';
     }
 }else if($category == 'admin'){
     if($request == 'announcement'){

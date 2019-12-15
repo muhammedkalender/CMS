@@ -61,3 +61,9 @@ function dataTablesLikeQuery($keyword, $columns)
 
     return " AND (  $query  ) ";
 }
+
+function redirect($URL)
+{
+    header('Location: ' . $URL);
+    die();
+}
