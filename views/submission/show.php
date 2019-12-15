@@ -338,6 +338,7 @@ require_once 'views/sidebar.php';
                 }
 
                 loadInputsFromObject('form-submission-update', response.data, 'submission_');
+                formToView('form-submission-update');
                 hideCardOverlay($('#form-submission-update'));
                 //
                 // loadInputsFromObject('form-user-preferences-update', response.data, 'user_');

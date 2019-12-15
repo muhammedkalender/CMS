@@ -268,12 +268,12 @@ function dialogError(message, title = '', redirect = '') {
 
     if (title) {
         $($('#modal-dialog-error').find('.modal-title')[0]).html(title);
-    }else{
+    } else {
         $($('#modal-dialog-error').find('.modal-title')[0]).html(langDialogErrorTitle);
     }
 
     if (redirect != '' || redirect != null) {
-        for(var i = 0; i < 2; i++){
+        for (var i = 0; i < 2; i++) {
             $($('#modal-dialog-error').find('button')[i]).on('click', function () {
                 lockDialogError = true;
                 window.location.href = redirect;
@@ -285,9 +285,46 @@ function dialogError(message, title = '', redirect = '') {
 
 //endregion
 
-function initialize(){
-    $("#modal-dialog-error").on('hide.bs.modal', function(){
-        if(lockDialogError){
+function formToView(formID) {
+    var form = $('#' + formID);
+
+    $(form.find('input, textarea, select')).each(
+        function (index) {
+            if ($(this).attr('type') == 'submit') {
+                $(this).remove();
+                return true;
+            }
+
+            if ($(this).attr('type') == 'hidden') {
+                $(this).remove();
+                return true;
+            }
+
+            if ($(this).attr('type') == 'checkbox') {
+                $(this).prop('disabled', 'true');
+                return true;
+            }
+
+            if (!$(this).attr('name')) {
+                return true;
+            }
+
+            var html = '<div class="form-control>"<label>' + ($(this).val() ? $(this).val() : '-') + '</label></div>';
+
+            if ($(this).attr('data-inputmask-alias')) {
+                $($(this).parent()).html(html);
+            } else {
+                $($(this).parent()).append(html);
+            }
+
+            $(this).remove();
+        }
+    );
+}
+
+function initialize() {
+    $("#modal-dialog-error").on('hide.bs.modal', function () {
+        if (lockDialogError) {
             return;
         }
 
