@@ -44,16 +44,16 @@ if ($category == 'user') {
 } else if ($category == 'submission') {
     if ($request == 'insert') {
         require_once 'views/submission/insert.php';
-    }else if($request == 'view'){
+    }else if($request == 'show'){
         $submissionID = 0;
 
         if(isset($_GET['submission'])){
-            $userID = intval($_GET['submission']);
+            $submissionID = intval($_GET['submission']);
         }else{
             redirect('/');
         }
 
-        require_once 'views/submission/view.php';
+        require_once 'views/submission/show.php';
     }
 }else if($category == 'admin'){
     if($request == 'announcement'){

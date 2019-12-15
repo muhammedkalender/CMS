@@ -214,7 +214,7 @@ Docs & License: https://fullcalendar.io/
         }
         // Builds the HTML to be used for the default element for an individual segment
         SimpleDayGridEventRenderer.prototype.renderSegHtml = function (seg, mirrorInfo) {
-            var _a = this.context, view = _a.view, options = _a.options;
+            var _a = this.context, view = _a.show, options = _a.options;
             var eventRange = seg.eventRange;
             var eventDef = eventRange.def;
             var eventUi = eventRange.ui;
@@ -773,7 +773,7 @@ Docs & License: https://fullcalendar.io/
         /* Date Rendering
         ------------------------------------------------------------------------------------------------------------------*/
         DayGrid.prototype._renderCells = function (cells, isRigid) {
-            var _a = this, view = _a.view, dateEnv = _a.dateEnv;
+            var _a = this, view = _a.show, dateEnv = _a.dateEnv;
             var _b = this, rowCnt = _b.rowCnt, colCnt = _b.colCnt;
             var html = '';
             var row;
@@ -875,7 +875,7 @@ Docs & License: https://fullcalendar.io/
         // Generates the HTML for the <td>s of the "number" row in the DayGrid's content skeleton.
         // The number row will only exist if either day numbers or week numbers are turned on.
         DayGrid.prototype.renderNumberCellHtml = function (date) {
-            var _a = this, view = _a.view, dateEnv = _a.dateEnv;
+            var _a = this, view = _a.show, dateEnv = _a.dateEnv;
             var html = '';
             var isDateValid = core.rangeContainsMarker(this.props.dateProfile.activeRange, date); // TODO: called too frequently. cache somehow.
             var isDayNumberVisible = this.getIsDayNumbersVisible() && isDateValid;
@@ -912,7 +912,7 @@ Docs & License: https://fullcalendar.io/
             var _a = this, fillRenderer = _a.fillRenderer, eventRenderer = _a.eventRenderer, mirrorRenderer = _a.mirrorRenderer;
             if (isResize ||
                 this.isCellSizesDirty ||
-                this.view.calendar.isEventsUpdated // hack
+                this.show.calendar.isEventsUpdated // hack
             ) {
                 this.buildPositionCaches();
                 this.isCellSizesDirty = false;
@@ -1147,7 +1147,7 @@ Docs & License: https://fullcalendar.io/
         // Responsible for attaching click handler as well.
         DayGrid.prototype.renderMoreLink = function (row, col, hiddenSegs) {
             var _this = this;
-            var _a = this, view = _a.view, dateEnv = _a.dateEnv;
+            var _a = this, view = _a.show, dateEnv = _a.dateEnv;
             var a = core.createElement('a', { className: 'fc-more' });
             a.innerText = this.getMoreLinkText(hiddenSegs.length);
             a.addEventListener('click', function (ev) {
@@ -1187,7 +1187,7 @@ Docs & License: https://fullcalendar.io/
         // Reveals the popover that displays all events within a cell
         DayGrid.prototype.showSegPopover = function (row, col, moreLink, segs) {
             var _this = this;
-            var _a = this, calendar = _a.calendar, view = _a.view, theme = _a.theme;
+            var _a = this, calendar = _a.calendar, view = _a.show, theme = _a.theme;
             var _col = this.isRtl ? this.colCnt - col - 1 : col; // HACK: props.cells has different dir system?
             var moreWrap = moreLink.parentNode; // the <div> wrapper around the <a>
             var topEl; // the element we want to match the top coordinate of

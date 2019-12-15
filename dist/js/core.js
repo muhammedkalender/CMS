@@ -16,7 +16,7 @@ function checkForm(form) {
     if (isValid) {
         if (isModalLoader) {
             showModalOverlay($(form).attr('modal-loader'));
-        }else if(isCardLoader){
+        } else if (isCardLoader) {
             showCardOverlay(form);
         } else {
             showLoader();
@@ -55,7 +55,7 @@ function checkForm(form) {
 
                 if (isModalLoader) {
                     hideModalOverlay($(form).attr('modal-loader'));
-                }else if(isCardLoader){
+                } else if (isCardLoader) {
                     hideCardOverlay(form);
                 } else {
                     hideLoader();
@@ -66,7 +66,7 @@ function checkForm(form) {
 
                 if (isModalLoader) {
                     hideModalOverlay($(form).attr('modal-loader'));
-                }else if(isCardLoader){
+                } else if (isCardLoader) {
                     hideCardOverlay(form);
                 } else {
                     hideLoader();
@@ -182,7 +182,7 @@ function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
 
     $(form.find('input')).each(
         function (index) {
-            if($(this).attr('type') == 'checkbox'){
+            if ($(this).attr('type') == 'checkbox') {
                 return true;
             }
 
@@ -195,9 +195,9 @@ function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
     $(form.find('input[type=checkbox]')).each(
         function (index) {
             if (object[prefix + $(this).attr('name')] != null) {
-                if(object[prefix + $(this).attr('name')] == 1){
+                if (object[prefix + $(this).attr('name')] == 1) {
                     $(this).prop('checked', true);
-                }else{
+                } else {
                     $(this).prop('checked', false);
                 }
             }
@@ -220,7 +220,31 @@ function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
         }
     );
 
-    if(deleteKey != ''){
+    //[0, 1, 2, 3] => Nothing, Pending, Accept, Declined || [NULL, X] => Noting, Accept
+    $(form.find('.inputStatus')).each(
+        function (index) {
+            if (object[prefix + $(this).attr('data-name')] != null) {
+                if (object[prefix + $(this).attr('data-name')] === '0') {
+                    $(this).html('<label class="badge badge-info">' + langStatusNothing + '</label>');
+                } else if (object[prefix + $(this).attr('data-name')] === '1') {
+                    $(this).html('<label class="badge badge-warning">' + langStatusPending + '</label>');
+                } else if (object[prefix + $(this).attr('data-name')] === '2') {
+                    $(this).html('<label class="badge badge-success">' + langStatusAccepted + '</label>');
+                } else if (object[prefix + $(this).attr('data-name')] === '3') {
+                    $(this).html('<label class="badge badge-danger">' + langStatusDeclined + '</label>');
+                } else if (object[prefix + $(this).attr('data-name')]) {
+                    $(this).html('<label class="badge badge-success">' + langStatusAccepted + '</label>');
+                } else {
+                    $(this).html('<label class="badge badge-info">' + langStatusNothing + '</label>');
+                }
+            } else {
+                $(this).html('<label class="badge badge-info">' + langStatusNothing + '</label>');
+            }
+        }
+    );
+
+
+    if (deleteKey != '') {
         $(form.find('.objectName')).html(object[prefix + deleteKey]);
     }
 }
@@ -233,4 +257,40 @@ function showCardOverlay(form) {
 
 function hideCardOverlay(form) {
     $($(form).parent().parent()).find('.overlay').remove();
+}
+
+//region Dialog Error
+
+var lockDialogError = false;
+
+function dialogError(message, title = '', redirect = '') {
+    $($('#modal-dialog-error').find('.modal-body')[0]).html(message);
+
+    if (title) {
+        $($('#modal-dialog-error').find('.modal-title')[0]).html(title);
+    }else{
+        $($('#modal-dialog-error').find('.modal-title')[0]).html(langDialogErrorTitle);
+    }
+
+    if (redirect != '' || redirect != null) {
+        for(var i = 0; i < 2; i++){
+            $($('#modal-dialog-error').find('button')[i]).on('click', function () {
+                lockDialogError = true;
+                window.location.href = redirect;
+            });
+        }
+    }
+    $('#modal-dialog-error').modal();
+}
+
+//endregion
+
+function initialize(){
+    $("#modal-dialog-error").on('hide.bs.modal', function(){
+        if(lockDialogError){
+            return;
+        }
+
+        $($(this).find('button')[0]).trigger('click');
+    });
 }

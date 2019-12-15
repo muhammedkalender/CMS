@@ -115,7 +115,7 @@ var TimeGridEventRenderer = /** @class */ (function (_super) {
     };
     // Renders the HTML for a single event segment's default rendering
     TimeGridEventRenderer.prototype.renderSegHtml = function (seg, mirrorInfo) {
-        var view = this.context.view;
+        var view = this.context.show;
         var eventRange = seg.eventRange;
         var eventDef = eventRange.def;
         var eventUi = eventRange.ui;
@@ -242,7 +242,7 @@ var TimeGridEventRenderer = /** @class */ (function (_super) {
             { field: 'forwardPressure', order: -1 },
             // put segments that are closer to initial edge first (and favor ones with no coords yet)
             { field: 'backwardCoord', order: 1 }
-        ].concat(this.context.view.eventOrderSpecs);
+        ].concat(this.context.show.eventOrderSpecs);
         objs.sort(function (obj0, obj1) {
             return compareByFieldSpecs(obj0, obj1, specs);
         });
@@ -614,7 +614,7 @@ var TimeGrid = /** @class */ (function (_super) {
         return html;
     };
     TimeGrid.prototype._renderColumns = function (cells, dateProfile) {
-        var _a = this, theme = _a.theme, dateEnv = _a.dateEnv, view = _a.view;
+        var _a = this, theme = _a.theme, dateEnv = _a.dateEnv, view = _a.show;
         var bgRow = new DayBgRow(this.context);
         this.rootBgContainerEl.innerHTML =
             '<table class="' + theme.getClass('tableGrid') + '">' +

@@ -23,29 +23,20 @@ class SubmissionObject
     public function loadObject($submissionID)
     {
         //todo
+
+        //todo check auth
         $submission = Database::first("SELECT * FROM submissions WHERE submission_id = {$submissionID}");
 
-        if(!$submission->status){
+        if (!$submission->status) {
             return new Output(false, Lang::get('submission_null'));
         }
 
         $submission = $submission->data;
 
-        $this->submissionID = $submissionID;
-        $this->ecID = $submission['submission_ec_id'];
-        $this->submitDate = $submission['submission_submit_date'];
-        $this->paperTitle = $submission['submission_paper_title'];
-        $this->presentationType = $submission['submission_presentation_type'];
-        $this->keywords = $submission['submission_keywords'];
-        $this->ecKeyphrases = $submission['submission_ec_keyprases'];
-        $this->topics = $submission['submission_topics'];
-        $this->typeOfContribution = $submission['submission_type_of_contribution'];
-        $this->invoice = $submission['submission_invoice'];
-        $this->abstractPaper = $submission['submission_abstract_paper'];
-        $this->fullPaper = $submission['submission_full_paper'];
-        $this->amount = $submission['submission_amount'];
+        global $user;
+   //todo grup olarka kontrol edecek birşey ? herhangi biri olabilir çünkü authorslardan
 
-        return new Output(true, '', $this);
+        return new Output(true, '', $submission);
     }
 
     public function insertWithInput()
@@ -71,8 +62,28 @@ class SubmissionObject
         );
     }
 
-    public
-    function insertInputCheck()
+    public function loadObjectWithInput()
+    {
+        $inputCheck = $this->loadObjectInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->loadObject(
+            post('id')
+        );
+    }
+
+    public function loadObjectInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input('id', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
+        ]);
+    }
+
+
+    public function insertInputCheck()
     {
         $firstStep = InputCheck::checkAll([
             new Input("ec_id", Input::METHOD_POST, "input_ec_id", Input::TYPE_INT, 1, 64),
@@ -147,7 +158,7 @@ class SubmissionObject
 
         Log::insert('log_submission_insert', 60, $submissionID);
 
-        $message = Lang::get('submission_insert_success', $submissionID).'<br>';
+        $message = Lang::get('submission_insert_success', $submissionID) . '<br>';
         $index = 0;
 
         foreach ($_POST['users'] as $postUser) {
@@ -168,7 +179,7 @@ class SubmissionObject
 
             if (!$checkResult->status) {
                 $message .= Lang::get('users_insert_to_submission_failure', $index) . '<br>';
-            }else{
+            } else {
                 $message .= Lang::get('users_insert_to_submission_success', post('email')) . '<br>';
             }
         }
@@ -262,6 +273,60 @@ class SubmissionObject
             return new DataTablesOutput(false, Lang::get('announcement_select_failure'));
         }
 
+    }
+
+    //endregion
+
+    //region Show
+
+    public function showWithInput()
+    {
+        $inputCheck = $this->showInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->show(
+            post('id')
+        );
+    }
+
+    public function showInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input('id', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
+        ]);
+    }
+
+    public function show($submissionID)
+    {
+        //todo
+
+        //todo check auth
+        $submission = Database::first("SELECT * FROM submissions WHERE submission_id = {$submissionID}");
+
+        if (!$submission->status) {
+            return new Output(false, Lang::get('submission_null'));
+        }
+
+        $submission = $submission->data;
+
+        $this->submissionID = $submissionID;
+        $this->ecID = $submission['submission_ec_id'];
+        $this->submitDate = $submission['submission_submit_date'];
+        $this->paperTitle = $submission['submission_paper_title'];
+        $this->presentationType = $submission['submission_presentation_type'];
+        $this->keywords = $submission['submission_keywords'];
+        $this->ecKeyphrases = $submission['submission_ec_keyprases'];
+        $this->topics = $submission['submission_topics'];
+        $this->typeOfContribution = $submission['submission_type_of_contribution'];
+        $this->invoice = $submission['submission_invoice'];
+        $this->abstractPaper = $submission['submission_abstract_paper'];
+        $this->fullPaper = $submission['submission_full_paper'];
+        $this->amount = $submission['submission_amount'];
+
+        return new Output(true, '', $this);
     }
 
     //endregion

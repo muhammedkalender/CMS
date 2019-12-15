@@ -67,12 +67,10 @@ if($callCategory == "user"){
         $submission = new SubmissionObject();
 
         $callResult = $submission->insertWithInput();
-    }else if($callRequest == 'shown'){
-        setPost('submission', 20);
-        setPost('submission', 50);
+    }else if($callRequest == 'show'){
         $submission = new SubmissionObject();
 
-        $submission = $submission->loadObject($_POST['submission']);
+        $submission = $submission->loadObjectWithInput();
 
         $callResult = $submission;
     }else if($callRequest == 'data-tables'){

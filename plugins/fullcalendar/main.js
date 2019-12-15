@@ -2653,7 +2653,7 @@ Docs & License: https://fullcalendar.io/
         return isNewPropsValid({ dateSelection: dateSelection }, calendar);
     }
     function isNewPropsValid(newProps, calendar) {
-        var view = calendar.view;
+        var view = calendar.show;
         var props = __assign({ businessHours: view ? view.props.businessHours : createEmptyEventStore(), dateSelection: '', eventStore: calendar.state.eventStore, eventUiBases: calendar.eventUiBases, eventSelection: '', eventDrag: null, eventResize: null }, newProps);
         return (calendar.pluginSystem.hooks.isPropsValid || isPropsValid)(props, calendar);
     }
@@ -3386,7 +3386,7 @@ Docs & License: https://fullcalendar.io/
     }
     // Computes HTML classNames for a single-day element
     function getDayClasses(date, dateProfile, context, noThemeHighlight) {
-        var calendar = context.calendar, view = context.view, theme = context.theme, dateEnv = context.dateEnv;
+        var calendar = context.calendar, view = context.show, theme = context.theme, dateEnv = context.dateEnv;
         var classes = [];
         var todayStart;
         var todayEnd;
@@ -6432,7 +6432,7 @@ Docs & License: https://fullcalendar.io/
                             el: segEl,
                             event: new EventApi(component.calendar, seg.eventRange.def, seg.eventRange.instance),
                             jsEvent: ev,
-                            view: component.view
+                            view: component.show
                         }
                     ]);
                     if (url && !ev.defaultPrevented) {
@@ -6493,7 +6493,7 @@ Docs & License: https://fullcalendar.io/
                         el: segEl,
                         event: new EventApi(this.component.calendar, seg.eventRange.def, seg.eventRange.instance),
                         jsEvent: ev,
-                        view: component.view
+                        view: component.show
                     }
                 ]);
             }
@@ -6582,7 +6582,7 @@ Docs & License: https://fullcalendar.io/
         Object.defineProperty(Calendar.prototype, "view", {
             // public API
             get: function () {
-                return this.component ? this.component.view : null;
+                return this.component ? this.component.show : null;
             },
             enumerable: true,
             configurable: true
@@ -7770,10 +7770,10 @@ Docs & License: https://fullcalendar.io/
             this.segs = segs;
             this.attachSegs(segs, mirrorInfo);
             this.isSizeDirty = true;
-            this.context.view.triggerRenderedSegs(this.segs, Boolean(mirrorInfo));
+            this.context.show.triggerRenderedSegs(this.segs, Boolean(mirrorInfo));
         };
         FgEventRenderer.prototype.unrender = function (_segs, mirrorInfo) {
-            this.context.view.triggerWillRemoveSegs(this.segs, Boolean(mirrorInfo));
+            this.context.show.triggerWillRemoveSegs(this.segs, Boolean(mirrorInfo));
             this.detachSegs(this.segs);
             this.segs = [];
         };
@@ -7812,7 +7812,7 @@ Docs & License: https://fullcalendar.io/
                         seg.el = el;
                     }
                 });
-                segs = filterSegsViaEls(this.context.view, segs, Boolean(mirrorInfo));
+                segs = filterSegsViaEls(this.context.show, segs, Boolean(mirrorInfo));
             }
             return segs;
         };
@@ -7894,7 +7894,7 @@ Docs & License: https://fullcalendar.io/
             };
         };
         FgEventRenderer.prototype.sortEventSegs = function (segs) {
-            var specs = this.context.view.eventOrderSpecs;
+            var specs = this.context.show.eventOrderSpecs;
             var objs = segs.map(buildSegCompareObj);
             objs.sort(function (obj0, obj1) {
                 return compareByFieldSpecs(obj0, obj1, specs);
@@ -7995,7 +7995,7 @@ Docs & License: https://fullcalendar.io/
             }
             this.segsByType[type] = renderedSegs;
             if (type === 'bgEvent') {
-                this.context.view.triggerRenderedSegs(renderedSegs, false); // isMirror=false
+                this.context.show.triggerRenderedSegs(renderedSegs, false); // isMirror=false
             }
             this.dirtySizeFlags[type] = true;
         };
@@ -8004,7 +8004,7 @@ Docs & License: https://fullcalendar.io/
             var segs = this.segsByType[type];
             if (segs) {
                 if (type === 'bgEvent') {
-                    this.context.view.triggerWillRemoveSegs(segs, false); // isMirror=false
+                    this.context.show.triggerWillRemoveSegs(segs, false); // isMirror=false
                 }
                 this.detachSegs(type, segs);
             }
@@ -8029,7 +8029,7 @@ Docs & License: https://fullcalendar.io/
                     }
                 });
                 if (type === 'bgEvent') {
-                    segs = filterSegsViaEls(this.context.view, segs, false // isMirror. background events can never be mirror elements
+                    segs = filterSegsViaEls(this.context.show, segs, false // isMirror. background events can never be mirror elements
                     );
                 }
                 // correct element type? (would be bad if a non-TD were inserted into a table for example)
@@ -8195,7 +8195,7 @@ Docs & License: https://fullcalendar.io/
         }
     }
     function renderDateCell(dateMarker, dateProfile, datesRepDistinctDays, colCnt, colHeadFormat, context, colspan, otherAttrs) {
-        var view = context.view, dateEnv = context.dateEnv, theme = context.theme, options = context.options;
+        var view = context.show, dateEnv = context.dateEnv, theme = context.theme, options = context.options;
         var isDateValid = rangeContainsMarker(dateProfile.activeRange, dateMarker); // TODO: called too frequently. cache somehow.
         var classNames = [
             'fc-day-header',

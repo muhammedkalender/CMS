@@ -1134,7 +1134,7 @@ Docs & License: https://fullcalendar.io/
                 if (!pointer.wasTouchScroll) {
                     var _a = _this.hitDragging, initialHit = _a.initialHit, finalHit = _a.finalHit;
                     if (initialHit && finalHit && isHitsEqual(initialHit, finalHit)) {
-                        component.calendar.triggerDateClick(initialHit.dateSpan, initialHit.dayEl, component.view, ev.origEvent);
+                        component.calendar.triggerDateClick(initialHit.dateSpan, initialHit.dayEl, component.show, ev.origEvent);
                     }
                 }
             };
@@ -1316,7 +1316,7 @@ Docs & License: https://fullcalendar.io/
                             el: _this.subjectSeg.el,
                             event: new core.EventApi(initialCalendar, eventRange.def, eventRange.instance),
                             jsEvent: ev.origEvent,
-                            view: _this.component.view
+                            view: _this.component.show
                         }
                     ]);
                 }
@@ -1390,7 +1390,7 @@ Docs & License: https://fullcalendar.io/
             _this.handleDragEnd = function (ev) {
                 if (_this.isDragging) {
                     var initialCalendar_1 = _this.component.calendar;
-                    var initialView = _this.component.view;
+                    var initialView = _this.component.show;
                     var _a = _this, receivingCalendar = _a.receivingCalendar, validMutation = _a.validMutation;
                     var eventDef = _this.eventRange.def;
                     var eventInstance = _this.eventRange.instance;
@@ -1607,7 +1607,7 @@ Docs & License: https://fullcalendar.io/
                         el: _this.draggingSeg.el,
                         event: new core.EventApi(calendar, eventRange.def, eventRange.instance),
                         jsEvent: ev.origEvent,
-                        view: _this.component.view
+                        view: _this.component.show
                     }
                 ]);
             };
@@ -1663,7 +1663,7 @@ Docs & License: https://fullcalendar.io/
             };
             _this.handleDragEnd = function (ev) {
                 var calendar = _this.component.calendar;
-                var view = _this.component.view;
+                var view = _this.component.show;
                 var eventDef = _this.eventRange.def;
                 var eventInstance = _this.eventRange.instance;
                 var eventApi = new core.EventApi(calendar, eventDef, eventInstance);
@@ -1868,7 +1868,7 @@ Docs & License: https://fullcalendar.io/
                 _this.clearDrag();
                 if (receivingCalendar && droppableEvent) {
                     var finalHit = _this.hitDragging.finalHit;
-                    var finalView = finalHit.component.view;
+                    var finalView = finalHit.component.show;
                     var dragMeta = _this.dragMeta;
                     var arg = __assign({}, receivingCalendar.buildDatePointApi(finalHit.dateSpan), { draggedEl: pev.subjectEl, jsEvent: pev.origEvent, view: finalView });
                     receivingCalendar.publiclyTrigger('drop', [arg]);

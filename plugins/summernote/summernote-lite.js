@@ -8067,7 +8067,7 @@
               ['para', ['ul', 'ol', 'paragraph']],
               ['table', ['table']],
               ['insert', ['link', 'picture', 'video']],
-              ['view', ['fullscreen', 'codeview', 'help']],
+              ['show.php', ['fullscreen', 'codeview', 'help']],
           ],
           // popover
           popatmouse: true,
