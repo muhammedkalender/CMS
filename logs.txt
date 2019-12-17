@@ -27,3 +27,8 @@
 122 => submission_comment_set_canceled  COMMENT_ID
 123 => submission_comment_set_pending  COMMENT_ID
 124 => submission_comment_delete COMMENT_ID
+
+160 => request_submission_invoice_insert [ REQUEST_INVOICE_ID ]
+161 => request_submission_invoice_delete [ REQUEST_INVOICE_ID ]
+162 => request_submission_invoice_confirm [ REQUEST_INVOICE_ID ]
+163 => request_submission_invoice_decline [ REQUEST_INVOICE_ID ]
