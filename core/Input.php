@@ -23,7 +23,9 @@ class Input
         //URL
         TYPE_URL = 8,
         //ARRAY
-        TYPE_ARRAY = 10;
+        TYPE_ARRAY = 10,
+        //BASE 64 IMAGE
+        TYPE_BASE64_IMAGE = 11;
 
     const
         METHOD_GET = 0,

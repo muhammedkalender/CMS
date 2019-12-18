@@ -152,7 +152,32 @@ require_once 'views/sidebar.php';
 
                 </div>
             </div>
+            <div class="card card-info">
+                <div class="card-header">
+                    <h5 class="card-title"><?= uiLang('submission_invoice') ?></h5>
+                </div>
+                <div class="card-body">
+                    <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                          id="form-invoice-insert" submit-delay="2000" card-loader="ok">
+                        <input type="hidden" name="call_category" value="request-submission-invoice">
+                        <input type="hidden" name="call_request" value="insert">
 
+                        <div id="message"></div>
+
+                        <input type="hidden" name="id" value="<?= $submissionID ?>">
+                        <input type="hidden" name="file" id="invoice">
+
+                        <div class="form-group">
+                            <input type="file" class="form-control" id="fileURL" onchange="encodeImageFileAsURL();"
+                                   required/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success"><i
+                                        class="fas fa-save"></i> <?= uiLang('save') ?></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <div class="modal" id="modal-author">
                 <div class="modal-dialog modal-lg">
@@ -317,6 +342,27 @@ require_once 'views/sidebar.php';
         }
 
         $('#divUsers').html(html);
+    }
+
+    //https://stackoverflow.com/a/23669825
+    function encodeImageFileAsURL() {
+        var filesSelected = document.getElementById("fileURL").files;
+
+        if (filesSelected.length > 0) {
+            var fileToLoad = filesSelected[0];
+
+            var fileReader = new FileReader();
+
+            fileReader.onload = function (fileLoadedEvent) {
+                var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+                $('#invoice').val(srcData);
+
+                //todo size, format ?
+            };
+
+            fileReader.readAsDataURL(fileToLoad);
+        }
     }
 </script>
 

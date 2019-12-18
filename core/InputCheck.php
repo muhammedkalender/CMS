@@ -80,6 +80,8 @@ class InputCheck
             } else {
                 $data = date('Y-m-d', $time_stamp);
             }
+        }else if($inputType == Input::TYPE_BASE64_IMAGE){
+            //todo
         }else if($inputType == Input::TYPE_EMAIL){
             $data = strtolower($data);
 

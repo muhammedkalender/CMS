@@ -64,6 +64,8 @@ if ($category == 'user') {
         require_once 'views/admin/user.php';
     }else if($request == 'submission'){
         require_once 'views/admin/submission.php';
+    }else if($request == 'request-submission-invoices'){
+        require_once 'views/admin/request-submission-invoice.php';
     }
 }
 

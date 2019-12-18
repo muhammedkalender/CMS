@@ -67,3 +67,7 @@ function redirect($URL)
     header('Location: ' . $URL);
     die();
 }
+
+function domain(){
+    return 'http://dev.cms.system/'; //todo
+}

@@ -192,6 +192,38 @@ if($callCategory == "user"){
     }
 
     //endregion
+}else if($callCategory == 'request-submission-invoice'){
+    //region Request Submission Invoice
+
+    require_once 'object/RequestSubmissionInvoiceObject.php';
+
+    if($callRequest == 'insert'){
+        $requestSubmissionInvoice = new RequestSubmissionInvoiceObject();
+
+        $callResult = $requestSubmissionInvoice->insertWithInput();
+    }else if($callRequest == 'delete'){
+        $requestSubmissionInvoice = new RequestSubmissionInvoiceObject();
+
+        $callResult = $requestSubmissionInvoice->deleteWithInput();
+    }else if($callRequest == 'confirm'){
+        $requestSubmissionInvoice = new RequestSubmissionInvoiceObject();
+
+        $callResult = $requestSubmissionInvoice->confirmWithInput();
+    }else if($callRequest == 'decline'){
+        $requestSubmissionInvoice = new RequestSubmissionInvoiceObject();
+
+        $callResult = $requestSubmissionInvoice->declineWithInput();
+    }else if($callRequest == 'force-confirm'){
+        $requestSubmissionInvoice = new RequestSubmissionInvoiceObject();
+
+        $callResult = $requestSubmissionInvoice->forceConfirmWithInput();
+    }else if('data-tables'){
+        $requestSubmissionInvoice = new RequestSubmissionInvoiceObject();
+
+        $callResult = $requestSubmissionInvoice->dataTablesWithInput();
+    }
+
+    //endregion
 }
 
 nothing:

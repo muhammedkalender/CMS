@@ -32,3 +32,5 @@
 161 => request_submission_invoice_delete [ REQUEST_INVOICE_ID ]
 162 => request_submission_invoice_confirm [ REQUEST_INVOICE_ID ]
 163 => request_submission_invoice_decline [ REQUEST_INVOICE_ID ]
+
+165 => request_submission_invoice_force_confirm [ SUBMISSION ID ]

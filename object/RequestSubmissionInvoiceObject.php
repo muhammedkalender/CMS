@@ -1,10 +1,16 @@
 <?php
 
+require_once 'object/UserObject.php';
 
 class RequestSubmissionInvoiceObject
 {
+
+    //region Variables
+
     public $id, $submissionID, $URL, $status;
     public $createdAt, $createdBy, $updatedAt, $updatedBy, $active;
+
+    //endregion
 
     //region Insert
 
@@ -18,7 +24,7 @@ class RequestSubmissionInvoiceObject
 
         return $this->insert(
             post('id'),
-            post('url')
+            post('file')
         );
     }
 
@@ -26,7 +32,7 @@ class RequestSubmissionInvoiceObject
     {
         return InputCheck::checkAll([
             new Input("id", Input::METHOD_POST, "input_submission", Input::TYPE_INT, 1, 32),
-            new Input("file", Input::METHOD_POST, "input_file", Input::TYPE_URL, 1, 2048)
+            new Input("file", Input::METHOD_POST, "input_file", Input::TYPE_BASE64_IMAGE, 1, 4096)
         ]);
     }
 
@@ -34,15 +40,22 @@ class RequestSubmissionInvoiceObject
     {
         global $user;
 
-        //todo kendilerinise veya adminler
-//        $submission = Database::first("SELECT * FROM submissions WHERE submission_id = {$submissionID}");
-////
-////        if ($submission->status == false || !$user->perm(UserObject::PERM_SELF_OR_UPPER,  ,UserObject::PERM_GROUP_ADMIN)) {
-////            return new Output(false, Lang::get('perm_error'));
-////        }
+        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
 
-        $resultInsert = Database::insertReturnID("INSERT INTO request_submission_invoices (request_submission_invoice_submission, request_submission_invoice_url, submission_comment_created_by) VALUES ('{$submissionID}', '{$URL}', {$user->id})");
+        $_URL = './upload/invoices/invoice_'.md5(rand(1, 1000000)).'.jpg';
 
+        $ifp = fopen($_URL, 'wb' );
+        $data = explode(',', $URL);
+        fwrite($ifp, base64_decode($data[1]));
+        fclose($ifp);
+
+        $URL = $_URL;
+
+        $resultInsert = Database::insertReturnID("INSERT INTO request_submission_invoices (request_submission_invoice_submission, request_submission_invoice_url, request_submission_invoice_created_by) VALUES ('{$submissionID}', '{$URL}', {$user->id})");
+
+        //todo niyeyse hata veriyor ?
         if ($resultInsert->status) {
             Log::insertWithKey('request_submission_invoice_insert', [160, $resultInsert->data]);
 
@@ -58,7 +71,7 @@ class RequestSubmissionInvoiceObject
 
     public function deleteWithInput()
     {
-        $inputCheck = $this->insertInputCheck();
+        $inputCheck = $this->deleteInputCheck();
 
         if ($inputCheck->status == false) {
             return $inputCheck;
@@ -84,7 +97,7 @@ class RequestSubmissionInvoiceObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $resultDelete = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_active = 0, request_submission_invoice_updated_by = '{$user->id}' request_submission_invoice_updated_At = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
+        $resultDelete = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_active = 0, request_submission_invoice_updated_by = '{$user->id}', request_submission_invoice_updated_at = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
 
         if ($resultDelete->status) {
             Log::insertWithKey('request_submission_invoice_delete', [161, $requestSubmissionInvoiceID]);
@@ -129,12 +142,12 @@ class RequestSubmissionInvoiceObject
 
         $resultSelect = Database::first("SELECT * FROM request_submission_invoices WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
 
-        if($resultSelect->status){
-            return new Output(false, Lang::get('null_request_submission_invoicer'));
+        if(!$resultSelect->status){
+            return new Output(false, Lang::get('null_request_submission_invoice'));
         }
 
-        $resultUpdate = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_status = 2, request_submission_invoice_updated_by = '{$user->id}' request_submission_invoice_updated_At = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
-        $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_invoice = '{$resultSelect->data->request_submission_invoice_url}', request_submission_invoice_updated_by = '{$user->id}' request_submission_invoice_updated_At = '".getCustomDate()."' WHERE submission_id = '{$resultSelect->data->request_submission_invoice_submission}'");
+        $resultUpdate = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_status = 2, request_submission_invoice_updated_by = '{$user->id}', request_submission_invoice_updated_At = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
+        $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_invoice = '".$resultSelect->data["request_submission_invoice_url"]."', request_submission_invoice_updated_by = '{$user->id}, request_submission_invoice_updated_At = '".getCustomDate()."' WHERE submission_id = '".$resultSelect->data["request_submission_invoice_submission"]."'");
 
         if ($resultRelatedUpdate->status) {
             Log::insertWithKey('request_submission_invoice_confirm', [162, $requestSubmissionInvoiceID]);
@@ -142,6 +155,49 @@ class RequestSubmissionInvoiceObject
             return new Output(true, Lang::get('request_submission_invoice_confirm_success'));
         } else {
             return new Output(false, Lang::get('request_submission_invoice_confirm_failure'));
+        }
+    }
+
+    //endregion
+
+    //region Force Confirm
+
+    public function forceConfirmWithInput()
+    {
+        $inputCheck = $this->forceConfirmInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->forceConfirm(
+            post('id')
+        );
+    }
+
+    public function forceConfirmInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input("id", Input::METHOD_POST, "input_submission", Input::TYPE_INT, 1, 32)
+        ]);
+    }
+
+    public function forceConfirm($submissionID)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_IS,UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_invoice = '-1', request_submission_invoice_updated_by = '{$user->id}' request_submission_invoice_updated_At = '".getCustomDate()."' WHERE submission_id = '{$submissionID}'");
+
+        if ($resultRelatedUpdate->status) {
+            Log::insertWithKey('request_submission_invoice_force_confirm', [165, $submissionID]);
+
+            return new Output(true, Lang::get('request_submission_invoice_force_confirm_success'));
+        } else {
+            return new Output(false, Lang::get('request_submission_invoice_force_confirm_failure'));
         }
     }
 
@@ -177,7 +233,7 @@ class RequestSubmissionInvoiceObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $resultUpdate = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_status = 1, request_submission_invoice_updated_by = '{$user->id}' request_submission_invoice_updated_At = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
+        $resultUpdate = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_status = 1, request_submission_invoice_updated_by = '{$user->id}', request_submission_invoice_updated_at = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
 
         if ($resultUpdate->status) {
             Log::insertWithKey('request_submission_invoice_decline', [163, $requestSubmissionInvoiceID]);
@@ -245,27 +301,28 @@ class RequestSubmissionInvoiceObject
         $columns = [
             'request_submission_invoice_id',
             'request_submission_invoice_submission',
-            'request_submission_invoice_status'
+            'request_submission_invoice_status',
+            'request_submission_invoice_full_name',
+            'request_submission_invoice_created_at'
         ];
 
         $querySearch = "";
 
-        if (post('keyword')) {
+        if ($keyword) {
             $querySearch = dataTablesLikeQuery(post('keyword'), [
-                'submission_comment_id',
-                'submission_comment_submission',
-                'submission_comment_message',
-                'submission_comment_created_at',
+                'request_submission_invoice_id',
+                'request_submission_invoice_submission',
+                'request_submission_invoice_status',
             ]);
         }
 
-        $select = Database::select("SELECT submission_comment_id, submission_comment_submission, submission_comment_message, submission_comment_created_at, submission_comment_status, (SELECT CONCAT_WS(' ', user_first_name, user_last_name) FROM users WHERE user_id = submission_comment_created_by) as submission_comment_fullName FROM submission_comments WHERE submission_comment_submission = {$submission} AND submission_comment_active = 1 {$querySearch} ORDER BY {$columns[$orderColumn]} {$orderDir} LIMIT  {$length} OFFSET {$start}");
-        $stats = Database::select("SELECT COUNT(*) as recordsFiltered, (SELECT COUNT(*) FROM submission_comments WHERE submission_comment_active = 1) as recordsTotal FROM submission_comments WHERE submission_comment_submission = {$submission} AND submission_comment_active = 1 {$querySearch}");
+        $select = Database::select("SELECT request_submission_invoice_id, request_submission_invoice_submission, request_submission_invoice_status, request_submission_invoice_url, request_submission_invoice_created_by, request_submission_invoice_created_at, (SELECT CONCAT_WS(' ', user_first_name, user_last_name) FROM users WHERE user_id = request_submission_invoice_created_by) as request_submission_invoice_full_name FROM request_submission_invoices WHERE request_submission_invoice_active = 1 {$querySearch} ORDER BY {$columns[$orderColumn]} {$orderDir} LIMIT  {$length} OFFSET {$start}");
+        $stats = Database::select("SELECT COUNT(*) as recordsFiltered, (SELECT COUNT(*) FROM request_submission_invoices WHERE request_submission_invoice_active = 1) as recordsTotal FROM request_submission_invoices WHERE request_submission_invoice_active = 1 {$querySearch}");
 
         if ($select->status && $stats->status) {
-            return new DataTablesOutput(true, Lang::get('submission_select_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);
+            return new DataTablesOutput(true, Lang::get('request_submission_invoices_datatable_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);
         } else {
-            return new DataTablesOutput(false, Lang::get('submission_select_failure'));
+            return new DataTablesOutput(false, Lang::get('request_submission_invoices_datatable_failure'));
         }
     }
 
