@@ -44,7 +44,11 @@ class RequestSubmissionInvoiceObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $_URL = './upload/invoices/invoice_'.md5(rand(1, 1000000)).'.jpg';
+        $_URL = '';
+
+        do {
+            $_URL = './upload/invoices/invoice_'.md5(rand(1, 1000000)).'.jpg';
+        } while (file_exists($URL));
 
         $ifp = fopen($_URL, 'wb' );
         $data = explode(',', $URL);

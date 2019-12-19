@@ -34,3 +34,9 @@
 163 => request_submission_invoice_decline [ REQUEST_INVOICE_ID ]
 
 165 => request_submission_invoice_force_confirm [ SUBMISSION ID ]
+
+180 => request_submission_full_paper_insert [ SUBMISSION ID, REQUEST_FULL_PAPER_ID ]
+181 => request_submission_full_paper_delete [ REQUEST_FULL_PAPER_ID ]
+182 => request_submission_full_paper_confirm [ REQUEST_FULL_PAPER_ID ]
+185 => request_submission_full_paper_force_confirm [ REQUEST_FULL_PAPER_ID ]
+183 => request_submission_full_paper_decline [ REQUEST_FULL_PAPER_ID ]

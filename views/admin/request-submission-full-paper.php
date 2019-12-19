@@ -22,10 +22,10 @@ require_once 'views/sidebar.php';
         <div class="container-fluid">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title"><?= uiLang('request_submission_invoices') ?></h3>
+                    <h3 class="card-title"><?= uiLang('request_submission_full_papers') ?></h3>
                 </div>
                 <div class="card-body">
-                    <table id="request-submission-invoices" class="table table-bordered table-hover">
+                    <table id="request-submission-full-papers" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th><?= uiLang('id') ?></th>
@@ -42,22 +42,22 @@ require_once 'views/sidebar.php';
             </div>
     </section>
 </div>
-<div class="modal fade" id="modal-request-submission-invoice-confirm">
+<div class="modal fade" id="modal-request-submission-full-paper-confirm">
     <div class="modal-dialog modal-lg">
         <div class="modal-content bg-success">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    <?= uiLang('confirm_request_submission_invoice') ?>
+                    <?= uiLang('confirm_request_submission_full_paper') ?>
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <form action="/api.php" method="post" onsubmit="return checkForm(this)"
-                      id="form-request-submission-invoice-confirm"
-                      submit-datatable="request-submission-invoices"
-                      modal-loader="modal-request-submission-invoice-confirm">
-                    <input type="hidden" name="call_category" value="request-submission-invoice">
+                      id="form-request-submission-full-paper-confirm"
+                      submit-datatable="request-submission-full-papers"
+                      modal-loader="modal-request-submission-full-paper-confirm">
+                    <input type="hidden" name="call_category" value="request-submission-full-paper">
                     <input type="hidden" name="call_request" value="confirm">
 
                     <div id="message"></div>
@@ -77,22 +77,22 @@ require_once 'views/sidebar.php';
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-request-submission-invoice-decline">
+<div class="modal fade" id="modal-request-submission-full-paper-decline">
     <div class="modal-dialog modal-lg">
         <div class="modal-content bg-warning">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    <?= uiLang('decline_request_submission_invoice') ?>
+                    <?= uiLang('decline_request_submission_full_paper') ?>
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <form action="/api.php" method="post" onsubmit="return checkForm(this)"
-                      id="form-request-submission-invoice-decline"
-                      submit-datatable="request-submission-invoices"
-                      modal-loader="modal-request-submission-invoice-decline">
-                    <input type="hidden" name="call_category" value="request-submission-invoice">
+                      id="form-request-submission-full-paper-decline"
+                      submit-datatable="request-submission-full-papers"
+                      modal-loader="modal-request-submission-full-paper-decline">
+                    <input type="hidden" name="call_category" value="request-submission-full-paper">
                     <input type="hidden" name="call_request" value="decline">
 
                     <div id="message"></div>
@@ -112,22 +112,22 @@ require_once 'views/sidebar.php';
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-request-submission-invoice-delete">
+<div class="modal fade" id="modal-request-submission-full-paper-delete">
     <div class="modal-dialog modal-lg">
         <div class="modal-content bg-danger">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    <?= uiLang('delete_request_submission_invoice') ?>
+                    <?= uiLang('delete_request_submission_full_paper') ?>
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <form action="/api.php" method="post" onsubmit="return checkForm(this)"
-                      id="form-request-submission-invoice-delete"
-                      submit-datatable="request-submission-invoices"
-                      modal-loader="modal-request-submission-invoice-delete">
-                    <input type="hidden" name="call_category" value="request-submission-invoice">
+                      id="form-request-submission-full-paper-delete"
+                      submit-datatable="request-submission-full-papers"
+                      modal-loader="modal-request-submission-full-paper-delete">
+                    <input type="hidden" name="call_category" value="request-submission-full-paper">
                     <input type="hidden" name="call_request" value="delete">
 
                     <div id="message"></div>
@@ -156,12 +156,12 @@ require_once 'views/sidebar.php';
     const USER_ID = <?=$user->id?>;
     const USER_FULL_NAME = '<?=$user->getFullName()?>';
 
-    var arrRequestSubmissionInvoices = [];
+    var arrRequestSubmissionFullPapers = [];
 </script>
 
 <script>
     $(function () {
-        $('#request-submission-invoices').DataTable({
+        $('#request-submission-full-papers').DataTable({
             'processing': true,
             'serverSide': true,
             'ordering': true,
@@ -171,11 +171,11 @@ require_once 'views/sidebar.php';
             'lengthMenu': [[10, 25, 50, 100, 400], [10, 25, 50, 100, 400]],
             'serverMethod': 'post',
             'columns': [
-                {'data': 'request_submission_invoice_id'},
-                {'data': 'request_submission_invoice_submission'},
-                {'data': 'request_submission_invoice_status'},
-                {'data': 'request_submission_invoice_full_name'},
-                {'data': 'request_submission_invoice_created_at'},
+                {'data': 'request_submission_full-paper_id'},
+                {'data': 'request_submission_full-paper_submission'},
+                {'data': 'request_submission_full-paper_status'},
+                {'data': 'request_submission_full-paper_full_name'},
+                {'data': 'request_submission_full-paper_created_at'},
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
@@ -183,30 +183,30 @@ require_once 'views/sidebar.php';
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
-                    'call_category': 'request-submission-invoice',
+                    'call_category': 'request-submission-full-paper',
                     'call_request': 'data-tables'
                 },
                 'dataSrc': function (json) {
                     for (var i = 0; i < json.data.length; i++) {
-                        json.data[i].request_submission_invoice_created_at = formatDMYOnlyDate(json.data[i].request_submission_invoice_created_at);
+                        json.data[i].request_submission_full_paper_created_at = formatDMYOnlyDate(json.data[i].request_submission_full_paper_created_at);
 
                         var status = '<?=uiLang("pending")?>';
 
-                        if (json.data[i].request_submission_invoice_status == 2) {
+                        if (json.data[i].request_submission_full_paper_status == 2) {
                             status = '<?=uiLang("confirmed")?>';
                         } else {
                             status = '<?=uiLang("declined")?>';
                         }
 
-                        json.data[i].request_submission_invoice_status = status;
+                        json.data[i].request_submission_full_paper_status = status;
 
-                        json.data[i].options = '<a class="btn btn-primary" target="_blank" href="<?=domain()?>/' + json.data[i].request_submission_invoice_url + '" title="<?=uiLang("download")?>"><span class="fas fa-download"></span></a>'
-                            + ' <a class="btn btn-success" onclick="showRequestSubmissionInvoiceConfirm(' + i + ')" title="<?=uiLang("confirm")?>"><span class="fas fa-check"></span></a>'
-                            + ' <a class="btn btn-warning" onclick="showRequestSubmissionInvoiceDecline(' + i + ')" title="<?=uiLang("decline")?>"><span class="fas fa-times"></span></a>'
-                            + ' <a class="btn btn-danger" onclick="showRequestSubmissionInvoiceDelete(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span></a>';
+                        json.data[i].options = '<a class="btn btn-primary" target="_blank" href="<?=domain()?>/' + json.data[i].request_submission_full_paper_url + '" title="<?=uiLang("download")?>"><span class="fas fa-download"></span></a>'
+                            + ' <a class="btn btn-success" onclick="showRequestSubmissionfull-paperConfirm(' + i + ')" title="<?=uiLang("confirm")?>"><span class="fas fa-check"></span></a>'
+                            + ' <a class="btn btn-warning" onclick="showRequestSubmissionfull-paperDecline(' + i + ')" title="<?=uiLang("decline")?>"><span class="fas fa-times"></span></a>'
+                            + ' <a class="btn btn-danger" onclick="showRequestSubmissionfull-paperDelete(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span></a>';
                     }
 
-                    arrRequestSubmissionInvoices = json.data;
+                    arrRequestSubmissionFullPapers = json.data;
 
                     return json.data;
                 }
@@ -228,21 +228,21 @@ require_once 'views/sidebar.php';
 </script>
 
 <script>
-    function showRequestSubmissionInvoiceConfirm(index) {
-        loadInputsFromObject('form-request-submission-invoice-confirm', arrRequestSubmissionInvoices[index], 'request_submission_invoice_', 'id');
+    function showRequestSubmissionFullPaperConfirm(index) {
+        loadInputsFromObject('form-request-submission-full-paper-confirm', arrRequestSubmissionFullPapers[index], 'request_submission_full-paper_', 'id');
 
-        $('#modal-request-submission-invoice-confirm').modal('show');
+        $('#modal-request-submission-full-paper-confirm').modal('show');
     }
 
-    function showRequestSubmissionInvoiceDecline(index) {
-        loadInputsFromObject('form-request-submission-invoice-decline', arrRequestSubmissionInvoices[index], 'request_submission_invoice_', 'id');
+    function showRequestSubmissionFullPaperDecline(index) {
+        loadInputsFromObject('form-request-submission-full-paper-decline', arrRequestSubmissionFullPapers[index], 'request_submission_full-paper_', 'id');
 
-        $('#modal-request-submission-invoice-decline').modal('show');
+        $('#modal-request-submission-full-paper-decline').modal('show');
     }
 
-    function showRequestSubmissionInvoiceDelete(index) {
-        loadInputsFromObject('form-request-submission-invoice-delete', arrRequestSubmissionInvoices[index], 'request_submission_invoice_', 'id');
+    function showRequestSubmissionFullPaperDelete(index) {
+        loadInputsFromObject('form-request-submission-full-paper-delete', arrRequestSubmissionFullPapers[index], 'request_submission_full-paper_', 'id');
 
-        $('#modal-request-submission-invoice-delete').modal('show');
+        $('#modal-request-submission-full-paper-delete').modal('show');
     }
 </script>

@@ -224,6 +224,38 @@ if($callCategory == "user"){
     }
 
     //endregion
+}else if($callCategory == 'request-submission-full-paper'){
+    //region Request Submission Full Paper
+
+    require_once 'object/RequestSubmissionFullPaperObject.php';
+
+    if($callRequest == 'insert'){
+        $requestSubmissionFullPaper = new RequestSubmissionFullPaperObject();
+
+        $callResult = $requestSubmissionFullPaper->insertWithInput();
+    }else if($callRequest == 'delete'){
+        $requestSubmissionFullPaper = new RequestSubmissionFullPaperObject();
+
+        $callResult = $requestSubmissionFullPaper->deleteWithInput();
+    }else if($callRequest == 'confirm'){
+        $requestSubmissionFullPaper = new RequestSubmissionFullPaperObject();
+
+        $callResult = $requestSubmissionFullPaper->confirmWithInput();
+    }else if($callRequest == 'decline'){
+        $requestSubmissionFullPaper = new RequestSubmissionFullPaperObject();
+
+        $callResult = $requestSubmissionFullPaper->declineWithInput();
+    }else if($callRequest == 'force-confirm'){
+        $requestSubmissionFullPaper = new RequestSubmissionFullPaperObject();
+
+        $callResult = $requestSubmissionFullPaper->forceConfirmWithInput();
+    }else if('data-tables'){
+        $requestSubmissionFullPaper = new RequestSubmissionFullPaperObject();
+
+        $callResult = $requestSubmissionFullPaper->dataTablesWithInput();
+    }
+
+    //endregion
 }
 
 nothing:
