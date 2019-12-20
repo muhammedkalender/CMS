@@ -22,13 +22,6 @@ require_once 'views/sidebar.php';
     </section>
     <section class="content">
         <div class="container-fluid">
-            <div class="from-group">
-                <button class="btn btn-success" data-toggle="modal" data-target="#modal-announcement-insert"
-                        onclick="clearForm($('#form-announcement-insert'))"><span
-                            class="fas fa-plus"></span> <?= uiLang('add_new') ?>
-                </button>
-            </div>
-            <br>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -409,7 +402,9 @@ require_once 'views/sidebar.php';
                     console.log(json);
                     for (var i = 0; i < json.data.length; i++) {
 
-                        json.data[i].options = '<a class="btn btn-info" onclick="loadSubmissionComments(' + json.data[i].submission_id + ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span></a>';
+                        json.data[i].options = '<a class="btn btn-info" onclick="loadSubmissionComments(' + json.data[i].submission_id + ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span></a>'
+                            + ' <a class="btn btn-primary" target="_blank" href="/page_test.php?c=submission&r=view&submission=' + json.data[i].submission_id + '" title="<?=uiLang("view")?>"><span class="fas fa-eye"></span></a>'
+                            + ' <a class="btn btn-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span></a>';
                         //json.data[i].options = '<a class="btn btn-primary" onclick="showDetailAnnouncement(' + i + ')" title="<?//=uiLang("announcement_view")?>//"><span class="fas fa-eye"></span></a>'
                         //    + ' <a class="btn btn-warning" onclick="showUpdateAnnouncement(' + i + ')" title="<?//=uiLang("announcement_update")?>//"><span class="fas fa-edit"></span></a>'
                         //    + ' <a class="btn btn-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?//=uiLang("announcement_delete")?>//"><span class="fas fa-trash"></span></a>'; //todo
