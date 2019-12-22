@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><?=$title?></h1>
+                    <h1><?= $title ?></h1>
                 </div>
             </div>
         </div>
@@ -25,21 +25,23 @@
                             <h3 class="card-title"><?= uiLang('users') ?></h3>
                         </div>
                         <div class="card-body">
-                            <table id="users" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th><?= uiLang('id') ?></th>
-                                    <th><?= uiLang('ec_id') ?></th>
-                                    <th><?= uiLang('submission_id') ?></th>
-                                    <th><?= uiLang('first_name') ?></th>
-                                    <th><?= uiLang('last_name') ?></th>
-                                    <th><?= uiLang('email') ?></th>
-                                    <th><?= uiLang('created_at') ?></th>
-                                    <th class="no-sort"><?= uiLang('options') ?></th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="users" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th><?= uiLang('id') ?></th>
+                                        <th><?= uiLang('ec_id') ?></th>
+                                        <th><?= uiLang('submission_id') ?></th>
+                                        <th><?= uiLang('first_name') ?></th>
+                                        <th><?= uiLang('last_name') ?></th>
+                                        <th><?= uiLang('email') ?></th>
+                                        <th><?= uiLang('created_at') ?></th>
+                                        <th class="no-sort"><?= uiLang('options') ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,7 +82,7 @@
                     <input type="hidden" name="call_category" value="user">
                     <input type="hidden" name="call_request" value="register">
 
-<!--                    todo submission seçilince bunu yükliyecek-->
+                    <!--                    todo submission seçilince bunu yükliyecek-->
                     <input type="hidden" name="ec_id" id="ec_id">
 
                     <div id="message"></div>
@@ -273,8 +275,6 @@
             'paging': true,
             'searching': true,
             'info': true,
-            "scrollX": true,
-            "scrollY": true,
             'lengthMenu': [[10, 25, 50, 100, 400], [10, 25, 50, 100, 400]],
             'serverMethod': 'post',
             'columns': [
@@ -299,7 +299,7 @@
                     for (var i = 0; i < json.data.length; i++) {
                         json.data[i].user_created_at = formatDMYOnlyDate(json.data[i].user_created_at);
                         json.data[i].user_full_name = json.data[i].user_first_name + ' ' + json.data[i].user_last_name;
-                        json.data[i].options = '<a class="btn btn-primary" target="_blank" href="'+internalURL('user', 'profile', 'user', json.data[i].user_id)+'" title="<?=uiLang("announcement_view")?>"><span class="fas fa-eye"></span></a>'
+                        json.data[i].options = '<a class="btn btn-primary" target="_blank" href="' + internalURL('user', 'profile', 'user', json.data[i].user_id) + '" title="<?=uiLang("announcement_view")?>"><span class="fas fa-eye"></span></a>'
                             + ' <a class="btn btn-danger" onclick="showDeleteUser(' + i + ')" title="<?=uiLang("user_delete")?>"><span class="fas fa-trash"></span></a>';
                     }
 

@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><?=$title?></h1>
+                    <h1><?= $title ?></h1>
                 </div>
             </div>
         </div>
@@ -15,19 +15,21 @@
                     <h3 class="card-title"><?= uiLang('request_submission_invoices') ?></h3>
                 </div>
                 <div class="card-body">
-                    <table id="request-submission-invoices" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th><?= uiLang('id') ?></th>
-                            <th><?= uiLang('submission') ?></th>
-                            <th><?= uiLang('status') ?></th>
-                            <th><?= uiLang('full_name') ?></th>
-                            <th><?= uiLang('created_at') ?></th>
-                            <th class="no-sort"><?= uiLang('options') ?></th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table id="request-submission-invoices" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th><?= uiLang('id') ?></th>
+                                <th><?= uiLang('submission') ?></th>
+                                <th><?= uiLang('status') ?></th>
+                                <th><?= uiLang('full_name') ?></th>
+                                <th><?= uiLang('created_at') ?></th>
+                                <th class="no-sort"><?= uiLang('options') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
     </section>

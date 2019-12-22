@@ -25,18 +25,20 @@
                             <h3 class="card-title"><?= uiLang('announcements') ?></h3>
                         </div>
                         <div class="card-body">
-                            <table id="announcements" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th><?= uiLang('id') ?></th>
-                                    <th><?= uiLang('title') ?></th>
-                                    <th><?= uiLang('public_date') ?></th>
-                                    <th><?= uiLang('created_by') ?></th>
-                                    <th class="no-sort"><?= uiLang('options') ?></th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="announcements" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th><?= uiLang('id') ?></th>
+                                        <th><?= uiLang('title') ?></th>
+                                        <th><?= uiLang('public_date') ?></th>
+                                        <th><?= uiLang('created_by') ?></th>
+                                        <th class="no-sort"><?= uiLang('options') ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

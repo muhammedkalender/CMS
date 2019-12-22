@@ -733,6 +733,49 @@ class UserObject
     }
 
     //endregion
+
+    //region Authors
+
+    public function selectAuthorsInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input('id', Input::METHOD_POST, 'submission', Input::TYPE_INT, 1, 8)
+        ]);
+    }
+
+    public function selectAuthorsWithInput()
+    {
+        $inputCheck = $this->selectAuthorsInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->selectAuthors(
+            post('id')
+        );
+    }
+
+    private function selectAuthors($submissionID)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_UPPER, UserObject::PERM_GROUP_USER)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $select = Database::select("SELECT user_id, user_first_name, user_last_name, user_created_at, user_submission, user_email, user_joined, user_is_corresponding, user_is_admin FROM users WHERE user_active = 1 AND user_submission = {$submissionID}");
+
+        if ($select->status) {
+            //Log::insert('announcement_select_success', 84, $language);
+
+            return new Output(true, Lang::get('user_select_success'), $select->data);
+        } else {
+            return new Output(false, Lang::get('user_select_failure'));
+        }
+    }
+
+    //endregion
 }
 
 $user = new UserObject();

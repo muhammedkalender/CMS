@@ -209,7 +209,6 @@ class UserAnnouncementObject
                 'user_announcement_id',
                 'user_announcement_title',
                 'user_announcement_message',
-                'userFullName',
                 'user_announcement_created_at'
             ]);
         }
@@ -218,9 +217,9 @@ class UserAnnouncementObject
         $stats = Database::select("SELECT COUNT(*) as recordsFiltered, (SELECT COUNT(*) FROM user_announcements WHERE user_announcement_active = 1) as recordsTotal FROM user_announcements WHERE user_announcement_active = 1 {$querySearch}");
 
         if ($select->status && $stats->status) {
-            return new DataTablesOutput(true, Lang::get('user_announcement_select_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);
+            return new DataTablesOutput(true, Lang::get('user_announcement_data_table_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);
         } else {
-            return new DataTablesOutput(false, Lang::get('user_announcement_select_failure'));
+            return new DataTablesOutput(false, Lang::get('user_announcement_data_table_failure'));
         }
 
     }

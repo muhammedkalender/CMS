@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><?=$title?></h1>
+                    <h1><?= $title ?></h1>
                 </div>
             </div>
         </div>
@@ -18,22 +18,24 @@
                             <h3 class="card-title"><?= uiLang('submissions') ?></h3>
                         </div>
                         <div class="card-body">
-                            <table id="submissions" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th><?= uiLang('id') ?></th>
-                                    <th><?= uiLang('ec_id') ?></th>
-                                    <th><?= uiLang('submit_date') ?></th>
-                                    <th><?= uiLang('paper_title') ?></th>
-                                    <th><?= uiLang('presentation_type') ?></th>
-                                    <th><?= uiLang('abstract_paper') ?></th>
-                                    <th><?= uiLang('full_paper') ?></th>
-                                    <th><?= uiLang('authors') ?></th>
-                                    <th class="no-sort"><?= uiLang('options') ?></th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="submissions" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th><?= uiLang('id') ?></th>
+                                        <th><?= uiLang('ec_id') ?></th>
+                                        <th><?= uiLang('submit_date') ?></th>
+                                        <th><?= uiLang('paper_title') ?></th>
+                                        <th><?= uiLang('presentation_type') ?></th>
+                                        <th><?= uiLang('abstract_paper') ?></th>
+                                        <th><?= uiLang('full_paper') ?></th>
+                                        <th><?= uiLang('authors') ?></th>
+                                        <th class="no-sort"><?= uiLang('options') ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="card card-warning" id="divSubmissionComments">
@@ -41,18 +43,20 @@
                             <h3 class="card-title"><?= uiLang('submission_comments') ?></h3>
                         </div>
                         <div class="card-body">
-                            <table id="submissionComments" class="table table-bordered table-hover">
-                                <thead>
-                                <th><?= uiLang('id') ?></th>
-                                <th><?= uiLang('submission') ?></th>
-                                <th><?= uiLang('message') ?></th>
-                                <th><?= uiLang('created_at') ?></th>
-                                <th><?= uiLang('created_by') ?></th>
-                                <th><?= uiLang('status') ?></th>
-                                <th class="no-sort"><?= uiLang('options') ?></th>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="submissionComments" class="table table-bordered table-hover">
+                                    <thead>
+                                    <th><?= uiLang('id') ?></th>
+                                    <th><?= uiLang('submission') ?></th>
+                                    <th><?= uiLang('message') ?></th>
+                                    <th><?= uiLang('created_at') ?></th>
+                                    <th><?= uiLang('created_by') ?></th>
+                                    <th><?= uiLang('status') ?></th>
+                                    <th class="no-sort"><?= uiLang('options') ?></th>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -364,8 +368,6 @@
             'paging': true,
             'searching': true,
             'info': true,
-            "scrollX": true,
-            "scrollY": true,
             'lengthMenu': [[10, 25, 50, 100, 400], [10, 25, 50, 100, 400]],
             'serverMethod': 'post',
             'columns': [
@@ -428,8 +430,6 @@
             'paging': true,
             'searching': true,
             'info': true,
-            "scrollX": true,
-            "scrollY": true,
             'lengthMenu': [[10, 25, 50, 100, 400], [10, 25, 50, 100, 400]],
             'serverMethod': 'post',
             'columns': [

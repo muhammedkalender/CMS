@@ -1,22 +1,37 @@
+<link rel="stylesheet" href="<?= folder() ?>plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Fixed Layout</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Layout</a></li>
-                        <li class="breadcrumb-item active">Fixed Layout</li>
-                    </ol>
+                    <h1><?= $title ?></h1>
                 </div>
             </div>
         </div>
     </section>
     <section class="content">
         <div class="container-fluid">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h5 class="card-title"><?= uiLang('authors') ?></h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="authors" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th><?= uiLang('id') ?></th>
+                                <th><?= uiLang('first_name') ?></th>
+                                <th><?= uiLang('last_name') ?></th>
+                                <th><?= uiLang('email') ?></th>
+                                <th class="no-sort"><?= uiLang('options') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             <div class="card card-primary">
                 <div class="card-header">
                     <h5 class="card-title"><?= uiLang('submission') ?></h5>
@@ -155,12 +170,13 @@
                 </div>
                 <div class="card-body">
                     <? //https://stackoverflow.com/a/722395 ?>
-                    <?php if($user->isAdmin()): ?>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <button class="btn btn-danger form-control" data-toggle="modal" data-target="#modal-force-request-submission-invoice"><?=uiLang('force_request_submission_invoice')?></button>
+                    <?php if ($user->isAdmin()): ?>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button class="btn btn-danger form-control" data-toggle="modal"
+                                        data-target="#modal-force-request-submission-invoice"><?= uiLang('force_request_submission_invoice') ?></button>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                     <form action="/api.php" method="post" onsubmit="return checkForm(this)"
                           id="form-invoice-insert" submit-delay="2000" card-loader="ok">
@@ -289,7 +305,7 @@
 
                                 <div id="message"></div>
 
-                                <input type="hidden" name="id" value="<?=$submissionID?>">
+                                <input type="hidden" name="id" value="<?= $submissionID ?>">
 
                                 <div class="form-group">
                                     <p class="objectName"></p>
@@ -306,6 +322,9 @@
         </div>
     </section>
 </div>
+
+<script src="<?= folder() ?>plugins/datatables/jquery.dataTables.js"></script>
+<script src="<?= folder() ?>plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
 <link rel="stylesheet" href="<?= folder() ?>plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
 <script src="<?= folder() ?>plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
@@ -410,6 +429,46 @@
         $('[data-mask]').inputmask();
 
         showCardOverlay($('#form-submission-update'));
+
+        $('#authors').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'ordering': false,
+            'paging': false,
+            'searching': false,
+            "info": false,
+            'serverMethod': 'post',
+            'columns': [
+                {'data': 'user_id'},
+                {'data': 'user_first_name'},
+                {'data': 'user_last_name'},
+                {'data': 'user_email'},
+                {'data': 'options', 'orderable': false}
+            ],
+            'ajax': {
+                'url': 'api.php',
+                'type': 'post',
+                'dataType': 'json',
+                'data': {
+                    'call_category': 'user',
+                    'call_request': 'authors',
+                    'id': <?=$submissionID?>
+                },
+                'dataSrc': function (json) {
+                    for (var i = 0; i < json.data.length; i++) {
+                        <?php if($user->isAdmin()): ?>
+                        json.data[i].options = '<a class="btn btn-primary" href="' + internalURL('user', 'profile', 'user', json.data[i].user_id) + '" target="_blank" title="<?=uiLang("user_view")?>"><span class="fas fa-eye"></span></a>';
+                        <?php else: ?>
+                        json.data[i].options = '-';
+                        <?php endif; ?>
+                    }
+
+                    arrAnnouncements = json.data;
+
+                    return json.data;
+                }
+            }
+        });
 
         $.ajax({
             'url': 'api.php',

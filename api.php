@@ -63,6 +63,10 @@ if($callCategory == "user"){
         $user = new UserObject();
 
         $callResult = $user->changePasswordWithInput();
+    }else if($callRequest == 'authors'){
+        $user = new UserObject();
+
+        $callResult = $user->selectAuthorsWithInput();
     }
 
     //endregion
