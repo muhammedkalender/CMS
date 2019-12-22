@@ -19,7 +19,11 @@ class UserObject
         //Şu veya daha üstü demektir
         PERM_UPPER = 2,
         //Kendisi veya daha yükseği demek
-        PERM_SELF_OR_UPPER = 3;
+        PERM_SELF_OR_UPPER = 3,
+        //Yazarların veya yönetici
+        AUTHOR_OR_ADMIN = 4,
+        //Baş yazar veya yönetici
+        CORRESPONDING_AUTHOR_OR_ADMIN = 5;
 
     //todo
     public $id, $submissionID, $email, $fistName, $lastName, $isAdmin, $country, $organization, $webPage, $address, $tel, $ecID;
@@ -287,6 +291,22 @@ class UserObject
                 //First => İstenilen Grup ID
                 if ($this->permGroup < $optionalFirst) {
                     return false;
+                }
+                break;
+            case self::AUTHOR_OR_ADMIN:
+                //First submission id
+                if (!$this->isAdmin()) {
+                    $isAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_active = 1");
+
+                    return $isAuthor;
+                }
+                break;
+            case self::CORRESPONDING_AUTHOR_OR_ADMIN:
+                //First submission id
+                if (!$this->isAdmin()) {
+                    $isCorrespondingAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_is_corresponding = 1 AND user_active = 1");
+
+                    return $isCorrespondingAuthor;
                 }
                 break;
         }
@@ -683,7 +703,7 @@ class UserObject
 
         $encryptedPasswordOld = Text::encryptPassword($passwordOld);
 
-        $selectUser = Database::first("SELECT user_id FROM users WHERE user_id = '{$userID}' AND user_active = 1".($user->isAdmin ? '' : (" AND user_password = '{$encryptedPasswordOld}'")));
+        $selectUser = Database::first("SELECT user_id FROM users WHERE user_id = '{$userID}' AND user_active = 1" . ($user->isAdmin ? '' : (" AND user_password = '{$encryptedPasswordOld}'")));
 
         if ($selectUser->status == false) {
             return new Output(false, Lang::get('null_user_change_password'));
@@ -693,7 +713,7 @@ class UserObject
 
         $encryptedPasswordNew = Text::encryptPassword($passwordNew);
 
-        $updateUser = Database::exec("UPDATE users SET user_password = '{$encryptedPasswordNew}', user_updated_by = ".$user->id.", user_updated_at = '" . getCustomDate() . "' WHERE user_id = ".$selectUser['user_id']);
+        $updateUser = Database::exec("UPDATE users SET user_password = '{$encryptedPasswordNew}', user_updated_by = " . $user->id . ", user_updated_at = '" . getCustomDate() . "' WHERE user_id = " . $selectUser['user_id']);
 
         if ($updateUser->status) {
             Log::insertWithKey('log_user_change_password', [201, $selectUser['user_id']]);
