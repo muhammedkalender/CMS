@@ -88,17 +88,25 @@ class FilterObject
 
         if($statusFullPaper != -1){
             if($statusFullPaper == 3){
-                $queryFilter = " AND (SELECT COUNT(*) FROM request_submission_full_papers WHERE request_submission_full_paper_active = 1 AND request_submission_full_paper_submission = submission_id) = 0";
+                $queryFilter = " AND ((SELECT COUNT(*) FROM request_submission_full_papers WHERE request_submission_full_paper_active = 1 AND request_submission_full_paper_submission = submission_id) = 0 AND submission_full_paper IS NULL)";
             }else{
-                $queryFilter = " AND (SELECT COUNT(*) FROM request_submission_full_papers WHERE request_submission_full_paper_active = 1 AND request_submission_full_paper_submission = submission_id AND request_submission_full_paper_status = {$statusFullPaper}) > 0";
+                if($statusFullPaper == 2){
+                    $queryFilter = " AND ((SELECT COUNT(*) FROM request_submission_full_papers WHERE request_submission_full_paper_active = 1 AND request_submission_full_paper_submission = submission_id AND request_submission_full_paper_status = {$statusFullPaper}) > 0 OR submission_full_paper IS NOT NULL)";
+                }else{
+                    $queryFilter = " AND (SELECT COUNT(*) FROM request_submission_full_papers WHERE request_submission_full_paper_active = 1 AND request_submission_full_paper_submission = submission_id AND request_submission_full_paper_status = {$statusFullPaper}) > 0";
+                }
             }
         }
 
         if($statusInvoice != -1){
             if($statusInvoice == 3){
-                $queryFilter .= " AND (SELECT COUNT(*) FROM request_submission_invoices WHERE request_submission_invoice_active = 1 AND request_submission_invoice_submission = submission_id) = 0";
+                $queryFilter .= " AND ((SELECT COUNT(*) FROM request_submission_invoices WHERE request_submission_invoice_active = 1 AND request_submission_invoice_submission = submission_id) = 0 AND submission_invoice IS NULL)";
             }else{
-                $queryFilter .=" AND (SELECT COUNT(*) FROM request_submission_invoices WHERE request_submission_invoice_active = 1 AND request_submission_invoice_submission = submission_id AND request_submission_invoice_status = {$statusInvoice}) > 0";
+                if($statusInvoice == 2){
+                    $queryFilter .=" AND ((SELECT COUNT(*) FROM request_submission_invoices WHERE request_submission_invoice_active = 1 AND request_submission_invoice_submission = submission_id AND request_submission_invoice_status = {$statusInvoice}) > 0 OR submission_invoice IS NOT NULL)";
+                }else{
+                    $queryFilter .=" AND (SELECT COUNT(*) FROM request_submission_invoices WHERE request_submission_invoice_active = 1 AND request_submission_invoice_submission = submission_id AND request_submission_invoice_status = {$statusInvoice}) > 0";
+                }
             }
         }
 

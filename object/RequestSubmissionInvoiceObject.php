@@ -194,7 +194,7 @@ class RequestSubmissionInvoiceObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_invoice = '-1', request_submission_invoice_updated_by = '{$user->id}' request_submission_invoice_updated_At = '".getCustomDate()."' WHERE submission_id = '{$submissionID}'");
+        $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_invoice = '-1', submission_updated_by = '{$user->id}', submission_updated_at = '".getCustomDate()."' WHERE submission_id = '{$submissionID}'");
 
         if ($resultRelatedUpdate->status) {
             Log::insertWithKey('request_submission_invoice_force_confirm', [165, $submissionID]);

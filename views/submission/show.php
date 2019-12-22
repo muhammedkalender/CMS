@@ -154,6 +154,14 @@
                     <h5 class="card-title"><?= uiLang('submission_invoice') ?></h5>
                 </div>
                 <div class="card-body">
+                    <? //https://stackoverflow.com/a/722395 ?>
+                    <?php if($user->isAdmin()): ?>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <button class="btn btn-danger form-control" data-toggle="modal" data-target="#modal-force-request-submission-invoice"><?=uiLang('force_request_submission_invoice')?></button>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                     <form action="/api.php" method="post" onsubmit="return checkForm(this)"
                           id="form-invoice-insert" submit-delay="2000" card-loader="ok">
                         <input type="hidden" name="call_category" value="request-submission-invoice">
@@ -257,6 +265,40 @@
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-force-request-submission-invoice">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content bg-success">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                <?= uiLang('force_request_submission_invoice') ?>
+                            </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                                  id="form-force-request-submission-invoice"
+                                  modal-loader="modal-force-request-submission-invoice">
+                                <input type="hidden" name="call_category" value="request-submission-invoice">
+                                <input type="hidden" name="call_request" value="force-confirm">
+
+                                <div id="message"></div>
+
+                                <input type="hidden" name="id" value="<?=$submissionID?>">
+
+                                <div class="form-group">
+                                    <p class="objectName"></p>
+                                    <p><?= uiLang('force_request_invoice_are_you_sure') ?></p>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default"><?= uiLang('confirm') ?></button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

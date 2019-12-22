@@ -445,7 +445,7 @@
                     for (var i = 0; i < json.data.length; i++) {
 
                         json.data[i].options = '<a class="btn btn-info" onclick="loadSubmissionComments(' + json.data[i].submission_id + ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span></a>'
-                            + ' <a class="btn btn-primary" target="_blank" href="' + internalURL('submission', 'view', 'submission', json.data[i].submission_id) + '" title="<?=uiLang("view")?>"><span class="fas fa-eye"></span></a>'
+                            + ' <a class="btn btn-primary" target="_blank" href="' + internalURL('submission', 'show', 'submission', json.data[i].submission_id) + '" title="<?=uiLang("view")?>"><span class="fas fa-eye"></span></a>'
                             + ' <a class="btn btn-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span></a>';
                         //json.data[i].options = '<a class="btn btn-primary" onclick="showDetailAnnouncement(' + i + ')" title="<?//=uiLang("announcement_view")?>//"><span class="fas fa-eye"></span></a>'
                         //    + ' <a class="btn btn-warning" onclick="showUpdateAnnouncement(' + i + ')" title="<?//=uiLang("announcement_update")?>//"><span class="fas fa-edit"></span></a>'
