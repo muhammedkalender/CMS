@@ -3,12 +3,21 @@
 require_once 'core/EasyCode.php';
 require_once 'object/UserObject.php';
 
-if (!isset($_GET['c']) || !isset($_GET['r'])) {
-    require_once 'views/header.php';
+$showSidebar = true;
+$title = 'CMS';
 
+if (!isset($_GET['call_category']) || !isset($_GET['call_request'])) {
     if ($user->isLogged()) {
+        $title = pageLang('home');
+
+        require_once 'views/header.php';
         require_once 'views/basic/home.php';
     } else {
+        $showSidebar = false;
+
+        $title = pageLang('login');
+
+        require_once 'views/header.php';
         require_once 'views/user/login.php';
     }
 
@@ -17,22 +26,80 @@ if (!isset($_GET['c']) || !isset($_GET['r'])) {
     die();
 }
 
-$category = $_GET['c'];
-$request = $_GET['r'];
-
-require_once 'views/header.php';
-
+$category = $_GET['call_category'];
+$request = $_GET['call_request'];
 
 if ($category == 'user') {
     if ($request == 'login') {
-        require_once 'views/user/login.php';
+        $title = pageLang('login');
+        $page =  'views/user/login.php';
+    }else if($request == 'profile'){
+        $title = pageLang('profile');
+
+        $userID = $user->id;
+
+        if(isset($_GET['user'])){
+            $userID = intval($_GET['user']);
+
+            if(!$userID){
+                $userID = $user->id;
+            }
+        }
+
+        $page =  'views/user/profile.php';
+    }else if($request == 'logout'){
+        $user->logOut();
+
+        $title = pageLang('login');
+
+        $page = 'views/user/login.php';
+    }else if($request == 'forgot-password'){
+        //todo
     }
 } else if ($category == 'basic') {
 
 } else if ($category == 'submission') {
     if ($request == 'insert') {
-        require_once 'views/submission/insert.php';
+        $title = pageLang('insert_submission');
+        $showSidebar = false;
+
+        $page =  'views/submission/insert.php';
+    }else if($request == 'show'){
+        $title = pageLang('view_submission');
+        $submissionID = 0;
+
+        if(isset($_GET['submission'])){
+            $submissionID = intval($_GET['submission']);
+        }else{
+            redirect('/');
+        }
+
+        $page =  'views/submission/show.php';
+    }
+}else if($category == 'admin'){
+    if($request == 'announcement'){
+        $title = pageLang('announcement');
+        $page =  'views/admin/announcement.php';
+    }else if($request == 'user-announcement'){
+        $title = pageLang('user_announcement');
+        $page =  'views/admin/user-announcement.php';
+    }else if($request == 'user'){
+        $title = pageLang('user');
+        $page =  'views/admin/user.php';
+    }else if($request == 'submission'){
+        $title = pageLang('submission');
+        $page =  'views/admin/submission.php';
+    }else if($request == 'request-submission-invoices'){
+        $title = pageLang('request_submission_invoices');
+        $page =  'views/admin/request-submission-invoice.php';
+    }else if($request == 'request-submission-full-papers'){
+        $title = pageLang('request_submission_full_papers');
+        $page =  'views/admin/request-submission-full-paper.php';
     }
 }
+
+require_once 'views/header.php';
+
+require_once $page;
 
 require_once 'views/footer.php';

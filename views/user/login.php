@@ -1,7 +1,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+        <a href="/"><b><?= COMPANY_NAME ?></b></a>
     </div>
     <!-- /.login-logo -->
     <div class="card">
@@ -46,10 +46,10 @@
                 </div>
             </form>
             <p class="mb-1">
-                <a href="forgot-password.html"><?= uiLang('forgot_password') ?></a>
+                <a href="<?= internalURL('user', 'forgot-password') ?>"><?= uiLang('forgot_password') ?></a>
             </p>
             <p class="mb-0">
-                <a href="register.html" class="text-center"><?= uiLang('register') ?></a>
+                <a href="<?= internalURL('submission', 'insert') ?>" class="text-center"><?= uiLang('register') ?></a>
             </p>
         </div>
     </div>

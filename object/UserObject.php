@@ -580,6 +580,20 @@ class UserObject
     }
 
     //endregion
+
+    //region Logout
+
+    public function logout(){
+        //tood
+
+        Session::del('user_id');
+        Session::del('token_lock');
+        Session::del('token_key');
+
+        $this->isLogged = false;
+    }
+
+    //endregion
 }
 
 $user = new UserObject();

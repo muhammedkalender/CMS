@@ -1,6 +1,3 @@
-<?php
-require_once 'views/sidebar.php';
-?>
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">

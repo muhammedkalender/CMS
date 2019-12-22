@@ -3,6 +3,7 @@
 require_once 'core/Lang.php';
 
 const DEFAULT_HTML_SPLITTER = '[::--::]';
+const COMPANY_NAME = 'CMS';
 
 function post($name, $defaultValue = '')
 {
@@ -47,6 +48,17 @@ function hintLang($key)
     //todo return Lang::get('hint_' . $key);
 }
 
+function pageLang($key, $firstParam = '', $secondParam = '')
+{
+    return '[page_' . $key . ']';
+    //todo return Lang::get('page_' . $key);
+}
+
+function sidebarLang($key){
+    return '[sidebar_' . $key . ']';
+    //todo return Lang::get('page_' . $key);
+}
+
 function dataTablesLikeQuery($keyword, $columns)
 {
     $query = "";
@@ -68,6 +80,25 @@ function redirect($URL)
     die();
 }
 
-function domain(){
+function domain()
+{
     return 'http://dev.cms.system/'; //todo
+}
+
+function internalURL($category, $request, $additional = '', $additionalValue = '')
+{
+    return "/index.php?call_category={$category}&call_request={$request}" . ($additional ? "&{$additional}={$additionalValue}" : "");
+}
+
+function sidebar()
+{
+    global $user;
+
+    if ($user->isLogged()) {
+        if ($user->isAdmin()) {
+            require_once 'views/sidebar-admin.php';
+        } else {
+            require_once 'views/sidebar.php';
+        }
+    }
 }

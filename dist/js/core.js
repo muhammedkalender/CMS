@@ -367,3 +367,11 @@ function initialize() {
 }
 
 //endregion
+
+//region URL
+
+function internalURL(category, request, additional = '', additionalValue = '') {
+    return "/index.php?call_category=" + category + "&call_request=" + request + (additional ? "&" + additional + "=" + additionalValue : "");
+}
+
+//endregion

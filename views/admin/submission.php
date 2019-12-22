@@ -1,21 +1,10 @@
-<?php
-require_once 'views/sidebar.php';
-?>
 <link rel="stylesheet" href="<?= folder() ?>plugins/datatables-bs4/css/dataTables.bootstrap4.css">
-
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Fixed Layout</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Layout</a></li>
-                        <li class="breadcrumb-item active">Fixed Layout</li>
-                    </ol>
+                    <h1><?=$title?></h1>
                 </div>
             </div>
         </div>
@@ -24,8 +13,8 @@ require_once 'views/sidebar.php';
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header bg-primary">
+                    <div class="card card-primary">
+                        <div class="card-header">
                             <h3 class="card-title"><?= uiLang('submissions') ?></h3>
                         </div>
                         <div class="card-body">
@@ -403,7 +392,7 @@ require_once 'views/sidebar.php';
                     for (var i = 0; i < json.data.length; i++) {
 
                         json.data[i].options = '<a class="btn btn-info" onclick="loadSubmissionComments(' + json.data[i].submission_id + ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span></a>'
-                            + ' <a class="btn btn-primary" target="_blank" href="/page_test.php?c=submission&r=view&submission=' + json.data[i].submission_id + '" title="<?=uiLang("view")?>"><span class="fas fa-eye"></span></a>'
+                            + ' <a class="btn btn-primary" target="_blank" href="' + internalURL('submission', 'view', 'submission', json.data[i].submission_id) + '" title="<?=uiLang("view")?>"><span class="fas fa-eye"></span></a>'
                             + ' <a class="btn btn-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span></a>';
                         //json.data[i].options = '<a class="btn btn-primary" onclick="showDetailAnnouncement(' + i + ')" title="<?//=uiLang("announcement_view")?>//"><span class="fas fa-eye"></span></a>'
                         //    + ' <a class="btn btn-warning" onclick="showUpdateAnnouncement(' + i + ')" title="<?//=uiLang("announcement_update")?>//"><span class="fas fa-edit"></span></a>'

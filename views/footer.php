@@ -15,9 +15,6 @@
     </div>
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-author">
-    Launch Primary Modal
-</button>
 <script>
     var DEFAULT_HTML_SPLITTER = "<?=DEFAULT_HTML_SPLITTER?>";
     var langErrorTitle = "<?=uiLang('error')?>";
