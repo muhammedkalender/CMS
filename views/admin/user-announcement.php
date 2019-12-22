@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="<?= folder() ?>plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="<?= folder() ?>plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="<?= folder() ?>plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -83,7 +85,7 @@
 
                     <div class="form-group">
                         <label><?= inputLang('user') ?></label>
-                        <select class="form-control userSelect" name="user" required></select>
+                        <select class="form-control userSelect select2bs4" name="user" required></select>
                     </div>
                     <div class="form-group">
                         <label><?= inputLang('title') ?></label>
@@ -126,7 +128,7 @@
 
                     <div class="form-group">
                         <label><?= inputLang('user') ?></label>
-                        <select class="form-control userSelect" name="user" id="user-announcement-user" required>
+                        <select class="form-control userSelect select2bs4" name="user" id="user-announcement-user" required>
                         </select>
                     </div>
                     <div class="form-group">
@@ -223,6 +225,7 @@
 
 <script src="<?= folder() ?>plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= folder() ?>plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="<?=folder()?>plugins/select2/js/select2.full.min.js"></script>
 
 <script>
     const USER_ID = <?=$user->id?>;
@@ -316,6 +319,10 @@
                 //error todo
             }
         });
+
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
     });
 </script>
 

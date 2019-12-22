@@ -107,7 +107,7 @@
                             </div>
                             <div class="form-group">
                                 <label><?= inputLang('submission') ?></label>
-                                <select class="form-control" name="submission" id="submission" required>
+                                <select class="form-control select2" name="submission" id="submission" required>
                                     <!--                                    todo-->
                                     <option value="1">Option 1</option>
                                 </select>

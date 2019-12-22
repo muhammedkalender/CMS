@@ -206,7 +206,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label><?= inputLang('country') ?></label>
-                                            <select class="form-control" name="country" id="country" required>
+                                            <select class="form-control select2" name="country" id="country" required>
                                                 <option value="1">Option 1</option>
                                             </select>
                                         </div>

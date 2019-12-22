@@ -2,3 +2,11 @@
     float: right;
     text-align: right;
 }
+
+.select2bs4, .selection {
+    color: black !important;
+}
+
+.select2-selection__rendered {
+    color: black !important;
+}

@@ -5,6 +5,7 @@ require_once 'object/UserObject.php';
 
 $showSidebar = true;
 $title = 'CMS';
+$allowAccess = true;
 
 if (!isset($_GET['call_category']) || !isset($_GET['call_request'])) {
     if ($user->isLogged()) {
@@ -46,6 +47,8 @@ if ($category == 'user') {
             }
         }
 
+        $allowAccess = $user->perm(UserObject::PERM_UPPER, UserObject::PERM_GROUP_USER);
+
         $page =  'views/user/profile.php';
     }else if($request == 'logout'){
         $user->logOut();
@@ -65,6 +68,7 @@ if ($category == 'user') {
 
         $page =  'views/submission/insert.php';
     }else if($request == 'show'){
+        $allowAccess = $user->perm(UserObject::PERM_UPPER, UserObject::PERM_GROUP_USER);
         $title = pageLang('view_submission');
         $submissionID = 0;
 
@@ -77,6 +81,8 @@ if ($category == 'user') {
         $page =  'views/submission/show.php';
     }
 }else if($category == 'admin'){
+    $allowAccess = $user->perm(UserObject::PERM_UPPER, UserObject::PERM_GROUP_ADMIN);
+
     if($request == 'announcement'){
         $title = pageLang('announcement');
         $page =  'views/admin/announcement.php';
@@ -98,8 +104,14 @@ if ($category == 'user') {
     }
 }
 
-require_once 'views/header.php';
 
-require_once $page;
+if($allowAccess){
+    require_once 'views/header.php';
+    require_once $page;
+    require_once 'views/footer.php';
+}else{
+    //todo
+    //require_once '';
+    echo 'asdasd';
+}
 
-require_once 'views/footer.php';

@@ -296,7 +296,7 @@ class UserObject
             case self::AUTHOR_OR_ADMIN:
                 //First submission id
                 if (!$this->isAdmin()) {
-                    $isAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_active = 1");
+                    $isAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_id = {$this->id} AND user_active = 1");
 
                     return $isAuthor;
                 }
@@ -304,7 +304,7 @@ class UserObject
             case self::CORRESPONDING_AUTHOR_OR_ADMIN:
                 //First submission id
                 if (!$this->isAdmin()) {
-                    $isCorrespondingAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_is_corresponding = 1 AND user_active = 1");
+                    $isCorrespondingAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_id = {$this->id} AND user_is_corresponding = 1 AND user_active = 1");
 
                     return $isCorrespondingAuthor;
                 }
