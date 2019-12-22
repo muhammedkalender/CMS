@@ -583,7 +583,8 @@ class UserObject
 
     //region Logout
 
-    public function logout(){
+    public function logout()
+    {
         //tood
 
         Session::del('user_id');
@@ -591,6 +592,116 @@ class UserObject
         Session::del('token_key');
 
         $this->isLogged = false;
+    }
+
+    //endregion
+
+    //region Forgot Password
+
+    public function forgotPasswordWithInput()
+    {
+        $inputCheck = $this->forgotPasswordInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->forgotPassword(
+            post('email')
+        );
+    }
+
+    public function forgotPasswordInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input("email", Input::METHOD_POST, "input_email", Input::TYPE_EMAIL, 3, 64)
+        ]);
+    }
+
+    public function forgotPassword($email)
+    {
+        $email = strtolower($email);
+
+        $user = Database::first("SELECT user_id FROM users WHERE user_email = '{$email}' AND user_active = 1");
+
+        if ($user->status == false) {
+            return new Output(false, Lang::get('null_user', $email));
+        }
+
+        $password = Text::generate(16);
+        $encryptedPassword = Text::encryptPassword($password);
+
+        $updateUser = Database::exec("UPDATE users SET user_password = '{$encryptedPassword}', user_updated_by = -1, user_updated_at = '" . getCustomDate() . "' WHERE user_id = " . $user['id']);
+
+        if ($updateUser->status && $updateUser->data != false) {
+            Mail::queue($email, Lang::get('mail_title_forgot_password'), Lang::get('mail_template_forgot_password', $password));
+            Log::insertWithKey('log_user_forgot_password', [200, $user['id']]);
+
+            return new Output(true, Lang::get('forgot_password_success', $email));
+        } else {
+            return new Output(false, Lang::get('forgot_password_failure', $email));
+        }
+    }
+
+    //endregion
+
+    //region Change Password
+
+    public function changePasswordWithInput()
+    {
+        $inputCheck = $this->changePasswordInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->changePassword(
+            post('id'),
+            post('password_old'),
+            post('password_new')
+        );
+    }
+
+    public function changePasswordInputCheck()
+    {
+        global $user;
+
+        return InputCheck::checkAll([
+            new Input("id", Input::METHOD_POST, "input_user", Input::TYPE_INT, 1, 64),
+            new Input('password_old', Input::METHOD_POST, 'input_password_old', Input::TYPE_STRING, ($user->isAdmin() ? 0 : 6), 32),
+            new Input('password_new', Input::METHOD_POST, 'input_password_new', Input::TYPE_STRING, 6, 32)
+        ]);
+    }
+
+    public function changePassword($userID, $passwordOld, $passwordNew)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_SELF_OR_UPPER, $userID, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $encryptedPasswordOld = Text::encryptPassword($passwordOld);
+
+        $selectUser = Database::first("SELECT user_id FROM users WHERE user_id = '{$userID}' AND user_active = 1".($user->isAdmin ? '' : (" AND user_password = '{$encryptedPasswordOld}'")));
+
+        if ($selectUser->status == false) {
+            return new Output(false, Lang::get('null_user_change_password'));
+        }
+
+        $selectUser = $selectUser->data;
+
+        $encryptedPasswordNew = Text::encryptPassword($passwordNew);
+
+        $updateUser = Database::exec("UPDATE users SET user_password = '{$encryptedPasswordNew}', user_updated_by = ".$user->id.", user_updated_at = '" . getCustomDate() . "' WHERE user_id = ".$selectUser['user_id']);
+
+        if ($updateUser->status) {
+            Log::insertWithKey('log_user_change_password', [201, $selectUser['user_id']]);
+
+            return new Output(true, Lang::get('change_password_success'));
+        } else {
+            return new Output(false, Lang::get('change_password_failure'));
+        }
     }
 
     //endregion

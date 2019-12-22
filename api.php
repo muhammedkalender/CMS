@@ -55,6 +55,14 @@ if($callCategory == "user"){
         $user = new UserObject();
 
         $callResult = $user->showWithInput();
+    }else if($callRequest == 'forgot-password'){
+        $user = new UserObject();
+
+        $callResult = $user->forgotPasswordWithInput();
+    }else if($callRequest == 'update-password'){
+        $user = new UserObject();
+
+        $callResult = $user->changePasswordWithInput();
     }
 
     //endregion

@@ -172,28 +172,30 @@
                           id="form-user-password-update"
                           card-loader="ok">
                         <input type="hidden" name="call_category" value="user">
-                        <input type="hidden" name="call_request" value="password-update">
+                        <input type="hidden" name="call_request" value="update-password">
+
+                        <input type="hidden" name="id" value="<?=$userID?>">
 
                         <div id="message"></div>
 
                         <div class="form-group">
                             <label><?= inputLang('current_password') ?></label>
                             <input type="password" class="form-control"
-                                   placeholder="<?= hintLang('current_password') ?>"
-                                   name="current_password" id="current_password"
-                                   minlength="3" maxlength="64" required>
+                                   placeholder="<?= hintLang('password_old') ?>"
+                                   name="password_old" id="password_old"
+                                   minlength="<?=$user->isAdmin() ? 0 : 3?>" maxlength="64" <?=$user->isAdmin() ? '' : 'required'?>>
                         </div>
                         <div class="form-group">
                             <label><?= inputLang('new_password') ?></label>
-                            <input type="password" class="form-control" placeholder="<?= hintLang('new_password') ?>"
-                                   name="new_password" id="new_password"
+                            <input type="password" class="form-control" placeholder="<?= hintLang('password_new') ?>"
+                                   name="password_new" id="password_new"
                                    minlength="3" maxlength="64" required>
                         </div>
                         <div class="form-group">
                             <label><?= inputLang('confirm_password') ?></label>
                             <input type="password" class="form-control"
-                                   placeholder="<?= hintLang('confirm_password') ?>"
-                                   name="confirm_password" id="confirm_password"
+                                   placeholder="<?= hintLang('password_repeat') ?>"
+                                   name="password_repeat" id="password_repeat"
                                    minlength="3" maxlength="64" required>
                         </div>
                         <div class="form-group">

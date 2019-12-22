@@ -86,7 +86,13 @@ function formError(form, message) {
         '<h4><i class="icon fa fa-check"></i> ' + langErrorTitle + '</h4>' + message +
         '</div>');
 
-    window.location.href = '#message';
+    var formID = $(form).attr('id');
+
+    if(formID == null){
+        window.location.href = '#message';
+    }else{
+        window.location.href = '#'+formID;
+    }
 }
 
 function formSuccess(form, message) {
@@ -95,7 +101,13 @@ function formSuccess(form, message) {
         '<h4><i class="icon fa fa-check"></i> ' + langSuccessTitle + '</h4>' + message +
         '</div>');
 
-    window.location.href = '#message';
+    var formID = $(form).attr('id');
+
+    if(formID == null){
+        window.location.href = '#message';
+    }else{
+        window.location.href = '#'+formID;
+    }
 }
 
 //endregion
