@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><?=$title?></h1>
+                    <h1><?= $title ?></h1>
                 </div>
             </div>
         </div>
@@ -18,16 +18,18 @@
                             <h3 class="card-title"><?= uiLang('announcements') ?></h3>
                         </div>
                         <div class="card-body">
-                            <table id="announcements" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th><?= uiLang('title') ?></th>
-                                    <th><?= uiLang('public_date') ?></th>
-                                    <th class="no-sort"><?= uiLang('options') ?></th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="announcements" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th><?= uiLang('title') ?></th>
+                                        <th><?= uiLang('public_date') ?></th>
+                                        <th class="no-sort"><?= uiLang('options') ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -40,17 +42,19 @@
                             <h3 class="card-title"><?= uiLang('user_announcements') ?></h3>
                         </div>
                         <div class="card-body">
-                            <table id="user-announcements" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th><?= uiLang('title') ?></th>
-                                    <th><?= uiLang('public_date') ?></th>
-                                    <th><?= uiLang('unread_messages') ?></th>
-                                    <th class="no-sort"><?= uiLang('options') ?></th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="user-announcements" class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th><?= uiLang('title') ?></th>
+                                        <th><?= uiLang('public_date') ?></th>
+                                        <th><?= uiLang('unread_messages') ?></th>
+                                        <th class="no-sort"><?= uiLang('options') ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,7 +118,8 @@
                         <form action="#" onsubmit="sendUserAnnouncementMessage(); return false;" method="post">
                             <div class="input-group">
                                 <input type="hidden" id="user-announcement-id">
-                                <input type="text" name="message" id="user-announcement-message-message" placeholder="<?= hintLang('type_message') ?>"
+                                <input type="text" name="message" id="user-announcement-message-message"
+                                       placeholder="<?= hintLang('type_message') ?>"
                                        class="form-control" required>
                                 <span class="input-group-append">
                       <button type="submit" class="btn btn-primary"><?= uiLang('send') ?></button>
@@ -259,7 +264,7 @@
                 var html = '';
 
                 for (var i = response.data.length - 1; i >= 0; i--) {
-                    html += '<div class="direct-chat-msg ' + (response.data[i].user_announcement_message_created_by == USER_ID ? '' : 'right') + '"><div class="direct-chat-infos clearfix text-dark"><span class="direct-chat-name float-'+ (response.data[i].user_announcement_message_created_by == USER_ID ? 'right' : 'left')+'">' + response.data[i].userFullName + '</span><span class="direct-chat-timestamp float-'+(response.data[i].user_announcement_message_created_by == USER_ID ? 'left' : 'right')+'">' + response.data[i].user_announcement_message_created_at + '</span></div><img class="direct-chat-img" src="../dist/img/user1-128x128.jpg"><div class="direct-chat-text">' + response.data[i].user_announcement_message_message + '</div></div>';
+                    html += '<div class="direct-chat-msg ' + (response.data[i].user_announcement_message_created_by == USER_ID ? '' : 'right') + '"><div class="direct-chat-infos clearfix text-dark"><span class="direct-chat-name float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'right' : 'left') + '">' + response.data[i].userFullName + '</span><span class="direct-chat-timestamp float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'left' : 'right') + '">' + response.data[i].user_announcement_message_created_at + '</span></div><img class="direct-chat-img" src="../dist/img/user1-128x128.jpg"><div class="direct-chat-text">' + response.data[i].user_announcement_message_message + '</div></div>';
                 }
 
                 $('#direct-chat-messages').html(html);
