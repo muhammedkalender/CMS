@@ -168,7 +168,7 @@
                     <h3 class="card-title"><?= uiLang('user_password') ?></h3>
                 </div>
                 <div class="card-body">
-                    <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                    <form action="/api.php" method="post" onsubmit="return checkPassword(this);"
                           id="form-user-password-update"
                           card-loader="ok">
                         <input type="hidden" name="call_category" value="user">
@@ -308,5 +308,15 @@
         loadInputsFromObject('form-user-delete', arrUsers[index], 'user_', 'full_name');
 
         $('#modal-user-delete').modal('show');
+    }
+
+    function checkPassword(form){
+        if($('#password_new').val() != $('#password_repeat').val()){
+            formError(form, '<?=uiLang("password_doesnt_match")?>');
+
+            return false;
+        }
+
+        return checkForm(form);
     }
 </script>
