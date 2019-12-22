@@ -80,6 +80,12 @@
                                 <p><?= sidebarLang('request_submission_full_papers') ?></p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?= internalURL('admin', 'filter-submission') ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?= sidebarLang('filter_submission') ?></p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">

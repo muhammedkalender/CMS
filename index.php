@@ -101,6 +101,9 @@ if ($category == 'user') {
     }else if($request == 'request-submission-full-papers'){
         $title = pageLang('request_submission_full_papers');
         $page =  'views/admin/request-submission-full-paper.php';
+    }else if($request == 'filter-submission'){
+        $title = pageLang('filter_submission');
+        $page =  'views/admin/filter-submission.php';
     }
 }
 

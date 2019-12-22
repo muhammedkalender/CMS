@@ -39,6 +39,56 @@ class UserObject
         $this->checkLogin();
     }
 
+    public function perm($permType, $optionalFirst = 0, $optionalSecond = 0)
+    {
+        switch ($permType) {
+            case self::PERM_IS:
+                //First => İstenilen Perm
+
+                if ($this->permGroup != $optionalFirst) {
+                    return false;
+                }
+                break;
+            case self::PERM_SELF:
+                //First => İstenilen datadaki ID
+                if ($this->id != $optionalFirst) {
+                    return false;
+                }
+                break;
+            case self::PERM_SELF_OR_UPPER:
+                //First => İstenilen Kullanıcı ID
+                //Seond => Min. Gereken Grup
+                if ($this->id != $optionalFirst && $optionalSecond > $this->permGroup) {
+                    return false;
+                }
+                break;
+            case self::PERM_UPPER:
+                //First => İstenilen Grup ID
+                if ($this->permGroup < $optionalFirst) {
+                    return false;
+                }
+                break;
+            case self::AUTHOR_OR_ADMIN:
+                //First submission id
+                if (!$this->isAdmin()) {
+                    $isAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_id = {$this->id} AND user_active = 1");
+
+                    return $isAuthor;
+                }
+                break;
+            case self::CORRESPONDING_AUTHOR_OR_ADMIN:
+                //First submission id
+                if (!$this->isAdmin()) {
+                    $isCorrespondingAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_id = {$this->id} AND user_is_corresponding = 1 AND user_active = 1");
+
+                    return $isCorrespondingAuthor;
+                }
+                break;
+        }
+
+        return true;
+    }
+
     public function loadPostData($arr, $type, $submission = 1)
     {
         if ($type == 'SUBMISSION_TEST') {
@@ -264,55 +314,7 @@ class UserObject
 
     //endregion
 
-    public function perm($permType, $optionalFirst = 0, $optionalSecond = 0)
-    {
-        switch ($permType) {
-            case self::PERM_IS:
-                //First => İstenilen Perm
-
-                if ($this->permGroup != $optionalFirst) {
-                    return false;
-                }
-                break;
-            case self::PERM_SELF:
-                //First => İstenilen datadaki ID
-                if ($this->id != $optionalFirst) {
-                    return false;
-                }
-                break;
-            case self::PERM_SELF_OR_UPPER:
-                //First => İstenilen Kullanıcı ID
-                //Seond => Min. Gereken Grup
-                if ($this->id != $optionalFirst && $optionalSecond > $this->permGroup) {
-                    return false;
-                }
-                break;
-            case self::PERM_UPPER:
-                //First => İstenilen Grup ID
-                if ($this->permGroup < $optionalFirst) {
-                    return false;
-                }
-                break;
-            case self::AUTHOR_OR_ADMIN:
-                //First submission id
-                if (!$this->isAdmin()) {
-                    $isAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_id = {$this->id} AND user_active = 1");
-
-                    return $isAuthor;
-                }
-                break;
-            case self::CORRESPONDING_AUTHOR_OR_ADMIN:
-                //First submission id
-                if (!$this->isAdmin()) {
-                    $isCorrespondingAuthor = Database::isIsset("SELECT user_id FROM users WHERE user_submission = {$optionalFirst} AND user_id = {$this->id} AND user_is_corresponding = 1 AND user_active = 1");
-
-                    return $isCorrespondingAuthor;
-                }
-                break;
-        }
-
-        return true;
-    }
+    //region Basic Functions
 
     public function isAdmin()
     {
@@ -346,6 +348,10 @@ class UserObject
             return new Output(false, '', -1);
         }
     }
+
+    //endregion
+
+    //region Select
 
     public function selectInputCheck()
     {
@@ -381,6 +387,8 @@ class UserObject
             return new Output(false, Lang::get('user_select_failure'));
         }
     }
+
+    //endregion
 
     //region Data Tables
 

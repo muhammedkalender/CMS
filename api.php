@@ -264,6 +264,18 @@ if($callCategory == "user"){
     }
 
     //endregion
+}else if($callCategory == 'filter'){
+    //region Submission
+
+    require_once 'object/FilterObject.php';
+
+    if($callRequest == 'submission'){
+        $submission = new FilterObject();
+
+        $callResult = $submission->submissionDataTablesWithInput();
+    }
+
+    //endregion
 }
 
 nothing:
