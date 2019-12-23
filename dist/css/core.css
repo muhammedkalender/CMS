@@ -10,3 +10,8 @@
 .select2-selection__rendered {
     color: black !important;
 }
+
+.dropdown-item > span{
+    text-align: center;
+    width: 32px;
+}

@@ -392,13 +392,13 @@
                 'dataSrc': function (json) {
                     console.log(json);
                     for (var i = 0; i < json.data.length; i++) {
+                        json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropSubmission" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropSubmission">';
 
-                        json.data[i].options = '<a class="btn btn-info" onclick="loadSubmissionComments(' + json.data[i].submission_id + ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span></a>'
-                            + ' <a class="btn btn-primary" target="_blank" href="' + internalURL('submission', 'show', 'submission', json.data[i].submission_id) + '" title="<?=uiLang("view")?>"><span class="fas fa-eye"></span></a>'
-                            + ' <a class="btn btn-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span></a>';
-                        //json.data[i].options = '<a class="btn btn-primary" onclick="showDetailAnnouncement(' + i + ')" title="<?//=uiLang("announcement_view")?>//"><span class="fas fa-eye"></span></a>'
-                        //    + ' <a class="btn btn-warning" onclick="showUpdateAnnouncement(' + i + ')" title="<?//=uiLang("announcement_update")?>//"><span class="fas fa-edit"></span></a>'
-                        //    + ' <a class="btn btn-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?//=uiLang("announcement_delete")?>//"><span class="fas fa-trash"></span></a>'; //todo
+                        json.data[i].options += '<a class="dropdown-item text-info" onclick="loadSubmissionComments(' + json.data[i].submission_id + ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span> <?=uiLang("submission_message_view")?></a>'
+                            + ' <a class="dropdown-item text-primary" target="_blank" href="' + internalURL('submission', 'show', 'submission', json.data[i].submission_id) + '" title="<?=uiLang("view")?>"><span class="fas fa-eye"></span> <?=uiLang("view")?></a>'
+                            + ' <a class="dropdown-item text-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span> <?=uiLang("delete")?></a>';
+
+                        json.data[i].options += '</div></div>';
                     }
 
                     arrAnnouncements = json.data;
@@ -452,7 +452,9 @@
                 },
                 'dataSrc': function (json) {
                     for (var i = 0; i < json.data.length; i++) {
-                        json.data[i].options = '<a class="btn btn-info" onclick="showSubmissionMessages()" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span></a>';
+                        json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropSubmission" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropSubmission">';
+
+                        json.data[i].options += '<a class="dropdown-item" onclick="showSubmissionMessages()" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span> <?=uiLang("submission_message_view")?></a>';
 
                         //Status 0 => Beklemede, 1 => Tamamlandı, 2 => İptal Edildi
 
@@ -494,6 +496,8 @@
                                 json.data[i].submission_comment_status = '<?= Lang::get("status_canceled")?>';
                                 break;
                         }
+
+                        json.data[i].options += '</div></div>';
                     }
 
                     window.location.href = '#divSubmissionComments';
