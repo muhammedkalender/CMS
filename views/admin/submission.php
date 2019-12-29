@@ -80,109 +80,38 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-announcement-insert">
+
+<div class="modal fade" id="modal-submission-comment">
     <div class="modal-dialog modal-lg">
         <div class="modal-content bg-primary">
             <div class="modal-header">
-                <h4 class="modal-title">
-                    <?= uiLang('insert_announcements') ?>
-                </h4>
+                <h4 class="modal-title"></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-insert"
-                      submit-datatable="announcements"
-                      modal-loader="modal-announcement-insert">
-                    <input type="hidden" name="call_category" value="announcement">
-                    <input type="hidden" name="call_request" value="insert">
-
-                    <div id="message"></div>
-
-                    <div class="form-group">
-                        <label><?= inputLang('language') ?></label>
-                        <select class="form-control" name="language_code" required>
-                            <!--                            todo-->
-                            <option value="1">All</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label><?= inputLang('title') ?></label>
-                        <input type="text" class="form-control" name="title" minlength="1" maxlength="256" required>
-                    </div>
-                    <div class="form-group">
-                        <label><?= inputLang('message') ?></label>
-                        <textarea type="text" class="form-control" name="message" minlength="1" maxlength="2048"
-                                  required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success"><?= uiLang('add') ?></button>
-                    </div>
-                </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal"><?= uiLang('close') ?></button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-announcement-update">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-primary">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <?= uiLang('update_announcements') ?>
-                </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-update"
-                      submit-datatable="announcements"
-                      modal-loader="modal-announcement-update">
-                    <input type="hidden" name="call_category" value="announcement">
-                    <input type="hidden" name="call_request" value="update">
-
-                    <div id="message"></div>
-
-                    <input type="hidden" name="id">
-
-                    <div class="form-group">
-                        <label><?= inputLang('language') ?></label>
-                        <select class="form-control" name="language_code" required>
-                            <!--                            todo-->
-                            <option value="1">All</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label><?= inputLang('title') ?></label>
-                        <input type="text" class="form-control" name="title" minlength="1" maxlength="256" required>
-                    </div>
-                    <div class="form-group">
-                        <label><?= inputLang('message') ?></label>
-                        <textarea type="text" class="form-control" name="message" minlength="1" maxlength="2048"
-                                  required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success"><?= uiLang('update') ?></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="modal-announcement-delete">
+<div class="modal fade" id="modal-submission-delete">
     <div class="modal-dialog modal-lg">
         <div class="modal-content bg-danger">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    <?= uiLang('delete_announcements') ?>
+                    <?= uiLang('delete_submissions') ?>
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-delete"
-                      submit-datatable="announcements"
-                      modal-loader="modal-announcement-delete">
-                    <input type="hidden" name="call_category" value="announcement">
+                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-submission-delete"
+                      submit-datatable="submissions"
+                      modal-loader="modal-submission-delete">
+                    <input type="hidden" name="call_category" value="submission">
                     <input type="hidden" name="call_request" value="delete">
 
                     <div id="message"></div>
@@ -213,10 +142,10 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-insert"
+                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-submission-insert"
                       submit-datatable="submission_messages"
-                      modal-loader="modal-announcement-insert">
-                    <input type="hidden" name="call_category" value="announcement">
+                      modal-loader="modal-submission-insert">
+                    <input type="hidden" name="call_category" value="submission">
                     <input type="hidden" name="call_request" value="insert">
 
                     <div id="message"></div>
@@ -284,7 +213,7 @@
         <div class="modal-content bg-warning">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    <?= uiLang('complete_task') ?>
+                    <?= uiLang('canceled_task') ?>
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
@@ -355,8 +284,8 @@
     const USER_ID = <?=$user->id?>;
     const USER_FULL_NAME = '<?=$user->getFullName()?>';
 
-    var arrAnnouncements = [];
-    var arrUserAnnouncements = [];
+    var arrSubmissions = [];
+    var arrSubmissionsComment = [];
 </script>
 
 <script>
@@ -394,14 +323,14 @@
                     for (var i = 0; i < json.data.length; i++) {
                         json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropSubmission" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropSubmission">';
 
-                        json.data[i].options += '<a class="dropdown-item text-info" onclick="loadSubmissionComments(' + json.data[i].submission_id + ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span> <?=uiLang("submission_message_view")?></a>'
-                            + ' <a class="dropdown-item text-primary" target="_blank" href="' + internalURL('submission', 'show', 'submission', json.data[i].submission_id) + '" title="<?=uiLang("view")?>"><span class="fas fa-eye"></span> <?=uiLang("view")?></a>'
-                            + ' <a class="dropdown-item text-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span> <?=uiLang("delete")?></a>';
-
+                        json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropSubmission" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropSubmission">';
+                        json.data[i].options += '<a class="dropdown-item text-info" onclick="loadSubmissionComments(' + json.data[i].submission_id + ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span> <?=uiLang("submission_message_view")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-primary" target="_blank" href="' + internalURL('submission', 'show', 'submission', json.data[i].submission_id) + '" title="<?=uiLang("view")?>"><span class="fas fa-edit"></span> <?=uiLang("view")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-danger" onclick="showDeleteSubmission(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span> <?=uiLang("delete")?></a>';
                         json.data[i].options += '</div></div>';
                     }
 
-                    arrAnnouncements = json.data;
+                    arrSubmissions = json.data;
 
                     return json.data;
                 }
@@ -453,8 +382,7 @@
                 'dataSrc': function (json) {
                     for (var i = 0; i < json.data.length; i++) {
                         json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropSubmission" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropSubmission">';
-
-                        json.data[i].options += '<a class="dropdown-item" onclick="showSubmissionMessages()" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span> <?=uiLang("submission_message_view")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-primary" onclick="showCommentSubmission(' + i +  ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span> <?=uiLang("submission_message_view")?></a>';
 
                         //Status 0 => Beklemede, 1 => Tamamlandı, 2 => İptal Edildi
 
@@ -474,15 +402,15 @@
                         }
 
                         if (drawComplete) {
-                            json.data[i].options += '<a class="btn btn-success" title="<?=uiLang("complete_task")?>" onclick="showCompleteTask(' + json.data[i].submission_comment_id + ')"><span class="fas fa-check"></span></a>';
+                            json.data[i].options += '<a class="dropdown-item text-success" onclick="showCompleteTask(' +  json.data[i].submission_comment_id + ')" title="<?=uiLang("complete_task")?>"><span class="fas fa-check"></span> <?=uiLang("complete_task")?></a>';
                         }
 
                         if (drawPending) {
-                            json.data[i].options += '<a class="btn btn-info" title="<?=uiLang("pending_task")?>" onclick="showPendingTask(' + json.data[i].submission_comment_id + ')"><span class="fa fa-reply"></span></a>';
+                            json.data[i].options += '<a class="dropdown-item text-info" onclick="showPendingTask(' + json.data[i].submission_comment_id + ')" title="<?=uiLang("pending_task")?>"><span class="fas fa-reply"></span> <?=uiLang("pending_task")?></a>';
                         }
 
                         if (drawCancel) {
-                            json.data[i].options += '<a class="btn btn-warning" title="<?=uiLang("cancel_task")?>" onclick="showCancelTask(' + json.data[i].submission_comment_id + ')"><span class="fas fa-times"></span></a>';
+                            json.data[i].options += '<a class="dropdown-item text-danger" onclick="showCancelTask(' + json.data[i].submission_comment_id  + ')" title="<?=uiLang("cancel_task")?>"><span class="fas fa-times"></span> <?=uiLang("cancel_task")?></a>';
                         }
 
                         switch (json.data[i].submission_comment_status) {
@@ -499,6 +427,8 @@
 
                         json.data[i].options += '</div></div>';
                     }
+
+                    arrSubmissionsComment = json.data;
 
                     window.location.href = '#divSubmissionComments';
 
@@ -522,23 +452,17 @@
 </script>
 
 <script>
-    function showDetailAnnouncement(index) {
-        $($('#modal-announcement').find('.modal-header')).html(arrAnnouncements[index].announcement_title);
-        $($('#modal-announcement').find('.modal-body')).html('<p>' + arrAnnouncements[index].announcement_message + '</p>');
+    function showCommentSubmission(index) {
+        $($('#modal-submission-comment').find('.modal-header')).html(arrSubmissionsComment[index].submission_comment_id);
+        $($('#modal-submission-comment').find('.modal-body')).html('<p>' + arrSubmissionsComment[index].submission_comment_message + '</p>');
 
-        $('#modal-announcement').modal('show');
+        $('#modal-submission-comment').modal('show');
     }
 
-    function showUpdateAnnouncement(index) {
-        loadInputsFromObject('form-announcement-update', arrAnnouncements[index], 'announcement_');
+    function showDeleteSubmission(index) {
+        loadInputsFromObject('form-submission-delete', arrSubmissions[index], 'submission_', 'id');
 
-        $('#modal-announcement-update').modal('show');
-    }
-
-    function showDeleteAnnouncement(index) {
-        loadInputsFromObject('form-announcement-delete', arrAnnouncements[index], 'announcement_', 'title');
-
-        $('#modal-announcement-delete').modal('show');
+        $('#modal-submission-delete').modal('show');
     }
 
     function showCompleteTask(submissionCommentID) {

@@ -299,8 +299,11 @@
                     for (var i = 0; i < json.data.length; i++) {
                         json.data[i].user_created_at = formatDMYOnlyDate(json.data[i].user_created_at);
                         json.data[i].user_full_name = json.data[i].user_first_name + ' ' + json.data[i].user_last_name;
-                        json.data[i].options = '<a class="btn btn-primary" target="_blank" href="' + internalURL('user', 'profile', 'user', json.data[i].user_id) + '" title="<?=uiLang("announcement_view")?>"><span class="fas fa-eye"></span></a>'
-                            + ' <a class="btn btn-danger" onclick="showDeleteUser(' + i + ')" title="<?=uiLang("user_delete")?>"><span class="fas fa-trash"></span></a>';
+
+                        json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropUser" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropUser">';
+                        json.data[i].options += '<a class="dropdown-item text-primary" target="_blank" href="' + internalURL('user', 'profile', 'user', json.data[i].user_id) + '" title="<?=uiLang("user_view")?>"><span class="fas fa-eye"></span> <?=uiLang("user_view")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-danger" onclick="showDeleteUser(' + i + ')" title="<?=uiLang("user_delete")?>"><span class="fas fa-trash"></span> <?=uiLang("user_delete")?></a>';
+                        json.data[i].options += '</div></div>';
                     }
 
                     arrUsers = json.data;

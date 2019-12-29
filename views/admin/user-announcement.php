@@ -268,10 +268,13 @@
                 'dataSrc': function (json) {
                     for (var i = 0; i < json.data.length; i++) {
                         json.data[i].user_announcement_created_at = formatDMYOnlyDate(json.data[i].user_announcement_created_at);
-                        json.data[i].options = '<a class="btn btn-primary" onclick="showDetailUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_view")?>"><span class="fas fa-eye"></span></a>'
-                            + ' <a class="btn btn-warning" onclick="showUpdateUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_update")?>"><span class="fas fa-edit"></span></a>'
-                            + ' <a class="btn btn-success" onclick="showMessagesUserAnnouncement(' + json.data[i].user_announcement_id + ')" title="<?=uiLang("user_announcement_messages")?>"><span class="fas fa-envelope"></span></a>'
-                            + ' <a class="btn btn-danger" onclick="showDeleteUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_delete")?>"><span class="fas fa-trash"></span></a>'; //todo
+
+                        json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropAnnouncement" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropAnnouncement">';
+                        json.data[i].options += '<a class="dropdown-item text-primary" onclick="showDetailUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_view")?>"><span class="fas fa-eye"></span> <?=uiLang("announcement_view")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-warning" onclick="showUpdateUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_update")?>"><span class="fas fa-edit"></span> <?=uiLang("announcement_update")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-success" onclick="showMessagesUserAnnouncement(' + json.data[i].user_announcement_id + ')" title="<?=uiLang("user_announcement_messages")?>"><span class="fas fa-envelope"></span> <?=uiLang("user_announcement_messages")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-danger" onclick="showDeleteUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_delete")?>"><span class="fas fa-trash"></span> <?=uiLang("user_announcement_delete")?></a>';
+                        json.data[i].options += '</div></div>';
                     }
 
                     arrUserAnnouncements = json.data;

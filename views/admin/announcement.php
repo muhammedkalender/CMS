@@ -226,9 +226,12 @@
                 'dataSrc': function (json) {
                     for (var i = 0; i < json.data.length; i++) {
                         json.data[i].announcement_created_at = formatDMYOnlyDate(json.data[i].announcement_created_at);
-                        json.data[i].options = '<a class="btn btn-primary" onclick="showDetailAnnouncement(' + i + ')" title="<?=uiLang("announcement_view")?>"><span class="fas fa-eye"></span></a>'
-                            + ' <a class="btn btn-warning" onclick="showUpdateAnnouncement(' + i + ')" title="<?=uiLang("announcement_update")?>"><span class="fas fa-edit"></span></a>'
-                            + ' <a class="btn btn-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("announcement_delete")?>"><span class="fas fa-trash"></span></a>'; //todo
+
+                        json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropAnnouncement" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropAnnouncement">';
+                        json.data[i].options += '<a class="dropdown-item text-primary" onclick="showDetailAnnouncement(' + i + ')" title="<?=uiLang("announcement_view")?>"><span class="fas fa-eye"></span> <?=uiLang("announcement_view")?></a>';
+                        json.data[i].options += ' <a class="dropdown-item text-warning" onclick="showUpdateAnnouncement(' + i + ')" title="<?=uiLang("announcement_update")?>"><span class="fas fa-edit"></span> <?=uiLang("announcement_update")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("announcement_delete")?>"><span class="fas fa-trash"></span> <?=uiLang("announcement_delete")?></a>';
+                        json.data[i].options += '</div></div>';
                     }
 
                     arrAnnouncements = json.data;

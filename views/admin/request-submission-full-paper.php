@@ -192,10 +192,12 @@
 
                         json.data[i].request_submission_full_paper_status = status;
 
-                        json.data[i].options = '<a class="btn btn-primary" target="_blank" href="<?=domain()?>/' + json.data[i].request_submission_full_paper_url + '" title="<?=uiLang("download")?>"><span class="fas fa-download"></span></a>'
-                            + ' <a class="btn btn-success" onclick="showRequestSubmissionfull-paperConfirm(' + i + ')" title="<?=uiLang("confirm")?>"><span class="fas fa-check"></span></a>'
-                            + ' <a class="btn btn-warning" onclick="showRequestSubmissionfull-paperDecline(' + i + ')" title="<?=uiLang("decline")?>"><span class="fas fa-times"></span></a>'
-                            + ' <a class="btn btn-danger" onclick="showRequestSubmissionfull-paperDelete(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span></a>';
+                        json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropSubmission" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropSubmission">';
+                        json.data[i].options += '<a class="dropdown-item text-primary" target="_blank" href="<?=domain()?>/' + json.data[i].request_submission_full_paper_url + '" title="<?=uiLang("download")?>"><span class="fas fa-download"></span> <?=uiLang("download")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-success" onclick="showRequestSubmissionFullPaperConfirm(' + i + ')" title="<?=uiLang("confirm")?>"><span class="fas fa-check"></span> <?=uiLang("confirm")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-warning" onclick="showRequestSubmissionFullPaperDecline(' + i + ')" title="<?=uiLang("decline")?>"><span class="fas fa-times"></span> <?=uiLang("decline")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-danger" onclick="showRequestSubmissionFullPaperDelete(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span> <?=uiLang("delete")?></a>';
+                        json.data[i].options += '</div></div>';
                     }
 
                     arrRequestSubmissionFullPapers = json.data;
