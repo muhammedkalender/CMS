@@ -1,5 +1,6 @@
 <?php
 
+require_once "core/Log.php";
 
 //https://code.tutsplus.com/tutorials/how-to-upload-a-file-in-php-with-example--cms-31763
 class FileController
@@ -37,6 +38,8 @@ class FileController
             } while (file_exists(self::DOCUMENT_DIR . $uploadURL));
 
             if (move_uploaded_file($fileTmpPath, self::DOCUMENT_DIR . $uploadURL)) {
+                Log::insertWithKey(500, [500], [$uploadURL]);
+
                 return Output::returnWithData($uploadURL);
             } else {
                 return Output::returnWithErrorMessage(Lang::get('error_file_upload'));
