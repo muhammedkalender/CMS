@@ -1,0 +1,30 @@
+<script>
+//https://stackoverflow.com/a/53891063
+let files = new FormData();
+
+files.append('fileName', $('#fileURL')[0].files[0]);
+
+$.ajax({
+type: 'post',
+url: "<?=apiURL('file-upload', 'document')?>",
+processData: false,
+contentType: false,
+data: files,
+dataType: 'json',
+success: function (response) {
+console.log(response);
+if(response.status){
+
+}else{
+formError($('#form-invoice-insert'), response.message);
+}
+
+$('#btnInvoice').removeAttr('disabled');
+},
+error: function (err) {
+console.log(err);
+$('#btnInvoice').attr('disabled');
+
+}
+});
+</script>

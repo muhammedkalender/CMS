@@ -288,6 +288,18 @@ if($callCategory == "user"){
     }
 
     //endregion
+}else if($callCategory == 'upload-file'){
+    //region Upload File
+
+    require_once "controllers/FileController.php";
+
+    if($callRequest == 'document'){
+        $fileController = new FileController();
+
+        $callResult = $fileController->uploadDocument();
+    }
+
+    //endregion
 }
 
 nothing:

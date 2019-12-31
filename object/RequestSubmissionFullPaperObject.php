@@ -43,19 +43,6 @@ class RequestSubmissionFullPaperObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $_URL = '';
-
-        do {
-            $_URL = './upload/full-papers/full-paper_' . md5(rand(1, 1000000)) . '.jpg';
-        } while (file_exists($URL));
-
-        $ifp = fopen($_URL, 'wb');
-        $data = explode(',', $URL);
-        fwrite($ifp, base64_decode($data[1]));
-        fclose($ifp);
-
-        $URL = $_URL;
-
         $resultInsert = Database::insertReturnID("INSERT INTO request_submission_full_papers (request_submission_full_paper_submission, request_submission_full_paper_url, request_submission_full_paper_created_by) VALUES ('{$submissionID}', '{$URL}', {$user->id})");
 
         //todo niyeyse hata veriyor ?

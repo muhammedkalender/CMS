@@ -163,11 +163,11 @@
             'lengthMenu': [[10, 25, 50, 100, 400], [10, 25, 50, 100, 400]],
             'serverMethod': 'post',
             'columns': [
-                {'data': 'request_submission_full-paper_id'},
-                {'data': 'request_submission_full-paper_submission'},
-                {'data': 'request_submission_full-paper_status'},
-                {'data': 'request_submission_full-paper_full_name'},
-                {'data': 'request_submission_full-paper_created_at'},
+                {'data': 'request_submission_full_paper_id'},
+                {'data': 'request_submission_full_paper_submission'},
+                {'data': 'request_submission_full_paper_status'},
+                {'data': 'request_submission_full_paper_full_name'},
+                {'data': 'request_submission_full_paper_created_at'},
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
@@ -193,7 +193,7 @@
                         json.data[i].request_submission_full_paper_status = status;
 
                         json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropSubmission" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropSubmission">';
-                        json.data[i].options += '<a class="dropdown-item text-primary" target="_blank" href="<?=domain()?>/' + json.data[i].request_submission_full_paper_url + '" title="<?=uiLang("download")?>"><span class="fas fa-download"></span> <?=uiLang("download")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-primary" target="_blank" href="<?=Config::PATH_UPLOAD_DOCUMENT?>' + json.data[i].request_submission_full_paper_url + '" title="<?=uiLang("download")?>"><span class="fas fa-download"></span> <?=uiLang("download")?></a>';
                         json.data[i].options += '<a class="dropdown-item text-success" onclick="showRequestSubmissionFullPaperConfirm(' + i + ')" title="<?=uiLang("confirm")?>"><span class="fas fa-check"></span> <?=uiLang("confirm")?></a>';
                         json.data[i].options += '<a class="dropdown-item text-warning" onclick="showRequestSubmissionFullPaperDecline(' + i + ')" title="<?=uiLang("decline")?>"><span class="fas fa-times"></span> <?=uiLang("decline")?></a>';
                         json.data[i].options += '<a class="dropdown-item text-danger" onclick="showRequestSubmissionFullPaperDelete(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span> <?=uiLang("delete")?></a>';

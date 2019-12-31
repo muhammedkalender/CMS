@@ -143,12 +143,6 @@
                                       placeholder="<?= hintLang('abstract_paper') ?>"
                                       maxlength="1024"></textarea>
                         </div>
-
-                        <div class="form-group">
-                            <label><?= inputLang('authors') ?></label>
-                            <input type="text" class="form-control" data-role="tagsinput" id="authors">
-                        </div>
-
                         <div class="form-group">
                             <input type="submit" class="form-control btn-success" value="<?= uiLang('save') ?>"
                                    onclick="loadAuthors();">
@@ -161,7 +155,34 @@
                     <h5 class="card-title"><?= uiLang('submission_full_paper') ?></h5>
                 </div>
                 <div class="card-body">
+                    <? //https://stackoverflow.com/a/722395 ?>
+                    <?php if ($user->isAdmin()): ?>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button class="btn btn-danger form-control" data-toggle="modal"
+                                        data-target="#modal-force-request-submission-full-paper"><?= uiLang('force_request_submission_full_paper') ?></button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                          id="form-full-paper-insert" submit-delay="2000" card-loader="ok">
+                        <input type="hidden" name="call_category" value="request-submission-full-paper">
+                        <input type="hidden" name="call_request" value="insert">
 
+                        <div id="message"></div>
+
+                        <input type="hidden" name="id" value="<?= $submissionID ?>">
+                        <input type="hidden" name="file" id="full_paper">
+
+                        <div class="form-group">
+                            <input type="file" class="form-control" id="fileURLFullPaper" onchange="uploadFullPaper();"
+                                   required/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success" id="btnFullPaper" disabled><i
+                                        class="fas fa-save"></i> <?= uiLang('save') ?></button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="card card-info">
@@ -189,17 +210,16 @@
                         <input type="hidden" name="file" id="invoice">
 
                         <div class="form-group">
-                            <input type="file" class="form-control" id="fileURL" onchange="encodeImageFileAsURL();"
+                            <input type="file" class="form-control" id="fileURL" onchange="uploadInvoice();"
                                    required/>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success"><i
+                            <button type="submit" class="btn btn-success" id="btnInvoice" disabled><i
                                         class="fas fa-save"></i> <?= uiLang('save') ?></button>
                         </div>
                     </form>
                 </div>
             </div>
-
             <div class="modal" id="modal-author">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content bg-primary">
@@ -285,7 +305,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal fade" id="modal-force-request-submission-invoice">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content bg-success">
@@ -499,4 +518,94 @@
             }
         });
     });
+
+    function uploadInvoice(){
+        $('#form-invoice-insert').find('#message').html('');
+
+        if(!$('#fileURL')[0].files){
+            $('#btnInvoice').attr('disabled');
+            return;
+        }
+
+        showCardOverlay($('#form-invoice-insert'));
+
+        //https://stackoverflow.com/a/53891063
+        let files = new FormData();
+        files.append('file', $('#fileURL')[0].files[0]);
+        files.append("call_category", "upload-file");
+        files.append("call_request", "document");
+
+        $.ajax({
+            type: 'post',
+            url: "api.php",
+            processData: false,
+            contentType: false,
+            data: files,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                if(response.status){
+                    $('#invoice').val(response.data);
+                }else{
+                    formError($('#form-invoice-insert'), response.message);
+                }
+
+                $('#btnInvoice').removeAttr('disabled');
+
+                hideCardOverlay($('#form-invoice-insert'));
+            },
+            error: function (err) {
+                formError($('#form-invoice-insert'), "<?=uiLang('error_upload_invoice')?>>");
+
+                $('#btnInvoice').attr('disabled');
+
+                hideCardOverlay($('#form-invoice-insert'));
+            }
+        });
+    }
+
+    function uploadFullPaper(){
+        $('#form-full-paper-insert').find('#message').html('');
+
+        if(!$('#fileURLFullPaper')[0].files){
+            $('#btnFullPaper').attr('disabled');
+            return;
+        }
+
+        showCardOverlay($('#form-full-paper-insert'));
+
+        //https://stackoverflow.com/a/53891063
+        let files = new FormData();
+        files.append('file', $('#fileURLFullPaper')[0].files[0]);
+        files.append("call_category", "upload-file");
+        files.append("call_request", "document");
+
+        $.ajax({
+            type: 'post',
+            url: "api.php",
+            processData: false,
+            contentType: false,
+            data: files,
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                if(response.status){
+                    $('#full_paper').val(response.data);
+                }else{
+                    formError($('#form-full-paper-insert'), response.message);
+                }
+
+                $('#btnFullPaper').removeAttr('disabled');
+
+                hideCardOverlay($('#form-full-paper-insert'));
+            },
+            error: function (err) {
+                formError($('#form-full-paper-insert'), "<?=uiLang('error_upload_invoice')?>>");
+
+                $('#btnFullPaper').attr('disabled');
+
+                hideCardOverlay($('#form-full-paper-insert'));
+            }
+        });
+    }
 </script>

@@ -76,7 +76,7 @@ class Lang
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')
     {
-        if (!isset(self::$data[$name])) {
+        if (Config::HIDE_LANG || !isset(self::$data[$name])) {
             return '[' . $name . ']';
         }
 
@@ -108,7 +108,7 @@ class Lang
 
     public static function getWithKey($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')
     {
-        if (!isset(self::$data[$name])) {
+        if (Config::HIDE_LANG || !isset(self::$data[$name])) {
             return '[' . $name . ']';
         }
 

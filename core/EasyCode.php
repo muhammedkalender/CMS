@@ -106,6 +106,10 @@ function internalURL($category, $request, $additional = '', $additionalValue = '
     return "/index.php?call_category={$category}&call_request={$request}" . ($additional ? "&{$additional}={$additionalValue}" : "");
 }
 
+function apiURL($category, $request){
+    return "/api.php?call_category={$category}&call_request={$request}";
+}
+
 function sidebar()
 {
     global $user;

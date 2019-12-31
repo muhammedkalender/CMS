@@ -193,7 +193,7 @@
                         json.data[i].request_submission_invoice_status = status;
 
                         json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropSubmission" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropSubmission">';
-                        json.data[i].options += '<a class="dropdown-item text-primary" target="_blank" href="<?=domain()?>/' + json.data[i].request_submission_invoice_url + '" title="<?=uiLang("download")?>"><span class="fas fa-download"></span> <?=uiLang("download")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-primary" target="_blank" href="<?=Config::PATH_UPLOAD_DOCUMENT?>' + json.data[i].request_submission_invoice_url + '" title="<?=uiLang("download")?>"><span class="fas fa-download"></span> <?=uiLang("download")?></a>';
                         json.data[i].options += '<a class="dropdown-item text-success" onclick="showRequestSubmissionInvoiceConfirm(' + i + ')" title="<?=uiLang("confirm")?>"><span class="fas fa-check"></span> <?=uiLang("confirm")?></a>';
                         json.data[i].options += '<a class="dropdown-item text-warning" onclick="showRequestSubmissionInvoiceDecline(' + i + ')" title="<?=uiLang("decline")?>"><span class="fas fa-times"></span> <?=uiLang("decline")?></a>';
                         json.data[i].options += '<a class="dropdown-item text-danger" onclick="showRequestSubmissionInvoiceDelete(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span> <?=uiLang("delete")?></a>';
