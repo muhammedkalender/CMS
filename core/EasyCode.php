@@ -30,33 +30,49 @@ function folder()
     //return '../cms/';
 }
 
-function inputLang($key)
+function inputLang($key, $firstParam = "", $secondParam = "", $thirdParam = "", $fourthParam = "", $fifthParam = "")
 {
-    return '[input_' . $key . ']';
-    //todo return Lang::get('input_' . $key);
+    if (Config::HIDE_LANG) {
+        return '[input_' . $key . ']';
+    } else {
+        return Lang::get('input_' . $key, $firstParam, $secondParam, $thirdParam, $fourthParam, $fifthParam);
+    }
 }
 
-function uiLang($key)
+function uiLang($key, $firstParam = "", $secondParam = "", $thirdParam = "", $fourthParam = "", $fifthParam = "")
 {
-    return '[ui_' . $key . ']';
-    //todo return Lang::get('ui_' . $key);
+    if (Config::HIDE_LANG) {
+        return '[ui_' . $key . ']';
+    } else {
+        return Lang::get('ui_' . $key, $firstParam, $secondParam, $thirdParam, $fourthParam, $fifthParam);
+    }
 }
 
-function hintLang($key)
+function hintLang($key, $firstParam = "", $secondParam = "", $thirdParam = "", $fourthParam = "", $fifthParam = "")
 {
-    return '[hint_' . $key . ']';
-    //todo return Lang::get('hint_' . $key);
+    if (Config::HIDE_LANG) {
+        return '[hint_' . $key . ']';
+    } else {
+        return Lang::get('hint_' . $key, $firstParam, $secondParam, $thirdParam, $fourthParam, $fifthParam);
+    }
 }
 
-function pageLang($key, $firstParam = '', $secondParam = '')
+function pageLang($key, $firstParam = "", $secondParam = "", $thirdParam = "", $fourthParam = "", $fifthParam = "")
 {
-    return '[page_' . $key . ']';
-    //todo return Lang::get('page_' . $key);
+    if (Config::HIDE_LANG) {
+        return '[page_' . $key . ']';
+    } else {
+        return Lang::get('page_' . $key, $firstParam, $secondParam, $thirdParam, $fourthParam, $fifthParam);
+    }
 }
 
-function sidebarLang($key){
-    return '[sidebar_' . $key . ']';
-    //todo return Lang::get('page_' . $key);
+function sidebarLang($key, $firstParam = "", $secondParam = "", $thirdParam = "", $fourthParam = "", $fifthParam = "")
+{
+    if (Config::HIDE_LANG) {
+        return '[sidebar_' . $key . ']';
+    } else {
+        return Lang::get('sidebar_' . $key, $firstParam, $secondParam, $thirdParam, $fourthParam, $fifthParam);
+    }
 }
 
 function dataTablesLikeQuery($keyword, $columns)
@@ -82,7 +98,7 @@ function redirect($URL)
 
 function domain()
 {
-    return 'http://dev.cms.system/'; //todo
+    return Config::PROTOCOL . "//" . Config::URL . "/";
 }
 
 function internalURL($category, $request, $additional = '', $additionalValue = '')

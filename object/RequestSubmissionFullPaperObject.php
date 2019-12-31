@@ -325,7 +325,7 @@ class RequestSubmissionFullPaperObject
         if ($select->status && $stats->status) {
             return new DataTablesOutput(true, Lang::get('request_submission_full_paper_datatable_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);
         } else {
-            return new DataTablesOutput(false, Lang::get('request_submission_full_paper_datatable_failure'), "SELECT request_submission_full_paper_id, request_submission_full_paper_submission, request_submission_full_paper_status, request_submission_full_paper_url, request_submission_full_paper_created_by, request_submission_full_paper_created_at, (SELECT CONCAT_WS(' ', user_first_name, user_last_name) FROM users WHERE user_id = request_submission_full_paper_created_by) as request_submission_full_paper_full_name FROM request_submission_full_papers WHERE request_submission_full_paper_active = 1 {$querySearch} ORDER BY {$columns[$orderColumn]} {$orderDir} LIMIT  {$length} OFFSET {$start}");
+            return new DataTablesOutput(false, Lang::get('request_submission_full_paper_datatable_failure'));
         }
     }
 
