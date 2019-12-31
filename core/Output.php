@@ -12,4 +12,12 @@ class Output{
 
         return $this;
     }
+
+    public static function returnWithData($data){
+        return new Output(true, null, $data);
+    }
+
+    public static function returnWithMessage($message){
+        return new Output(true, $message, null);
+    }
 }
