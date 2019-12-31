@@ -20,4 +20,8 @@ class Output{
     public static function returnWithMessage($message){
         return new Output(true, $message, null);
     }
+
+    public static function returnWithErrorMessage($errorMessage){
+        return new Output(false, $errorMessage);
+    }
 }
