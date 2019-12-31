@@ -281,6 +281,12 @@ class UserObject
 
         $user = Database::first("SELECT * FROM users WHERE user_email = '{$userName}'  AND user_password = '{$encryptedPassword}' AND user_active = 1");
 
+        if(isset($user->data['user_login_attempt']) && $user->data['login_attempt'] >= Config::ALERT_BRUTE_FORCE){
+            //TODO
+
+            return new Output(false, Lang::get('user_wrong_login'), null);
+        }
+
         if ($user->status == false) {
             return new Output(false, Lang::get('user_wrong_login'), null);
         }
@@ -297,6 +303,7 @@ class UserObject
         }
 
         Database::exec("UPDATE tokens SET token_active = 0 WHERE token_user = {$userID}");
+        Database::exec("UPDATE users SET user_login_attempt = 0 WHERE user_id = {$userID}")
 
         $insertToken = Database::insertReturnID("INSERT INTO tokens (token_user, token_lock, token_key, token_ip) VALUES ({$userID}, '{$tokenLock}', '{$tokenKey}','{$userIP}')");
 
