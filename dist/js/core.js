@@ -48,6 +48,10 @@ function checkForm(form) {
                         clearForm(form);
                     }
 
+                    if(form.attr('call-function') != null){
+                        window[form.attr('call-function')](response.data);
+                    }
+
                     if (form.attr('submit-datatable') != null) {
                         $('#' + form.attr('submit-datatable')).DataTable().ajax.reload();
                     }

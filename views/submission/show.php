@@ -165,7 +165,7 @@
                         </div>
                     <?php endif; ?>
                     <form action="/api.php" method="post" onsubmit="return checkForm(this)"
-                          id="form-full-paper-insert" submit-delay="2000" card-loader="ok">
+                          id="form-full-paper-insert" submit-delay="2000" card-loader="ok" call-function="showFullPaperButton">
                         <input type="hidden" name="call_category" value="request-submission-full-paper">
                         <input type="hidden" name="call_request" value="insert">
 
@@ -181,6 +181,7 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-success" id="btnFullPaper" disabled><i
                                         class="fas fa-save"></i> <?= uiLang('save') ?></button>
+                            <a target="_blank" class="btn btn-warning" href="" id="showFileFullPaper" style="display: none"><i class="fas fa-eye"></i> <?= uiLang('show_file') ?></a>
                         </div>
                     </form>
                 </div>
@@ -200,7 +201,7 @@
                         </div>
                     <?php endif; ?>
                     <form action="/api.php" method="post" onsubmit="return checkForm(this)"
-                          id="form-invoice-insert" submit-delay="2000" card-loader="ok">
+                          id="form-invoice-insert" submit-delay="2000" card-loader="ok" call-function="showInvoiceButton">
                         <input type="hidden" name="call_category" value="request-submission-invoice">
                         <input type="hidden" name="call_request" value="insert">
 
@@ -216,6 +217,7 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-success" id="btnInvoice" disabled><i
                                         class="fas fa-save"></i> <?= uiLang('save') ?></button>
+                            <a target="_blank" class="btn btn-warning" href="" id="showFileInvoice" style="display: none"><i class="fas fa-eye"></i> <?= uiLang('show_file') ?></a>
                         </div>
                     </form>
                 </div>
@@ -420,27 +422,6 @@
 
         $('#divUsers').html(html);
     }
-
-    //https://stackoverflow.com/a/23669825
-    function encodeImageFileAsURL() {
-        var filesSelected = document.getElementById("fileURL").files;
-
-        if (filesSelected.length > 0) {
-            var fileToLoad = filesSelected[0];
-
-            var fileReader = new FileReader();
-
-            fileReader.onload = function (fileLoadedEvent) {
-                var srcData = fileLoadedEvent.target.result; // <--- data: base64
-
-                $('#invoice').val(srcData);
-
-                //todo size, format ?
-            };
-
-            fileReader.readAsDataURL(fileToLoad);
-        }
-    }
 </script>
 
 <script>
@@ -543,7 +524,6 @@
             data: files,
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 if(response.status){
                     $('#invoice').val(response.data);
                 }else{
@@ -588,7 +568,6 @@
             data: files,
             dataType: 'json',
             success: function (response) {
-                console.log(response);
                 if(response.status){
                     $('#full_paper').val(response.data);
                 }else{
@@ -607,5 +586,13 @@
                 hideCardOverlay($('#form-full-paper-insert'));
             }
         });
+    }
+
+    function showInvoiceButton(URL){
+        $('#showFileInvoice').attr("href", "<?=Config::PATH_UPLOAD_DOCUMENT?>" + $('#invoice').val()).show();
+    }
+
+    function showFullPaperButton(URL){
+        $('#showFileFullPaper').attr("href", "<?=Config::PATH_UPLOAD_DOCUMENT?>" + $('#full_paper').val()).show();
     }
 </script>
