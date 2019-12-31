@@ -284,7 +284,7 @@ class UserObject
         if(isset($user->data['user_login_attempt']) && $user->data['login_attempt'] >= Config::ALERT_BRUTE_FORCE){
             //TODO
 
-            return new Output(false, Lang::get('user_wrong_login'), null);
+            return new Output(false, Lang::get('user_wrong_brute_force'), null);
         }
 
         if ($user->status == false) {
