@@ -6,6 +6,7 @@
 74 => user_delete_success [ USER_ID ]
 78 => user_update_preferences_success [ USER_ID ]
 78 => user_select_success [ USER_ID ]
+79 => user_update_info_success [ USER_ID ]
 200 => log_user_forgot_password [ USER_ID ]
 201 => log_user_change_password [ USER_ID ]
 

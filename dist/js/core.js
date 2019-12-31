@@ -119,10 +119,8 @@ function clearForm(form) {
 
     $(form.find('input')).each(
         function (index) {
-            if (!($(this).attr('name') == 'call_category' || $(this).attr('name') == 'call_request')) {
-                console.log($(this).attr('name'));
-                console.log();
-                $(this).val(''); //todo
+            if (!($(this).attr('name') == 'call_category' || $(this).attr('name') == 'call_request' || $(this).attr('const'))){
+                $(this).val('');
             }
         }
     );

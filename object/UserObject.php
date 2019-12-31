@@ -6,6 +6,7 @@ require_once 'core/Text.php';
 require_once 'core/EasyCode.php';
 require_once 'core/Mail.php';
 require_once 'core/Log.php';
+require_once 'core/Config.php';
 
 class UserObject
 {
@@ -303,7 +304,7 @@ class UserObject
         }
 
         Database::exec("UPDATE tokens SET token_active = 0 WHERE token_user = {$userID}");
-        Database::exec("UPDATE users SET user_login_attempt = 0 WHERE user_id = {$userID}")
+        Database::exec("UPDATE users SET user_login_attempt = 0 WHERE user_id = {$userID}");
 
         $insertToken = Database::insertReturnID("INSERT INTO tokens (token_user, token_lock, token_key, token_ip) VALUES ({$userID}, '{$tokenLock}', '{$tokenKey}','{$userIP}')");
 
@@ -574,6 +575,73 @@ class UserObject
 
     //endregion
 
+    //region Update Info
+
+    //region Update Preferences
+
+    public function updateInfoInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input('id', Input::METHOD_POST, 'input_user', Input::TYPE_INT, 1, 8),
+            new Input("email", Input::METHOD_POST, "input_email", Input::TYPE_EMAIL, 3, 64),
+            new Input('first_name', Input::METHOD_POST, 'input_first_name', Input::TYPE_STRING, 2, 32),
+            new Input('last_name', Input::METHOD_POST, 'input_last_name', Input::TYPE_STRING, 2, 32),
+            new Input('country', Input::METHOD_POST, 'input_country', Input::TYPE_INT, 1, 8),
+            new Input('organization', Input::METHOD_POST, 'input_organization', Input::TYPE_STRING, 0, 128),
+            new Input('web_page', Input::METHOD_POST, 'input_web_page', Input::TYPE_URL, 0, 128),
+            new Input('address', Input::METHOD_POST, 'input_address', Input::TYPE_STRING, 0, 128),
+            new Input('tel', Input::METHOD_POST, 'input_tel', Input::TYPE_STRING, 0, 128),
+            new Input('is_corresponding', Input::METHOD_POST, 'input_corresponding', Input::TYPE_CHECK, 0, 2),
+            new Input('joined', Input::METHOD_POST, 'input_joined', Input::TYPE_CHECK, 0, 2),
+        ]);
+    }
+
+    public function updateInfoWithInput()
+    {
+        $inputCheck = $this->updateInfoInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->updateInfo(
+            post('id'),
+            post('email'),
+            post('first_name'),
+            post('last_name'),
+            post('country'),
+            post('organization'),
+            post('web_page'),
+            post('address'),
+            post('tel'),
+            post('is_corresponding'),
+            post('joined')
+        );
+    }
+
+    private function updateInfo($userID, $email, $firstName, $lastName, $country, $organization, $webPage, $address, $tel, $isCorresponding, $joined)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_SELF_OR_UPPER, $userID, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $select = Database::exec("UPDATE users SET user_email= '{$email}', user_first_name = '{$firstName}', user_last_name = '{$lastName}', user_country = '{$country}', user_organization = '{$organization}', user_web_page = '{$webPage}', user_address = '{$address}', user_tel = '{$tel}', user_joined = '{$joined}', user_is_corresponding = '{$isCorresponding}'  WHERE user_id = {$userID}");
+
+        if ($select->status) {
+            Log::insert('user_update_info_success', 79, $userID);
+
+            return new Output(true, Lang::get('user_update_info_success'));
+        } else {
+            return new Output(false, Lang::get('user_update_info_failure'));
+        }
+    }
+
+    //endregion
+
+    //endregion
+
     //region Show
 
     public function showInputCheck()
@@ -603,7 +671,7 @@ class UserObject
         }
 
         //TODO SELECT
-        $select = Database::first("SELECT * FROM users WHERE user_id = {$userID}");
+        $select = Database::first("SELECT user_accommodation, user_address, user_country, user_ec_id, user_email, user_extra_note, user_first_name, user_food, user_id, user_is_admin, user_is_corresponding, user_joined, user_last_name, user_login_attempt, user_organization, user_submission, user_tel, user_web_page FROM users WHERE user_id = {$userID}");
 
         if ($select->status) {
             Log::insert('user_select_success', 79, $userID);

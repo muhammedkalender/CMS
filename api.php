@@ -67,6 +67,10 @@ if($callCategory == "user"){
         $user = new UserObject();
 
         $callResult = $user->selectAuthorsWithInput();
+    }else if($callRequest == 'update-info'){
+        $user = new UserObject();
+
+        $callResult = $user->updateInfoWithInput();
     }
 
     //endregion
@@ -178,6 +182,10 @@ if($callCategory == "user"){
         $userAnnouncement = new UserAnnouncementObject();
 
         $callResult = $userAnnouncement->dataTablesWithInput();
+    }else if($callRequest == 'users-data-tables'){
+        $userAnnouncement = new UserAnnouncementObject();
+
+        $callResult = $userAnnouncement->usersDataTablesWithInput();
     }
 
     //endregion
