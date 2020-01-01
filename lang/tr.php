@@ -7,6 +7,8 @@ class Lang
         'test' => 'TR',
         'lang_code' => '2',
 
+        "api_request_null" => "Sistem Talep Gönderemedi",
+
         'check_input_null' =>  '[[FIRST_PARAM]] değeri boş olamaz',
         'check_input_short' => '[[FIRST_PARAM]], [[SECOND_PARAM]] Karakterden kısa olamaz',
         'check_input_long' => '[[FIRST_PARAM]], [[SECOND_PARAM]] Karakterden uzun olamaz',
@@ -55,6 +57,14 @@ class Lang
         "input_current_password" => "Mevcut Şifre",
         "input_new_password" => "Yeni Şifre",
         "input_confirm_password" => "Şifre Onayı",
+        "input_id" => "ID",
+        "input_presentation_lang" => "Sunum",
+        "input_full_paper" => "Tam Metin",
+        "input_invoice" => "Makbuz",
+        "input_keywords" => "Anahtar Kelimeler",
+        "input_ec_keyprases" => "EC Keyprases",
+        "input_topics" => "Konular",
+        "input_abstract_paper" => "Ön Metin",
 
         "hint_email" => "example@domain.com",
         "hint_organization" => "Open Source Fo.",
@@ -113,9 +123,13 @@ class Lang
         "sidebar_request_submission_invoices" => "Makbuz Gönderimleri",
         "sidebar_request_submission_full_papers" => "Tam İçerik Gönderimleri",
         "sidebar_filter_submission" => "Makale Filtresi",
+        "sidebar_my_submission" => "Makale",
 
         "page_home" => "Ana Sayfa",
         "page_user_profile" => "Kullanıcı Profili",
+        "page_profile" => "Kullanıcı Profili",
+        "page_view_submission" => "Makale",
+        "page_submission" => "Makale Yönetimi",
 
         "ui_id" => "#",
         "ui_created_by" => "Oluşturan",
@@ -129,6 +143,14 @@ class Lang
         "ui_dropdown" => "Seçenekler",
         "ui_add" => "Ekle",
         "ui_delete" => "Sil",
+        "ui_first_name" => "İsim",
+        "ui_last_name" => "Soy İsim",
+        "ui_email" => "Eposta",
+
+        "ui_authors" => "Yazarlar",
+        "ui_submission" => "Makale",
+        "ui_submission_full_paper" => "Tam Metin",
+        "ui_submission_invoice" => "Makbuz",
 
         "ui_user_info" => "Kullanıcı Bilgileri",
         "ui_user_preferences" => "Kullanıcı Tercihleri",
@@ -151,22 +173,85 @@ class Lang
         "ui_dt_info" => "Toplam _TOTAL_ veri içinden  _START_ ile _END_ arasındakiler görüntüleniyor",
         "ui_dt_length_menu" => "_MENU_ Veri Göster",
         "ui_dt_zero_records" => "Veri Yok",
+        "ui_show_file" => "Dosyayı Görüntüle",
+        "ui_user_view" => "Kullanıcıyı Görüntüle",
+        "ui_confirm" => "Onayla",
+        "ui_view" => "Görüntüle",
+        "ui_submission_message_view" => "Yorumları Görüntüle",
+        "ui_ec_id" => "EC ID",
+        "ui_submit_date" => "Gönderim Tarihi",
+        "ui_paper_title" => "Başlık",
+        "ui_presentation_type" => "Sunum Şekli",
+        "ui_abstract_paper" => "Ön Metin",
+        "ui_full_paper" => "Tam Metin",
+        "ui_message" => "Yorum",
+        "ui_created_at" => "İşlem Tarihi",
+        "ui_status" => "Durum",
+
+        "ui_submission_comments" => "Makale Yorumları",
 
         "ui_insert_user_announcements" => "Duyuru Ekle",
         "ui_update_user_announcements" => "Duyuru Güncelleme",
 
         "ui_delete_user_announcements" => "Duyuru Sil",
-        "ui_delete_are_you_sure" => "Duyurusunu Silmek İstediğinize eminmisiniz ?",
+        "ui_delete_submissions" => "Makale Silme",
+
+        "ui_delete_are_you_sure" => "Silmek İstediğinize eminmisiniz ?",
 
         "ui_user_messages" => "Kullanıcı Mesajları",
+
+        "ui_status_nothing" => "İşlem Yapılmadı",
+        "ui_status_pending" => "Bekliyor",
+        "ui_status_accepted" => "Onaylandı",
+        "ui_status_declined" => "Rededildi",
+        "ui_status_completed" => "Tamamlandı",
+        "ui_status_canceled" => "İptal Edildi",
+
+        "ui_complete_task" => "İşlemi Tamamla",
+        "ui_cancel_task" => "İşlemi İptal Et",
+
+        "ui_set_complete_are_you_sure" => "İşlemi tamamlamak istediğinize eminmisiniz ?",
+        "submission_comment_set_completed_success" => "İşlem başarıyla tamamlandı",
+        "submission_comment_set_completed_failure" => "İşlem tamamlanırken sorun oluştu",
+
+        "ui_canceled_task" => "İşlemi İptal Et",
+        "ui_set_canceled_are_you_sure" => "İşlemi iptal etmek istediğinize eminmisiniz ?",
+        "submission_comment_set_canceled_success" => "İşlem iptal edildi",
+        "submission_comment_set_canceled_failure" => "İşlem İptal edilirken sorun oluştu",
+
+        "ui_pending_task" => "İşlemi Aç",
+        "ui_set_pending_are_you_sure" => "İşlemi Açmak istediğinize eminmisiniz ?",
+        "submission_comment_set_pending_success" => "İşlem başarıyla geri açıldı",
+        "submission_comment_set_pending_failure" => "İşlem geri açılırken sorun oluştu",
+
+        "ui_error_upload_full_paper" => "Makbuz Yüklenemedi",
+        "request_submission_full_paper_success" => "Tam Metin talebi başarıyla gönderildi",
+        "request_submission_full_paper_failure" => "Tam Metin talebi gönderilirken sorun oluştu",
+
+        "ui_error_upload_invoice" => "Tam Metin Yüklenemedi",
+        "request_submission_invoice_insert_success" => "Makbuz talebi başarıyla gönderildi",
+        "request_submission_invoice_insert_failure" => "Makbuz talebi gönderilirken sorun oluştu",
+
+        "error_upload_full_paper" => "Tam Metin Yüklenemedi",
 
         "user_announcement_delete_success" => "Duyuru Başarıyla Silindi",
         "user_announcement_insert_success" => "Duyuru Başarıyla Eklendi",
         "user_announcement_update_success" => "Duyuru Başarıyla Güncellendi",
         "user_announcement_update_failure" => "Duyuru Güncellenirken Sorun Oluştu",
 
-        "hint_type_message" => "Mesajınızı Yazınız",
+        "ui_force_request_submission_full_paper" => "Tam Metini İşaretle",
+        "ui_force_request_full_paper_are_you_sure" => "Tam Metin Gönderilmiş ve Onaylanmış Sayılacaktır. Emin misiniz ?",
+        "request_submission_full_paper_force_confirm_success" => "Tam Metinin işaretlenmesi başarıyla tamamlandı",
+        "request_submission_full_paper_force_confirm_failure" => "Tam Metin işaretlenirken sorun oluştu",
 
+        "ui_force_request_submission_invoice" => "Makbuzu İşaretle",
+        "ui_force_request_invoice_are_you_sure" => " Makbuz Gönderilmiş ve Onaylanmış Sayılacaktır. Emin misiniz ?",
+        "request_submission_invoice_force_confirm_success" => "Makbuzun işaretlenmesi başarıyla tamamlandı",
+        "request_submission_invoice_force_confirm_failure" => "Makbuz işaretlenirken sorun oluştu",
+
+        "ui_submissions" => "Makaleler",
+
+        "hint_type_message" => "Mesajınızı Yazınız",
 
         "user_select_failure" => "Kullanıcılar Çekilemedi",
         "user_show_failure" => "Kullanıcı Verisi Çekilemedi",
@@ -179,6 +264,9 @@ class Lang
 
         "user_update_info_success" => "Kullanıcı Bilgileri başarıyla güncellendi",
         "user_update_info_failure" => "Kullanıcı Bilgileri güncellenirken sorun oluştu",
+
+        "submission_delete_success" => "Makale başarıyla silindi",
+        "submission_delete_failure" => "Makale silinirken sorun oluştu",
     ];
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')

@@ -39,7 +39,7 @@ class RequestSubmissionFullPaperObject
     {
         global $user;
 
-        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+        if (!$user->perm(UserObject::AUTHOR_OR_ADMIN, $submissionID, UserObject::PERM_GROUP_ADMIN)) {
             return new Output(false, Lang::get('perm_error'));
         }
 
@@ -49,9 +49,9 @@ class RequestSubmissionFullPaperObject
         if ($resultInsert->status) {
             Log::insertWithKey('request_submission_full_paper_insert', [180, $submissionID, $resultInsert->data]);
 
-            return new Output(true, Lang::get('request_submission_full_paper_full_paper_success'), $resultInsert->data);
+            return new Output(true, Lang::get('request_submission_full_paper_success'), $resultInsert->data);
         } else {
-            return new Output(false, Lang::get('request_submission_full_paper_full_paper_failure'));
+            return new Output(false, Lang::get('request_submission_full_paper_failure'));
         }
     }
 

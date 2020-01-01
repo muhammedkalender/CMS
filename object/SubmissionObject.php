@@ -330,4 +330,47 @@ class SubmissionObject
     }
 
     //endregion
+
+    //region Delete
+
+    public function deleteWithInput()
+    {
+        $inputCheck = $this->deleteInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->delete(
+            post('id')
+        );
+    }
+
+    public function deleteInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input('id', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
+        ]);
+    }
+
+    public function delete($submissionID)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $select = Database::exec("UPDATE submissions SET submission_active = 0, submission_updated_at = '".getCustomDate()."', submission_updated_by = ".$user->id." WHERE submission_id = {$submissionID}");
+
+        if ($select->status) {
+            Log::insert('submission_delete_success', 700, $submissionID);
+
+            return new Output(true, Lang::get('submission_delete_success'));
+        } else {
+            return new Output(false, Lang::get('submission_delete_failure'));
+        }
+    }
+
+    //endregion
 }

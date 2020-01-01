@@ -43,3 +43,5 @@
 182 => request_submission_full_paper_confirm [ REQUEST_FULL_PAPER_ID ]
 185 => request_submission_full_paper_force_confirm [ REQUEST_FULL_PAPER_ID ]
 183 => request_submission_full_paper_decline [ REQUEST_FULL_PAPER_ID ]
+
+700 => submission_delete_success [ SUBMISSION_ID ]

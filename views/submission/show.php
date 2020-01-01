@@ -340,6 +340,39 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modal-force-request-submission-full-paper">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content bg-success">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                <?= uiLang('force_request_submission_full_paper') ?>
+                            </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                                  id="form-force-request-submission-full-paper"
+                                  modal-loader="modal-force-request-submission-full-paper">
+                                <input type="hidden" name="call_category" value="request-submission-full-paper">
+                                <input type="hidden" name="call_request" value="force-confirm">
+
+                                <div id="message"></div>
+
+                                <input type="hidden" name="id" value="<?= $submissionID ?>">
+
+                                <div class="form-group">
+                                    <p class="objectName"></p>
+                                    <p><?= uiLang('force_request_full_paper_are_you_sure') ?></p>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default"><?= uiLang('confirm') ?></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </div>
@@ -535,7 +568,7 @@
                 hideCardOverlay($('#form-invoice-insert'));
             },
             error: function (err) {
-                formError($('#form-invoice-insert'), "<?=uiLang('error_upload_invoice')?>>");
+                formError($('#form-invoice-insert'), "<?=uiLang('error_upload_invoice')?>");
 
                 $('#btnInvoice').attr('disabled');
 
@@ -579,7 +612,7 @@
                 hideCardOverlay($('#form-full-paper-insert'));
             },
             error: function (err) {
-                formError($('#form-full-paper-insert'), "<?=uiLang('error_upload_invoice')?>>");
+                formError($('#form-full-paper-insert'), "<?=uiLang('error_upload_full_paper')?>");
 
                 $('#btnFullPaper').attr('disabled');
 

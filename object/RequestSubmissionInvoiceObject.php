@@ -40,7 +40,7 @@ class RequestSubmissionInvoiceObject
     {
         global $user;
 
-        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+        if (!$user->perm(UserObject::AUTHOR_OR_ADMIN, $submissionID, UserObject::PERM_GROUP_ADMIN)) {
             return new Output(false, Lang::get('perm_error'));
         }
 

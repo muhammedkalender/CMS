@@ -93,6 +93,10 @@ if($callCategory == "user"){
         $submission = new SubmissionObject();
 
         $callResult = $submission->dataTablesWithInput();
+    }else if($callRequest == "delete"){
+        $submission = new SubmissionObject();
+
+        $callResult = $submission->deleteWithInput();
     }
 
     //endregion

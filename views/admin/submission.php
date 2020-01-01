@@ -415,13 +415,13 @@
 
                         switch (json.data[i].submission_comment_status) {
                             case '0':
-                                json.data[i].submission_comment_status = '<?= Lang::get("status_pending")?>';
+                                json.data[i].submission_comment_status = '<?= uiLang("status_pending")?>';
                                 break;
                             case '1':
-                                json.data[i].submission_comment_status = '<?= Lang::get("status_completed")?>';
+                                json.data[i].submission_comment_status = '<?= uiLang("status_completed")?>';
                                 break;
                             case '2':
-                                json.data[i].submission_comment_status = '<?= Lang::get("status_canceled")?>';
+                                json.data[i].submission_comment_status = '<?= uiLang("status_canceled")?>';
                                 break;
                         }
 
