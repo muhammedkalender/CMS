@@ -676,9 +676,9 @@ class UserObject
         if ($select->status) {
             Log::insert('user_select_success', 79, $userID);
 
-            return new Output(true, Lang::get('user_select_success'), $select->data);
+            return new Output(true, Lang::get('user_show_success'), $select->data);
         } else {
-            return new Output(false, Lang::get('user_select_failure'));
+            return new Output(false, Lang::get('user_show_failure'), "SELECT user_accommodation, user_address, user_country, user_ec_id, user_email, user_extra_note, user_first_name, user_food, user_id, user_is_admin, user_is_corresponding, user_joined, user_last_name, user_login_attempt, user_organization, user_submission, user_tel, user_web_page FROM users WHERE user_id = {$userID}");
         }
     }
 

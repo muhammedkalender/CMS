@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1><?=pageLang('user_profile')?></h1>
+                    <h1><?= pageLang('user_profile') ?></h1>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
                           card-loader="ok">
                         <input type="hidden" name="call_category" value="user">
                         <input type="hidden" name="call_request" value="update-info">
-                        <input type="hidden" name="id" value="<?=$userID?>" const="true">
+                        <input type="hidden" name="id" value="<?= $userID ?>" const="true">
 
                         <div id="message"></div>
 
@@ -160,7 +160,7 @@
                         <input type="hidden" name="call_category" value="user">
                         <input type="hidden" name="call_request" value="update-password">
 
-                        <input type="hidden" name="id" value="<?=$userID?>">
+                        <input type="hidden" name="id" value="<?= $userID ?>">
 
                         <div id="message"></div>
 
@@ -169,7 +169,8 @@
                             <input type="password" class="form-control"
                                    placeholder="<?= hintLang('password_old') ?>"
                                    name="password_old" id="password_old"
-                                   minlength="<?=$user->isAdmin() ? 0 : 3?>" maxlength="64" <?=$user->isAdmin() ? '' : 'required'?>>
+                                   minlength="<?= $user->isAdmin() ? 0 : 3 ?>"
+                                   maxlength="64" <?= $user->isAdmin() ? '' : 'required' ?>>
                         </div>
                         <div class="form-group">
                             <label><?= inputLang('new_password') ?></label>
@@ -196,8 +197,9 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <button class="btn btn-success" data-toggle="modal" data-target="#modal-user-announcement-insert"
-                                onclick="clearForm($('#form-user-announcement-insert'))"><?=uiLang("insert_user_announcement")?></button>
+                        <button class="btn btn-success" data-toggle="modal"
+                                data-target="#modal-user-announcement-insert"
+                                onclick="clearForm($('#form-user-announcement-insert'))"><?= uiLang("insert_user_announcement") ?></button>
                     </div>
                     <div class="table-responsive">
                         <table id="user-announcements" class="table table-bordered table-hover">
@@ -241,7 +243,7 @@
 
                     <div class="form-group">
                         <label><?= inputLang('user') ?></label>
-                        <input type="hidden" name="user" value="<?=$userID?>" const="true">
+                        <input type="hidden" name="user" value="<?= $userID ?>" const="true">
                         <p id="modalUserAnnouncementInsertFullName"></p>
                     </div>
                     <div class="form-group">
@@ -301,10 +303,11 @@
                     <input type="hidden" name="id">
 
                     <div class="form-group">
-                        <label><?= inputLang('user') ?></label>
-                        <select class="form-control userSelect select2bs4" name="user" id="user-announcement-user"
-                                required>
-                        </select>
+                        <div class="form-group">
+                            <label><?= inputLang('user') ?></label>
+                            <input type="hidden" name="user" value="<?= $userID ?>" const="true">
+                            <p id="modalUserAnnouncementUpdateFullName"></p>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label><?= inputLang('title') ?></label>
@@ -499,8 +502,8 @@
                         json.data[i].user_announcement_created_at = formatDMYOnlyDate(json.data[i].user_announcement_created_at);
 
                         json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropAnnouncement" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropAnnouncement">';
-                        json.data[i].options += '<a class="dropdown-item text-primary" onclick="showDetailUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_view")?>"><span class="fas fa-eye"></span> <?=uiLang("announcement_view")?></a>';
-                        json.data[i].options += '<a class="dropdown-item text-warning" onclick="showUpdateUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_update")?>"><span class="fas fa-edit"></span> <?=uiLang("announcement_update")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-primary" onclick="showDetailUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_view")?>"><span class="fas fa-eye"></span> <?=uiLang("user_announcement_view")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-warning" onclick="showUpdateUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_update")?>"><span class="fas fa-edit"></span> <?=uiLang("user_announcement_update")?></a>';
                         json.data[i].options += '<a class="dropdown-item text-success" onclick="showMessagesUserAnnouncement(' + json.data[i].user_announcement_id + ')" title="<?=uiLang("user_announcement_messages")?>"><span class="fas fa-envelope"></span> <?=uiLang("user_announcement_messages")?></a>';
                         json.data[i].options += '<a class="dropdown-item text-danger" onclick="showDeleteUserAnnouncement(' + i + ')" title="<?=uiLang("user_announcement_delete")?>"><span class="fas fa-trash"></span> <?=uiLang("user_announcement_delete")?></a>';
                         json.data[i].options += '</div></div>';
@@ -540,15 +543,27 @@
         },
         'success': function (response) {
             //todo
-            loadInputsFromObject('form-user-update-info', response.data, 'user_');
-            hideCardOverlay($('#form-user-update-info'));
+            if (response.status) {
+                loadInputsFromObject('form-user-update-info', response.data, 'user_');
+                hideCardOverlay($('#form-user-update-info'));
 
-            loadInputsFromObject('form-user-preferences-update', response.data, 'user_');
-            hideCardOverlay($('#form-user-preferences-update'));
+                loadInputsFromObject('form-user-preferences-update', response.data, 'user_');
+                hideCardOverlay($('#form-user-preferences-update'));
 
-            storeUser = response.data;
+                storeUser = response.data;
 
-            $('#modalUserAnnouncementInsertFullName').html(storeUser.user_first_name + ' ' + storeUser.user_last_name);
+                $('#modalUserAnnouncementInsertFullName').html(storeUser.user_first_name + ' ' + storeUser.user_last_name);
+
+                $('#form-user-update-info').find('#message').html('');
+                $('#form-user-preferences-update').find('#message').html('');
+            }else{
+                formError($('#form-user-update-info'), response.message);
+                formError($('#form-user-preferences-update'), response.message);
+
+
+                hideCardOverlay($('#form-user-preferences-update'));
+                hideCardOverlay($('#form-user-update-info'));
+            }
         },
         'error': function () {
             //todo
@@ -563,8 +578,8 @@
         $('#modal-user-delete').modal('show');
     }
 
-    function checkPassword(form){
-        if($('#password_new').val() != $('#password_repeat').val()){
+    function checkPassword(form) {
+        if ($('#password_new').val() != $('#password_repeat').val()) {
             formError(form, '<?=uiLang("password_doesnt_match")?>');
 
             return false;
@@ -582,6 +597,8 @@
 
     function showUpdateUserAnnouncement(index) {
         loadInputsFromObject('form-user-announcement-update', arrUserAnnouncements[index], 'user_announcement_');
+
+        $('#modalUserAnnouncementUpdateFullName').html(storeUser.user_first_name + ' ' + storeUser.user_last_name);
 
         $('#modal-user-announcement-update').modal('show');
     }
