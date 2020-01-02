@@ -38,7 +38,7 @@ class FileController
             } while (file_exists(self::DOCUMENT_DIR . $uploadURL));
 
             if (move_uploaded_file($fileTmpPath, self::DOCUMENT_DIR . $uploadURL)) {
-                Log::insertWithKey(500, [500], [$uploadURL]);
+                Log::insertWithKey("file_upload_success_document", [500], [$uploadURL]);
 
                 return Output::returnWithData($uploadURL);
             } else {

@@ -373,4 +373,104 @@ class SubmissionObject
     }
 
     //endregion
+
+    //region Data Tables Log
+
+    public function dataTablesLogWithInput()
+    {
+        $inputCheck = $this->dataTablesLogInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->dataTablesLog(
+            post('id'),
+            post('start'),
+            post('length'),
+            post('keyword'),
+            post('orderColumn'),
+            post('orderDir')
+        );
+    }
+
+    public function dataTablesLogInputCheck()
+    {
+        if (isset($_POST['search']) && isset($_POST['search']['value'])) {
+            setPost('keyword', $_POST['search']['value']);
+        } else {
+            setPost('keyword', '');
+        }
+
+        if (isset($_POST['order']) && isset($_POST['order'][0]['column']) && isset($_POST['order'][0]['dir'])) {
+            setPost('orderColumn', $_POST['order'][0]['column']);
+            setPost('orderDir', $_POST['order'][0]['dir'] == 'asc' ? 'ASC' : 'DESC');
+        } else {
+            setPost('orderColumn', 1);
+            setPost('orderDir', 'ASC');
+        }
+
+        return InputCheck::checkAll([
+            new Input('id', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
+            new Input('start', Input::METHOD_POST, 'input_start', Input::TYPE_INT, 1, 8),
+            new Input('length', Input::METHOD_POST, 'input_length', Input::TYPE_INT, 1, 8),
+            new Input('keyword', Input::METHOD_POST, 'input_keyword', Input::TYPE_TEXT, 0, 64),
+            new Input('orderColumn', Input::METHOD_POST, 'input_order_column', Input::TYPE_INT, 1, 8),
+            new Input('orderDir', Input::METHOD_POST, 'input_order_dir', Input::TYPE_TEXT, 3, 4),
+        ]);
+    }
+
+    public function dataTablesLog($submissionID, $start, $length, $keyword, $orderColumn, $orderDir)
+    {
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $columns = [
+            'log_id',
+            'log_text',
+            'ownerFullName',
+            'log_created_at',
+        ];
+
+        $querySearch = "";
+
+        if (post('keyword')) {
+            $querySearch = dataTablesLikeQuery(post('keyword'), [
+                'log_id',
+                'log_text',
+                'log_created_at'
+            ]);
+        }
+
+        $logIDs = [
+            60, 70, 71,
+            120, 121, 122, 123, 124,
+            160, 161, 162, 163,
+            165,
+            180,181,182,183,185,
+            700
+        ];
+
+        $logIDs = implode(",", $logIDs);
+
+        $select = Database::select("SELECT log_id, log_text, log_created_at, (SELECT CONCAT_WS(' ', user_first_name, user_last_name) FROM users WHERE user_id = log_created_by) as ownerFullName, log_first_param, log_second_param, log_third_param, log_param_text_first, log_param_text_second, log_param_text_third, log_param_text_fourt FROM logs WHERE log_active = 1 AND log_first_param IN ({$logIDs}) AND log_second_param = {$submissionID} {$querySearch} ORDER BY {$columns[$orderColumn]} {$orderDir} LIMIT  {$length} OFFSET {$start}");
+        $stats = Database::select("SELECT COUNT(*) as recordsFiltered, (SELECT COUNT(*) FROM logs WHERE log_active = 1 AND log_first_param IN ({$logIDs}) AND log_second_param = {$submissionID}) as recordsTotal FROM logs WHERE log_active = 1 AND log_first_param IN ({$logIDs}) AND log_second_param = {$submissionID} {$querySearch}");
+
+        if ($select->status && $stats->status) {
+            $countData = count($select->data);
+            for ($i = 0; $i < $countData; $i++){
+                $select->data[$i]["log_text"] = logLang($select->data[$i]["log_text"], $select->data[$i]["log_param_text_first"], $select->data[$i]["log_param_text_second"], $select->data[$i]["log_param_text_third"], $select->data[$i]["log_param_text_fourt"]);
+            }
+
+            return new DataTablesOutput(true, Lang::get('submission_log_select_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);
+        } else {
+            return new DataTablesOutput(false, Lang::get('submission_log_select_failure'));
+        }
+
+    }
+
+    //endregion
 }

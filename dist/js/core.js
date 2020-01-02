@@ -389,3 +389,16 @@ function internalURL(category, request, additional = '', additionalValue = '') {
 }
 
 //endregion
+
+//region Collapse Card
+
+function collapseCard(obj){
+    if($(obj).hasClass("hideCollapse")){
+        $(obj).parent().parent().find(".card-body").collapse("show").removeClass("hideCollapse");
+    }else{
+        $(obj).parent().parent().find(".card-body").collapse("hide").addClass("hideCollapse");
+    }
+
+}
+
+//endregion

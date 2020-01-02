@@ -97,6 +97,10 @@ if($callCategory == "user"){
         $submission = new SubmissionObject();
 
         $callResult = $submission->deleteWithInput();
+    }else if($callRequest == "logs"){
+        $submission = new SubmissionObject();
+
+        $callResult = $submission->dataTablesLogWithInput();
     }
 
     //endregion

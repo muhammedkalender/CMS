@@ -222,6 +222,27 @@
                     </form>
                 </div>
             </div>
+            <div class="card card-info">
+                <div class="card-header">
+                    <h5 class="card-title"><?= uiLang('submission_invoice') ?></h5>
+                    <div class="float-right" onclick="collapseCard(this)">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table id="logs" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th><?= uiLang('id') ?></th>
+                            <th><?= uiLang('message') ?></th>
+                            <th><?= uiLang('owner') ?></th>
+                            <th><?= uiLang('created_at') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
             <div class="modal" id="modal-author">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content bg-primary">
@@ -390,6 +411,10 @@
 </style>
 
 <script>
+    var arrLogs = [];
+</script>
+
+<script>
     var itemList = [];
 
     function showAuthor(key) {
@@ -454,6 +479,52 @@
         }
 
         $('#divUsers').html(html);
+    }
+
+    function loadLogs(){
+        $('#logs').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'ordering': true,
+            'paging': true,
+            'searching': true,
+            "info" : true,
+            'serverMethod': 'post',
+            'columns': [
+                {'data': 'log_id'},
+                {'data': 'log_text'},
+                {'data': 'ownerFullName'},
+                {'data': 'log_created_at'}
+            ],
+            'ajax': {
+                'url': 'api.php',
+                'type': 'post',
+                'dataType': 'json',
+                'data': {
+                    'call_category': 'submission',
+                    'call_request': 'logs',
+                    'id': '<?=$submissionID?>',
+                },
+                'dataSrc': function (json) {
+
+                    arrLogs = json.data;
+
+                    return json.data;
+                }
+            },
+            'language': {
+                'lengthMenu': '<?=uiLang("dt_length_menu")?>',
+                'zeroRecords': '<?=uiLang("dt_zero_records")?>',
+                'info': '<?=uiLang("dt_info")?>',
+                'infoEmpty': '<?=uiLang("dt_info_empty")?>',
+                'infoFiltered': '<?=uiLang("dt_info_filtered")?>',
+                'search': '<?=uiLang("dt_search")?>',
+                'paginate': {
+                    'previous': '<?=uiLang("dt_previous")?>',
+                    'next': '<?=uiLang("dt_next")?>'
+                }
+            }
+        });
     }
 </script>
 

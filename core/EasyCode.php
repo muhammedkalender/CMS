@@ -75,6 +75,15 @@ function sidebarLang($key, $firstParam = "", $secondParam = "", $thirdParam = ""
     }
 }
 
+function logLang($key, $firstParam = "", $secondParam = "", $thirdParam = "", $fourthParam = "", $fifthParam = "")
+{
+    if (Config::HIDE_LANG) {
+        return '[log_' . $key . ']';
+    } else {
+        return Lang::get('log_' . $key, $firstParam, $secondParam, $thirdParam, $fourthParam, $fifthParam);
+    }
+}
+
 function dataTablesLikeQuery($keyword, $columns)
 {
     $query = "";

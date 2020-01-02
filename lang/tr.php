@@ -187,6 +187,7 @@ class Lang
         "ui_message" => "Yorum",
         "ui_created_at" => "İşlem Tarihi",
         "ui_status" => "Durum",
+        "ui_owner" => "İşlemi Yapan",
 
         "ui_submission_comments" => "Makale Yorumları",
 
@@ -267,6 +268,8 @@ class Lang
 
         "submission_delete_success" => "Makale başarıyla silindi",
         "submission_delete_failure" => "Makale silinirken sorun oluştu",
+
+        "log_request_submission_invoice_decline" => "Makbuz gönderimi red edildi",
     ];
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')
