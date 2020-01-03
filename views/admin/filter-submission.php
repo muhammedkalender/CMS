@@ -87,11 +87,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card card-warning" id="divSubmissionComments">
+                    <div class="card card-warning" id="divSubmissionComments" style="display: none;">
                         <div class="card-header">
                             <h3 class="card-title"><?= uiLang('submission_comments') ?></h3>
                         </div>
                         <div class="card-body">
+                            <div class="form-group">
+                                <button class="btn btn-success" onclick="showInsertTask()"><?= uiLang("insert_submission_comment") ?></button>
+                            </div>
                             <div class="table-responsive">
                                 <table id="submissionComments" class="table table-bordered table-hover">
                                     <thead>
@@ -308,6 +311,41 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal-submission-comment-insert">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-success">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <?= uiLang('submission_comment_insert') ?>
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                      id="form-submission-comment-insert"
+                      submit-datatable="submissionComments"
+                      modal-loader="modal-submission-comment-insert">
+                    <input type="hidden" name="call_category" value="submission-comment">
+                    <input type="hidden" name="call_request" value="insert">
+
+                    <div id="message"></div>
+
+                    <input type="hidden" name="id" const="true">
+
+                    <div class="form-group">
+                        <label><?=uiLang("message")?></label>
+                        <textarea class="form-control" name="message" placeholder="<?=hintLang("message")?>" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-default"><?= uiLang('insert') ?></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="<?= folder() ?>plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= folder() ?>plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
@@ -318,6 +356,8 @@
 
     var arrSubmissions = [];
     var arrSubmissionsComment = [];
+
+    var currentSubmissionID = 0;
 </script>
 
 <script>
@@ -462,9 +502,13 @@
                         json.data[i].options += '</div></div>';
                     }
 
+                    $('#divSubmissionComments').show();
+
                     window.location.href = '#divSubmissionComments';
 
                     arrSubmissionsComment = json.data;
+
+                    currentSubmissionID = submissionID;
 
                     return json.data;
                 }
@@ -525,5 +569,13 @@
 
     function loadFilter() {
         $('#submissions').DataTable().ajax.reload();
+    }
+
+    function showInsertTask(){
+        clearForm($("#form-submission-comment-insert"));
+
+        loadInputsFromObject('form-submission-comment-insert', {submission_id: currentSubmissionID}, 'submission_', 'id');
+
+        $("#modal-submission-comment-insert").modal();
     }
 </script>
