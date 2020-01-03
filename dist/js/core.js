@@ -243,11 +243,11 @@ function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
             if (object[prefix + $(this).attr('data-name')] != null) {
                 if (object[prefix + $(this).attr('data-name')] === '0') {
                     $(this).html('<label class="badge badge-info">' + langStatusNothing + '</label>');
-                } else if (object[prefix + $(this).attr('data-name')] === '1') {
+                } else if (object[prefix + $(this).attr('data-name')] == '1') {
                     $(this).html('<label class="badge badge-warning">' + langStatusPending + '</label>');
-                } else if (object[prefix + $(this).attr('data-name')] === '2') {
+                } else if (object[prefix + $(this).attr('data-name')] == '2') {
                     $(this).html('<label class="badge badge-success">' + langStatusAccepted + '</label>');
-                } else if (object[prefix + $(this).attr('data-name')] === '3') {
+                } else if (object[prefix + $(this).attr('data-name')] == '3') {
                     $(this).html('<label class="badge badge-danger">' + langStatusDeclined + '</label>');
                 } else if (object[prefix + $(this).attr('data-name')]) {
                     $(this).html('<label class="badge badge-success">' + langStatusAccepted + '</label>');

@@ -25,13 +25,34 @@ class SubmissionObject
         //todo
 
         //todo check auth
-        $submission = Database::first("SELECT * FROM submissions WHERE submission_id = {$submissionID}");
+        $submission = Database::first("SELECT *, 
+(SELECT COUNT(*) FROM request_submission_full_papers WHERE request_submission_full_paper_submission = {$submissionID} AND request_submission_full_paper_active = 1 AND request_submission_full_paper_status = 'Pending') as fullPaperPendingCount,
+(SELECT COUNT(*) FROM request_submission_full_papers WHERE request_submission_full_paper_submission = {$submissionID} AND request_submission_full_paper_active = 1 AND request_submission_full_paper_status = 'Declined') as fullPaperDeclinedCount,
+(SELECT COUNT(*) FROM request_submission_invoices WHERE request_submission_invoice_submission = {$submissionID} AND request_submission_invoice_active = 1 AND request_submission_invoice_status = 'Pending') as invoicePendingCount,
+(SELECT COUNT(*) FROM request_submission_invoices WHERE request_submission_invoice_submission = {$submissionID} AND request_submission_invoice_active = 1 AND request_submission_invoice_status = 'Declined') as invoiceDeclinedCount 
+FROM submissions WHERE submission_id = {$submissionID}");
 
         if (!$submission->status) {
             return new Output(false, Lang::get('submission_null'));
         }
 
         $submission = $submission->data;
+
+        if(empty($submission["submission_full_paper"])){
+            if($submission["fullPaperPendingCount"] > 0){
+                $submission["submission_full_paper"] = 1;
+            }else if($submission["fullPaperDeclinedCount"] > 0){
+                $submission["submission_full_paper"] = 3;
+            }
+        }
+
+        if(empty($submission["submission_invoice"])){
+            if($submission["invoicePendingCount"] > 0){
+                $submission["submission_invoice"] = 1;
+            }else if($submission["invoiceDeclinedCount"] > 0){
+                $submission["submission_invoice"] = 3;
+            }
+        }
 
         global $user;
    //todo grup olarka kontrol edecek birşey ? herhangi biri olabilir çünkü authorslardan
