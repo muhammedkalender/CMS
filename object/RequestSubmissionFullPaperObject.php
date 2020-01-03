@@ -136,11 +136,15 @@ class RequestSubmissionFullPaperObject
             return new Output(false, Lang::get('null_request_submission_full_paper'));
         }
 
+        $submissionID = $resultSelect->data["request_submission_full_paper_submission"];
+
         $resultUpdate = Database::exec("UPDATE request_submission_full_papers SET request_submission_full_paper_status = 2, request_submission_full_paper_updated_by = '{$user->id}', request_submission_full_paper_updated_At = '" . getCustomDate() . "' WHERE request_submission_full_paper_id = '{$requestSubmissionFullPaperID}'");
         $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_full_paper = '" . $resultSelect->data["request_submission_full_paper_url"] . "', request_submission_full_paper_updated_by = '{$user->id}, request_submission_full_paper_updated_At = '" . getCustomDate() . "' WHERE submission_id = '" . $resultSelect->data["request_submission_full_paper_submission"] . "'");
 
         if ($resultRelatedUpdate->status) {
             Log::insertWithKey('request_submission_full_paper_confirm', [182, $requestSubmissionFullPaperID]);
+            Log::insertWithKey('submission_request_submission_full_paper_confirm', [812, $submissionID, $requestSubmissionFullPaperID]);
+
 
             return new Output(true, Lang::get('request_submission_full_paper_confirm_success'));
         } else {
@@ -223,10 +227,19 @@ class RequestSubmissionFullPaperObject
             return new Output(false, Lang::get('perm_error'));
         }
 
+        $resultSelect = Database::first("SELECT * FROM request_submission_full_papers WHERE request_submission_full_paper_id = '{$requestSubmissionFullPaperID}'");
+
+        if(!$resultSelect->status){
+            return new Output(false, Lang::get('null_request_submission_full_paper'));
+        }
+
+        $submissionID = $resultSelect->data["request_submission_full_paper_submission"];
+
         $resultUpdate = Database::exec("UPDATE request_submission_full_papers SET request_submission_full_paper_status = 1, request_submission_full_paper_updated_by = '{$user->id}', request_submission_full_paper_updated_at = '" . getCustomDate() . "' WHERE request_submission_full_paper_id = '{$requestSubmissionFullPaperID}'");
 
         if ($resultUpdate->status) {
             Log::insertWithKey('request_submission_full_paper_decline', [183, $requestSubmissionFullPaperID]);
+            Log::insertWithKey("submission_request_full_paper_decline", [813, $submissionID, $requestSubmissionFullPaperID]);
 
             return new Output(true, Lang::get('request_submission_full_paper_decline_success'));
         } else {

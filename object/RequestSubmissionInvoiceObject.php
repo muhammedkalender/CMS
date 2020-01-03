@@ -88,10 +88,19 @@ class RequestSubmissionInvoiceObject
             return new Output(false, Lang::get('perm_error'));
         }
 
+        $resultSelect = Database::first("SELECT * FROM request_submission_invoices WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
+
+        if(!$resultSelect->status){
+            return new Output(false, Lang::get('null_request_submission_invoice'));
+        }
+
+        $submissionID = $resultSelect->data["request_submission_invoice_submission"];
+
         $resultDelete = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_active = 0, request_submission_invoice_updated_by = '{$user->id}', request_submission_invoice_updated_at = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
 
         if ($resultDelete->status) {
             Log::insertWithKey('request_submission_invoice_delete', [161, $requestSubmissionInvoiceID]);
+            Log::insertWithKey('submission_request_submission_invoice_delete', [802, $submissionID, $requestSubmissionInvoiceID]);
 
             return new Output(true, Lang::get('request_submission_invoice_delete_success'));
         } else {
@@ -137,11 +146,14 @@ class RequestSubmissionInvoiceObject
             return new Output(false, Lang::get('null_request_submission_invoice'));
         }
 
+        $submissionID = $resultSelect->data["request_submission_invoice_submission"];
+
         $resultUpdate = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_status = 2, request_submission_invoice_updated_by = '{$user->id}', request_submission_invoice_updated_At = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
         $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_invoice = '".$resultSelect->data["request_submission_invoice_url"]."', request_submission_invoice_updated_by = '{$user->id}, request_submission_invoice_updated_At = '".getCustomDate()."' WHERE submission_id = '".$resultSelect->data["request_submission_invoice_submission"]."'");
 
         if ($resultRelatedUpdate->status) {
             Log::insertWithKey('request_submission_invoice_confirm', [162, $requestSubmissionInvoiceID]);
+            Log::insertWithKey('submission_request_submission_invoice_confirm', [800, $submissionID, $requestSubmissionInvoiceID]);
 
             return new Output(true, Lang::get('request_submission_invoice_confirm_success'));
         } else {
@@ -224,10 +236,20 @@ class RequestSubmissionInvoiceObject
             return new Output(false, Lang::get('perm_error'));
         }
 
+        $resultSelect = Database::first("SELECT * FROM request_submission_invoices WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
+
+        if(!$resultSelect->status){
+            return new Output(false, Lang::get('null_request_submission_invoice'));
+        }
+
+        $submissionID = $resultSelect->data["request_submission_invoice_submission"];
+
         $resultUpdate = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_status = 1, request_submission_invoice_updated_by = '{$user->id}', request_submission_invoice_updated_at = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
 
         if ($resultUpdate->status) {
             Log::insertWithKey('request_submission_invoice_decline', [163, $requestSubmissionInvoiceID]);
+            Log::insertWithKey('submission_request_submission_invoice_decline', [801, $submissionID, $requestSubmissionInvoiceID]);
+
 
             return new Output(true, Lang::get('request_submission_invoice_decline_success'));
         } else {

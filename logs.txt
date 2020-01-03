@@ -45,3 +45,10 @@
 183 => request_submission_full_paper_decline [ REQUEST_FULL_PAPER_ID ]
 
 700 => submission_delete_success [ SUBMISSION_ID ]
+
+800 => submission_request_submission_invoice_confirm [ SUBMISSION_ID , REQUEST_SUBMISSON_INVOICE_ID ]
+801 => submission_request_submission_invoice_decline [ SUBMISSION_ID , REQUEST_SUBMISSON_INVOICE_ID ]
+802 => submission_request_submission_invoice_delete [SUBMISSION_ID, REQUEST_SUBMISSION_INVOICE_ID ]
+
+812 => submission_request_submission_full_paper_confirm [ SUBMISSION_ID, REQUEST_SUBMISSION_FULL_PAPER_ID ]
+813 => submission_request_full_paper_decline [SUBMISSION_ID, REQUEST_SUBMISSION_FULL_PAPER_ID ]

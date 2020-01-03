@@ -222,14 +222,14 @@
                     </form>
                 </div>
             </div>
-            <div class="card card-info">
+            <div class="card card-info collapsed-card">
                 <div class="card-header">
-                    <h5 class="card-title"><?= uiLang('submission_invoice') ?></h5>
-                    <div class="float-right" onclick="collapseCard(this)">
-                        <i class="fas fa-plus"></i>
+                    <h5 class="card-title"><?= uiLang('submission_logs') ?></h5>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" onclick="collapseCard(this)" data-tables="logs"><i class="fas fa-plus"></i></button>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="display: none;">
                     <table id="logs" class="table table-bordered table-hover">
                         <thead>
                         <tr>
@@ -480,52 +480,6 @@
 
         $('#divUsers').html(html);
     }
-
-    function loadLogs(){
-        $('#logs').DataTable({
-            'processing': true,
-            'serverSide': true,
-            'ordering': true,
-            'paging': true,
-            'searching': true,
-            "info" : true,
-            'serverMethod': 'post',
-            'columns': [
-                {'data': 'log_id'},
-                {'data': 'log_text'},
-                {'data': 'ownerFullName'},
-                {'data': 'log_created_at'}
-            ],
-            'ajax': {
-                'url': 'api.php',
-                'type': 'post',
-                'dataType': 'json',
-                'data': {
-                    'call_category': 'submission',
-                    'call_request': 'logs',
-                    'id': '<?=$submissionID?>',
-                },
-                'dataSrc': function (json) {
-
-                    arrLogs = json.data;
-
-                    return json.data;
-                }
-            },
-            'language': {
-                'lengthMenu': '<?=uiLang("dt_length_menu")?>',
-                'zeroRecords': '<?=uiLang("dt_zero_records")?>',
-                'info': '<?=uiLang("dt_info")?>',
-                'infoEmpty': '<?=uiLang("dt_info_empty")?>',
-                'infoFiltered': '<?=uiLang("dt_info_filtered")?>',
-                'search': '<?=uiLang("dt_search")?>',
-                'paginate': {
-                    'previous': '<?=uiLang("dt_previous")?>',
-                    'next': '<?=uiLang("dt_next")?>'
-                }
-            }
-        });
-    }
 </script>
 
 <script>
@@ -570,6 +524,51 @@
                     arrAnnouncements = json.data;
 
                     return json.data;
+                }
+            }
+        });
+
+        $('#logs').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'ordering': true,
+            'paging': true,
+            'searching': true,
+            "info" : true,
+            "deferLoading": 0,
+            'serverMethod': 'post',
+            'columns': [
+                {'data': 'log_id'},
+                {'data': 'log_text'},
+                {'data': 'ownerFullName'},
+                {'data': 'log_created_at'}
+            ],
+            'ajax': {
+                'url': 'api.php',
+                'type': 'post',
+                'dataType': 'json',
+                'data': {
+                    'call_category': 'submission',
+                    'call_request': 'logs',
+                    'id': '<?=$submissionID?>',
+                },
+                'dataSrc': function (json) {
+
+                    arrLogs = json.data;
+
+                    return json.data;
+                }
+            },
+            'language': {
+                'lengthMenu': '<?=uiLang("dt_length_menu")?>',
+                'zeroRecords': '<?=uiLang("dt_zero_records")?>',
+                'info': '<?=uiLang("dt_info")?>',
+                'infoEmpty': '<?=uiLang("dt_info_empty")?>',
+                'infoFiltered': '<?=uiLang("dt_info_filtered")?>',
+                'search': '<?=uiLang("dt_search")?>',
+                'paginate': {
+                    'previous': '<?=uiLang("dt_previous")?>',
+                    'next': '<?=uiLang("dt_next")?>'
                 }
             }
         });
