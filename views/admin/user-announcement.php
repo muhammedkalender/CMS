@@ -305,10 +305,8 @@
                 'call_request': 'select'
             },
             'success': function (response) {
-                //todo
-
                 if (response.status == false) {
-                    //todo
+                    dialogError(response.message, '', '/');
                     return;
                 }
 
@@ -323,7 +321,7 @@
                 });
             },
             'error': function () {
-                //error todo
+                dialogError(langSystemicalError, '', '/');
             }
         });
 
@@ -369,7 +367,7 @@
             },
             'success': function (response) {
                 if (response.status == false) {
-                    //todo
+                    dialogError(response.message, '', '/');
                     return;
                 }
 
@@ -388,12 +386,10 @@
                 hideModalOverlay('modal-user-announcement-message');
             },
             'error': function () {
-                //todo
+                dialogError(langSystemicalError, '', '/');
                 hideModalOverlay('modal-user-announcement-message');
             }
         });
-
-        //todo
     }
 
     function sendUserAnnouncementMessage() {
@@ -410,7 +406,10 @@
                 'message': $('#user-announcement-message-message').val()
             },
             'success': function (response) {
-                //todo
+                if(response.status){
+                    dialogError(response.message, '', '/');
+                    return;
+                }
 
                 $('#user-announcement-message-message').val('');
                 hideModalOverlay('modal-user-announcement-message');
@@ -418,8 +417,7 @@
                 showMessagesUserAnnouncement($('#user-announcement-id').val());
             },
             'error': function () {
-                //todo
-
+                dialogError(langSystemicalError, '', '/');
                 hideModalOverlay('modal-user-announcement-message');
             }
         });

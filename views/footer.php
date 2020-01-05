@@ -29,6 +29,7 @@
     var langDefaultOption = "<?=uiLang('default_option')?>";
     var langAllOfThem = "<?=uiLang("all_of_them")?>";
     var langSystemAccount = "<?=uiLang("account_system")?>";
+    var langSystemicalError = "<?=uiLang("systemical_error")?>";
 </script>
 <script>
     $(document).ready(function () {

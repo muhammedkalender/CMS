@@ -1,11 +1,11 @@
 <?php
 
 require_once 'core/Lang.php';
-require_once 'core/Output.php'; //todo
-require_once 'core/DataTablesOutput.php'; //todo
-require_once 'core/InputCheck.php'; //todo
-require_once 'core/Input.php'; //todo
-require_once 'core/EasyCode.php'; //todo
+require_once 'core/Output.php';
+require_once 'core/DataTablesOutput.php';
+require_once 'core/InputCheck.php';
+require_once 'core/Input.php';
+require_once 'core/EasyCode.php';
 
 require_once 'object/UserObject.php';
 

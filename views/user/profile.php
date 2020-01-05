@@ -544,7 +544,6 @@
             'id': <?=$userID?>,
         },
         'success': function (response) {
-            //todo
             if (response.status) {
                 loadInputsFromObject('form-user-update-info', response.data, 'user_');
                 hideCardOverlay($('#form-user-update-info'));
@@ -568,7 +567,7 @@
             }
         },
         'error': function () {
-            //todo
+            dialogError(langSystemicalError, '', '/');
         }
     });
 </script>
@@ -627,7 +626,7 @@
             },
             'success': function (response) {
                 if (response.status == false) {
-                    //todo
+                    dialogError(langSystemicalError, '', '/');
                     return;
                 }
 
@@ -646,12 +645,10 @@
                 hideModalOverlay('modal-user-announcement-message');
             },
             'error': function () {
-                //todo
+                dialogError(langSystemicalError, '', '/');
                 hideModalOverlay('modal-user-announcement-message');
             }
         });
-
-        //todo
     }
 
     function sendUserAnnouncementMessage() {
@@ -668,7 +665,10 @@
                 'message': $('#user-announcement-message-message').val()
             },
             'success': function (response) {
-                //todo
+                if(!response.status){
+                    dialogError(langSystemicalError, '', '/');
+                    return;
+                }
 
                 $('#user-announcement-message-message').val('');
                 hideModalOverlay('modal-user-announcement-message');
@@ -676,8 +676,7 @@
                 showMessagesUserAnnouncement($('#user-announcement-id').val());
             },
             'error': function () {
-                //todo
-
+                dialogError(langSystemicalError, '', '/');
                 hideModalOverlay('modal-user-announcement-message');
             }
         });

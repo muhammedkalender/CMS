@@ -11,7 +11,7 @@ class Lang
 
         "country_tr" => "Türkiye",
 
-
+        "systemical_error" => "Sistemsel bir hata oluştu, lütfen daha sonra deneyin",
         "ui_account_system" => "Sistem",
         "api_request_null" => "Sistem Talep Gönderemedi",
 

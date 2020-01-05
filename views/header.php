@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<!--    todo firma adı ?-->
     <title><?= $title ?> - CMS</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -25,7 +24,6 @@
     <script src="<?= folder() ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?= folder() ?>dist/js/adminlte.min.js"></script>
     <script src="<?= folder() ?>dist/js/core.js"></script>
-    <!--  todo badge için ?  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">-->
 </head>
 <?php
 if ($showSidebar && $user->isLogged()) {

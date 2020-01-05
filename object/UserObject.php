@@ -26,7 +26,6 @@ class UserObject
         //Baş yazar veya yönetici
         CORRESPONDING_AUTHOR_OR_ADMIN = 5;
 
-    //todo
     public $id, $submissionID, $email, $fistName, $lastName, $isAdmin, $country, $organization, $webPage, $address, $tel, $ecID;
     public $noteFood, $noteAccommodation, $noteExtra;
     public $isCorresponding, $isJoined;
@@ -174,8 +173,6 @@ class UserObject
 
             return new Output(false, Lang::get('register_failure', $email));
         }
-
-        //todo
     }
 
     public function registerInputCheck()

@@ -35,7 +35,7 @@
             'dataSrc': function (json) {
                 for (var i = 0; i < json.data.length; i++) {
                     json.data[i].announcement_created_at = formatDMYOnlyDate(json.data[i].announcement_created_at);
-                    json.data[i].options = '<a class="btn btn-primary" onclick="showDetailAnnouncement(' + i + ')"><span class="fas fa-eye"></span></a>'; //todo
+                    json.data[i].options = '<a class="btn btn-primary" onclick="showDetailAnnouncement(' + i + ')"><span class="fas fa-eye"></span></a>';
                 }
 
                 arrAnnouncements = json.data;

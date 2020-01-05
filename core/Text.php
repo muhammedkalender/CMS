@@ -10,7 +10,7 @@ class Text
         $text = "";
 
         for ($i = 0; $i < $textLength; $i++) {
-            $randomIndex = rand(0, $listLength - 1); //todo -1
+            $randomIndex = rand(0, $listLength - 1);
             $text .= $list[$randomIndex];
         }
 

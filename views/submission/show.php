@@ -39,7 +39,6 @@
                 <div class="card-body submission-update-body">
                     <form action="/api.php" method="post" onsubmit="return checkForm(this)"
                           id="form-submission-update" submit-delay="2000" card-loader="ok">
-                        <!--                todo url redictect-->
                         <input type="hidden" name="call_category" value="submission">
                         <input type="hidden" name="call_request" value="insert">
 
@@ -466,49 +465,6 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="modal-submission-message">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content bg-primary">
-                        <div class="modal-header">
-                            <h4 class="modal-title">
-                                <?= uiLang('submission_messages') ?>
-                            </h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-submission-insert"
-                                  submit-datatable="submission_messages"
-                                  modal-loader="modal-submission-insert">
-                                <input type="hidden" name="call_category" value="submission">
-                                <input type="hidden" name="call_request" value="insert">
-
-                                <div id="message"></div>
-
-                                <div class="form-group">
-                                    <label><?= inputLang('language') ?></label>
-                                    <select class="form-control" name="language" required>
-                                        <!--                            todo-->
-                                        <option value="1">All</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label><?= inputLang('title') ?></label>
-                                    <input type="text" class="form-control" name="title" minlength="1" maxlength="256" required>
-                                </div>
-                                <div class="form-group">
-                                    <label><?= inputLang('message') ?></label>
-                                    <textarea type="text" class="form-control" name="message" minlength="1" maxlength="2048"
-                                              required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-success"><?= uiLang('add') ?></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="modal fade" id="modal-submission-comment-complete">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content bg-success">
@@ -683,8 +639,7 @@
         }
 
         if (objData == null) {
-            //todo
-            console.log('asdas');
+            dialogError(langSystemicalError, '', '/');
             return;
         }
 
@@ -943,8 +898,6 @@
                 'id': <?=$submissionID?>,
             },
             'success': function (response) {
-                //todo
-
                 if (response.status == false) {
                     dialogError(response.message, '', '/');
                     return;
@@ -974,7 +927,8 @@
                 // hideCardOverlay($('#form-user-preferences-update'));
             },
             'error': function () {
-                //todo
+                dialogError(langSystemicalError, '', '/');
+                hideCardOverlay($('#form-submission-update'));
             }
         });
     });
@@ -1089,24 +1043,18 @@
     }
 
     function showCompleteTask(submissionCommentID) {
-        //todo
-
         loadInputsFromObject('form-submission-comment-complete', {submission_comment_id: submissionCommentID}, 'submission_comment_', 'message');
 
         $('#modal-submission-comment-complete').modal();
     }
 
     function showPendingTask(submissionCommentID) {
-        //todo
-
         loadInputsFromObject('form-submission-comment-pending', {submission_comment_id: submissionCommentID}, 'submission_comment_', 'message');
 
         $('#modal-submission-comment-pending').modal();
     }
 
     function showCancelTask(submissionCommentID) {
-        //todo
-
         loadInputsFromObject('form-submission-comment-canceled', {submission_comment_id: submissionCommentID}, 'submission_comment_', 'message');
 
         $('#modal-submission-comment-canceled').modal();

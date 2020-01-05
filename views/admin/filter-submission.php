@@ -501,24 +501,18 @@
     }
 
     function showCompleteTask(submissionCommentID) {
-        //todo
-
         loadInputsFromObject('form-submission-comment-complete', {submission_comment_id: submissionCommentID}, 'submission_comment_', 'message');
 
         $('#modal-submission-comment-complete').modal();
     }
 
     function showPendingTask(submissionCommentID) {
-        //todo
-
         loadInputsFromObject('form-submission-comment-pending', {submission_comment_id: submissionCommentID}, 'submission_comment_', 'message');
 
         $('#modal-submission-comment-pending').modal();
     }
 
     function showCancelTask(submissionCommentID) {
-        //todo
-
         loadInputsFromObject('form-submission-comment-canceled', {submission_comment_id: submissionCommentID}, 'submission_comment_', 'message');
 
         $('#modal-submission-comment-canceled').modal();
