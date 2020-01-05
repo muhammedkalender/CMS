@@ -223,19 +223,19 @@
 
 <script>
     function showRequestSubmissionFullPaperConfirm(index) {
-        loadInputsFromObject('form-request-submission-full-paper-confirm', arrRequestSubmissionFullPapers[index], 'request_submission_full-paper_', 'id');
+        loadInputsFromObject('form-request-submission-full-paper-confirm', arrRequestSubmissionFullPapers[index], 'request_submission_full_paper_', 'id');
 
         $('#modal-request-submission-full-paper-confirm').modal('show');
     }
 
     function showRequestSubmissionFullPaperDecline(index) {
-        loadInputsFromObject('form-request-submission-full-paper-decline', arrRequestSubmissionFullPapers[index], 'request_submission_full-paper_', 'id');
+        loadInputsFromObject('form-request-submission-full-paper-decline', arrRequestSubmissionFullPapers[index], 'request_submission_full_paper_', 'id');
 
         $('#modal-request-submission-full-paper-decline').modal('show');
     }
 
     function showRequestSubmissionFullPaperDelete(index) {
-        loadInputsFromObject('form-request-submission-full-paper-delete', arrRequestSubmissionFullPapers[index], 'request_submission_full-paper_', 'id');
+        loadInputsFromObject('form-request-submission-full-paper-delete', arrRequestSubmissionFullPapers[index], 'request_submission_full_paper_', 'id');
 
         $('#modal-request-submission-full-paper-delete').modal('show');
     }

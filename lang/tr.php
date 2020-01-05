@@ -137,6 +137,9 @@ class Lang
         "page_user" => "Kullanıcılar",
         "page_announcement" => "Duyurular",
         "page_user_announcement" => "Kullanıcı Duyuruları",
+        "page_request_submission_invoices" => "Makbuz Gönderimleri",
+        "page_request_submission_full_papers" => "Tam Metin Gönderimleri",
+        "page_filter_submission" => "Makale Filtreleme",
 
         "ui_id" => "#",
         "ui_created_by" => "Oluşturan",
@@ -155,8 +158,19 @@ class Lang
         "ui_email" => "Eposta",
         "ui_submission_id" => "Makale",
         "ui_add_new" => "Yeni Ekle",
+        "ui_filters" => "Filtreler",
+        "ui_search" => "Ara",
+
+        "ui_status_full_paper" => "Tam Metin Durumu",
+        "ui_status_invoice" => "Makbuz Durumu",
 
         "ui_users" => "Kullanıcılar",
+
+        "ui_all_of_them" => "Hepsi",
+        "ui_pending" => "Bekliyor",
+        "ui_rejected" => "Rededildi",
+        "ui_accepted" => "Kabul Edildi",
+        "ui_nothing" => "İşlem Yapılmadı",
 
         "ui_authors" => "Yazarlar",
         "ui_submission" => "Makale",
@@ -205,6 +219,12 @@ class Lang
         "ui_created_at" => "İşlem Tarihi",
         "ui_status" => "Durum",
         "ui_owner" => "İşlemi Yapan",
+        "ui_full_name" => "İsim Soyisim",
+        "ui_download" => "İndir",
+        "ui_decline" => "Reddet",
+        "ui_declined" => "Rededildi",
+        "ui_confirmed" => "Onaylandı",
+        "ui_invoice" => "Makbuz",
 
         "ui_submission_comments" => "Makale Yorumları",
 
@@ -302,6 +322,41 @@ class Lang
         "announcement_insert_failure" => "Duyuru kayıt edilirken sorunla karşılaşıldı",
         "announcement_update_success" => "Duyuru başarıyla güncellendi",
         "announcement_update_failure" => "Duyuru güncellenirken sorunla karşılaşıldı",
+
+        "ui_request_submission_invoices" => "Mekbuz Gönderim Listesi",
+
+        "ui_confirm_request_submission_invoice" => "Makbuz Gönderimini Onayla",
+        "ui_decline_request_submission_invoice" => "Makbuz Gönderimini Reddet",
+        "ui_delete_request_submission_invoice" => "Makbugz Gönderimini Sil",
+
+        "ui_confirm_are_you_sure" => "Onaylamak istediğinize emin misiniz ?",
+        "ui_decline_are_you_sure" => "Reddetmek istediğinize emin misiniz ?",
+
+        "request_submission_invoice_confirm_success" => "Makbuz Gönderimi Başarıyla Onaylandı",
+        "request_submission_invoice_confirm_failure" => "Makbuz Gönderimi Onaylanırken sorun oluştu",
+
+        "request_submission_invoice_decline_success" => "Makbuz Gönderimi Başarıyla rededildi",
+        "request_submission_invoice_decline_failure" => "Makbuz Gönderimi Rededilirken sorun oluştu",
+
+        "request_submission_invoice_delete_success" => "Makbuz Gönderimi başarıyla silindi",
+        "request_submission_invoice_delete_failure" => "Makbuz Gönderimi silinirken sorun oluştu",
+
+        "ui_request_submission_full_papers" => "Tam Metin Gönderimleri Listesi",
+
+        "ui_confirm_request_submission_full_paper" => "Tam Metin Gönderimi Onaylama",
+
+        "request_submission_full_paper_confirm_success" => "Tam Metin Gönderimi başarıyla onaylandı",
+        "request_submission_full_paper_confirm_failure" => "Tam Metin Gönderimi onaylanırken sorun oluştu",
+
+        "ui_decline_request_submission_full_paper" => "Tam Metin Gönderimi Reddet",
+
+        "request_submission_full_paper_decline_success" => "Tam Metin Gönderimi başarıyla rededildi",
+        "request_submission_full_paper_decline_failure" => "Tam Metin Gönderimi rededilirken sorun oluştu",
+
+        "ui_delete_request_submission_full_paper" => "Tam Metin Gönderimi Silme",
+
+        "request_submission_full_paper_delete_success" => "Tam Metin Gönderimi başarıyla silindi",
+        "request_submission_full_paper_delete_failure" => "Tam Metin Gönderimi silinirken sorun oluştu",
     ];
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')
