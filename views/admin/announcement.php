@@ -83,9 +83,7 @@
 
                     <div class="form-group">
                         <label><?= inputLang('language') ?></label>
-                        <select class="form-control" name="language_code" required>
-                            <!--                            todo-->
-                            <option value="1">All</option>
+                        <select class="form-control" name="language" required>
                         </select>
                     </div>
                     <div class="form-group">
@@ -128,9 +126,7 @@
 
                     <div class="form-group">
                         <label><?= inputLang('language') ?></label>
-                        <select class="form-control" name="language_code" required>
-                            <!--                            todo-->
-                            <option value="1">All</option>
+                        <select class="form-control" name="language" required>
                         </select>
                     </div>
                     <div class="form-group">
@@ -229,8 +225,8 @@
 
                         json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropAnnouncement" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropAnnouncement">';
                         json.data[i].options += '<a class="dropdown-item text-primary" onclick="showDetailAnnouncement(' + i + ')" title="<?=uiLang("announcement_view")?>"><span class="fas fa-eye"></span> <?=uiLang("announcement_view")?></a>';
-                        json.data[i].options += ' <a class="dropdown-item text-warning" onclick="showUpdateAnnouncement(' + i + ')" title="<?=uiLang("announcement_update")?>"><span class="fas fa-edit"></span> <?=uiLang("announcement_update")?></a>';
-                        json.data[i].options += '<a class="dropdown-item text-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("announcement_delete")?>"><span class="fas fa-trash"></span> <?=uiLang("announcement_delete")?></a>';
+                        json.data[i].options += ' <a class="dropdown-item text-warning" onclick="showUpdateAnnouncement(' + i + ')" title="<?=uiLang("update_announcement")?>"><span class="fas fa-edit"></span> <?=uiLang("update_announcement")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-danger" onclick="showDeleteAnnouncement(' + i + ')" title="<?=uiLang("delete_announcement")?>"><span class="fas fa-trash"></span> <?=uiLang("delete_announcement")?></a>';
                         json.data[i].options += '</div></div>';
                     }
 
@@ -250,6 +246,23 @@
                     'previous': '<?=uiLang("dt_previous")?>',
                     'next': '<?=uiLang("dt_next")?>',
                 }
+            }
+        });
+
+        $.ajax({
+            'url': '/constants/languages.json',
+            'type': 'get',
+            'dataType': 'json',
+            'success': function(response){
+                var html = "<option value=\"1\">"+langAllOfThem+"</option>";
+
+                for(var i = 0; i < response.length; i++){
+                    html += "<option value='" + response[i].id +"'>"+response[i].text+"</option>";
+                }
+
+                $("select[name=\"language\"").each(function(index){
+                   $(this).html(html);
+                });
             }
         });
     });

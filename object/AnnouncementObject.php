@@ -4,7 +4,7 @@ class AnnouncementObject
 {
     //Duyurular dillere özel çekilecek, Dil yoksa herkese
     //Duyuru her bir kullanıcıya eklenecek ( mesajlaşma yapabilecekelr )
-    public $id, $title, $message, $languageCode;
+    public $id, $title, $message, $language;
 
     public $createdAt;
 
@@ -21,7 +21,7 @@ class AnnouncementObject
         return $this->insert(
             post('title'),
             post('message'),
-            post('language_code')
+            post('language')
         );
     }
 
@@ -30,11 +30,11 @@ class AnnouncementObject
         return InputCheck::checkAll([
             new Input('title', Input::METHOD_POST, 'input_title', Input::TYPE_TEXT, 1, 256),
             new Input('message', Input::METHOD_POST, 'input_message', Input::TYPE_TEXT, 1, 2048),
-            new Input('language_code', Input::METHOD_POST, 'input_language_code', Input::TYPE_INT, 1, 32),
+            new Input('language', Input::METHOD_POST, 'input_language', Input::TYPE_INT, 1, 32),
         ]);
     }
 
-    public function insert($title, $message, $languageCode)
+    public function insert($title, $message, $language)
     {
         global $user;
 
@@ -42,7 +42,7 @@ class AnnouncementObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $insertResult = Database::insert("INSERT INTO announcements (announcement_title, announcement_message, announcement_language, announcement_created_by) VALUES ('{$title}', '{$message}', {$languageCode}, {$user->id})");
+        $insertResult = Database::insert("INSERT INTO announcements (announcement_title, announcement_message, announcement_language, announcement_created_by) VALUES ('{$title}', '{$message}', {$language}, {$user->id})");
 
         if ($insertResult->status) {
             Log::insert('announcement_insert', 80, $insertResult->data);
@@ -241,7 +241,7 @@ class AnnouncementObject
             post('id'),
             post('title'),
             post('message'),
-            post('language_code')
+            post('language')
         );
     }
 
@@ -251,11 +251,11 @@ class AnnouncementObject
             new Input('id', Input::METHOD_POST, 'input_announcement', Input::TYPE_INT, 1, 32),
             new Input('title', Input::METHOD_POST, 'input_title', Input::TYPE_TEXT, 1, 256),
             new Input('message', Input::METHOD_POST, 'input_message', Input::TYPE_TEXT, 1, 2048),
-            new Input('language_code', Input::METHOD_POST, 'input_language_code', Input::TYPE_INT, 1, 32),
+            new Input('language', Input::METHOD_POST, 'input_language', Input::TYPE_INT, 1, 32),
         ]);
     }
 
-    public function update($announcementID, $title, $message, $languageCode)
+    public function update($announcementID, $title, $message, $language)
     {
         global $user;
 
@@ -263,7 +263,7 @@ class AnnouncementObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        $insertResult = Database::exec("UPDATE announcements SET announcement_title = '{$title}', announcement_message = '{$message}', announcement_language = {$languageCode}, announcement_updated_by = {$user->id} WHERE announcement_id = {$announcementID}");
+        $insertResult = Database::exec("UPDATE announcements SET announcement_title = '{$title}', announcement_message = '{$message}', announcement_language = {$language}, announcement_updated_by = {$user->id} WHERE announcement_id = {$announcementID}");
 
         if ($insertResult->status) {
             Log::insert('announcement_update', 86, $announcementID);

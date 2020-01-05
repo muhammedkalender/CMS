@@ -135,6 +135,8 @@ class Lang
         "page_view_submission" => "Makale",
         "page_submission" => "Makale Yönetimi",
         "page_user" => "Kullanıcılar",
+        "page_announcement" => "Duyurular",
+        "page_user_announcement" => "Kullanıcı Duyuruları",
 
         "ui_id" => "#",
         "ui_created_by" => "Oluşturan",
@@ -285,6 +287,21 @@ class Lang
         "submission_delete_failure" => "Makale silinirken sorun oluştu",
 
         "log_request_submission_invoice_decline" => "Makbuz gönderimi red edildi",
+
+        "ui_insert_announcements" => "Duyuru Ekleme",
+        "ui_update_announcements" => "Duyuru Güncelleme",
+        "ui_update_announcement" => "Duyuru Güncelleme",
+        "ui_delete_announcement" => "Duyuruyu Sil",
+        "ui_delete_announcements" => "Duyuru Silme",
+
+        "announcement_delete_success" => "Duyuru Başarıyla Silindi",
+        "announcement_delete_failure" => "Duyuru Silinirken Sorun Oluştu",
+
+
+        "announcement_insert_success" => "Duyuru başarıyla kayıt edildi",
+        "announcement_insert_failure" => "Duyuru kayıt edilirken sorunla karşılaşıldı",
+        "announcement_update_success" => "Duyuru başarıyla güncellendi",
+        "announcement_update_failure" => "Duyuru güncellenirken sorunla karşılaşıldı",
     ];
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')

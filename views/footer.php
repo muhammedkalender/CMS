@@ -27,6 +27,7 @@
     var langStatusDeclined = "<?=uiLang('status_declined')?>";
     var langDialogErrorTitle = "<?=uiLang('dialog_error_title')?>";
     var langDefaultOption = "<?=uiLang('default_option')?>";
+    var langAllOfThem = "<?=uiLang("all_of_them")?>";
 </script>
 <script>
     $(document).ready(function () {
