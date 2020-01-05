@@ -9,7 +9,6 @@ class ConstController
         $languages = Database::select("SELECT *FROM constant_languages WHERE language_is_active = 1");
 
         if(!$languages->status){
-            //todo
             return false;
         }
 
@@ -36,7 +35,6 @@ class ConstController
         $countries = Database::select("SELECT * FROM constant_countries WHERE country_is_active = 1");
 
         if(!$countries->status || !$languages->status){
-            //todo
             return false;
         }
 
