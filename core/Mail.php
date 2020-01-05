@@ -16,4 +16,8 @@ class Mail
 
         return new Output(false);
     }
+
+    public static function send($emailAddress, $emailTitle, $emailMessage, $emailUser = 0){
+        //todo
+    }
 }

@@ -1,13 +1,13 @@
 <body class="hold-transition container">
 <div class="row">
     <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+        <a href="/"><b><?=COMPANY_NAME?></b></a>
     </div>
     <!-- /.login-logo -->
     <div class="card col-12">
         <div class="card-body login-card-body">
             <form action="/api.php" method="post" onsubmit="return checkForm(this)"
-                  submit-redirect="test.html" submit-delay="2000">
+                  submit-redirect="/" submit-delay="2000">
 <!--                todo url redictect-->
                 <input type="hidden" name="call_category" value="submission">
                 <input type="hidden" name="call_request" value="insert">
@@ -63,7 +63,7 @@
                 <div class="form-group">
                     <label><?= inputLang('type_of_contribution') ?></label>
                     <input type="text" class="form-control" placeholder="<?= hintLang('type_of_contribution') ?>"
-                           name="type_of_contribution" maxlength="256">
+                           name="type_of_contribution" maxlength="256" required>
                 </div>
                 <!--                todo wsync-->
                 <div class="form-group">
@@ -90,7 +90,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content bg-primary">
             <div class="modal-header">
-                <h4 class="modal-title">Primary Modal</h4>
+                <h4 class="modal-title"><?=uiLang("author")?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
             </div>
@@ -107,9 +107,9 @@
                                        maxlength="64" required>
                             </div>
                             <div class="form-group">
-                                <label><?= inputLang('name') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('name') ?>"
-                                       name="name" id="name"
+                                <label><?= inputLang('first_name') ?></label>
+                                <input type="text" class="form-control" placeholder="<?= hintLang('first_name') ?>"
+                                       name="first_name" id="first_name"
                                        minlength="2" maxlength="32" required>
                             </div>
                             <div class="form-group">
@@ -135,15 +135,15 @@
                                        maxlength="128">
                             </div>
                             <div class="form-group">
-                                <label><?= inputLang('surname') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('surname') ?>"
-                                       name="surname" id="surname"
+                                <label><?= inputLang('last_name') ?></label>
+                                <input type="text" class="form-control" placeholder="<?= hintLang('last_name') ?>"
+                                       name="last_name" id="last_name"
                                        minlength="2" maxlength="32" required>
                             </div>
                             <div class="form-group">
-                                <label><?= inputLang('web_site') ?></label>
-                                <input type="url" class="form-control" placeholder="<?= hintLang('webs_ite') ?>"
-                                       name="web_site" id="web_site" maxlength="128">
+                                <label><?= inputLang('web_page') ?></label>
+                                <input type="url" class="form-control" placeholder="<?= hintLang('web_page') ?>"
+                                       name="web_page" id="web_page" maxlength="128">
                             </div>
                             <div class="form-group">
                                 <div class="icheck-info">
@@ -199,10 +199,10 @@
 
         $('#email').val(objData.email);
         $('#organization').val(objData.organization);
-        $('#name').val(objData.name);
-        $('#surname').val(objData.surname);
+        $('#first_name').val(objData.first_name);
+        $('#last_name').val(objData.last_name);
         $('#country').val(objData.country);
-        $('#web_site').val(objData.web_site);
+        $('#web_page').val(objData.web_page);
         $('#corresponding').prop('checked', objData.corresponding == 1 ? true : false);
         $('#joined').prop('checked', objData.joined == 1 ? true : false);
 
@@ -219,10 +219,10 @@
                     key: key,
                     email: $('#email').val(),
                     organization: $('#organization').val(),
-                    name: $('#name').val(),
-                    surname: $('#surname').val(),
+                    first_name: $('#first_name').val(),
+                    last_name: $('#last_name').val(),
                     country: $('#country').val(),
-                    web_site: $('#web_site').val(),
+                    web_page: $('#web_page').val(),
                     corresponding: $('#corresponding').prop('checked') ? 1 : 0,
                     joined: $('#joined').prop('checked') ? 1 : 0
                 };
@@ -238,7 +238,7 @@
         var html = '';
 
         for (var i = 0; i < itemList.length; i++) {
-            html += '<input type="hidden" name="users[]" value="' + itemList[i].name + DEFAULT_HTML_SPLITTER + itemList[i].surname + DEFAULT_HTML_SPLITTER + itemList[i].email + DEFAULT_HTML_SPLITTER + itemList[i].country + DEFAULT_HTML_SPLITTER + itemList[i].organization + DEFAULT_HTML_SPLITTER + itemList[i].web_site + DEFAULT_HTML_SPLITTER + itemList[i].corresponding + DEFAULT_HTML_SPLITTER + itemList[i].joined + '">';
+            html += '<input type="hidden" name="users[]" value="' + itemList[i].first_name + DEFAULT_HTML_SPLITTER + itemList[i].last_name + DEFAULT_HTML_SPLITTER + itemList[i].email + DEFAULT_HTML_SPLITTER + itemList[i].country + DEFAULT_HTML_SPLITTER + itemList[i].organization + DEFAULT_HTML_SPLITTER + itemList[i].web_page + DEFAULT_HTML_SPLITTER + itemList[i].corresponding + DEFAULT_HTML_SPLITTER + itemList[i].joined + '">';
         }
 
         $('#divUsers').html(html);
@@ -249,15 +249,17 @@
     $(function () {
         $('[data-mask]').inputmask();
 
+        loadCountries("country");
+
         $('#authors').on('itemAdded', function (event) {
             itemList[itemList.length] = {
                 key: event.item,
                 email: '',
                 organization: '',
-                name: '',
-                surname: '',
+                first_name: '',
+                last_name: '',
                 country: 1,
-                web_site: '',
+                web_page: '',
                 corresponding: 0,
                 joined: 0
             };

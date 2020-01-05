@@ -93,13 +93,13 @@ class UserObject
     public function loadPostData($arr, $type, $submission = 1)
     {
         if ($type == 'SUBMISSION_TEST') {
-            setPost('name', $arr[0]);
-            setPost('surname', $arr[1]);
+            setPost('first_name', $arr[0]);
+            setPost('last_name', $arr[1]);
             setPost('email', $arr[2]);
             setPost('country', $arr[3]);
             setPost('submission', $submission);
             setPost('organization', $arr[4]);
-            setPost('web_site', $arr[5]);
+            setPost('web_page', $arr[5]);
             setPost('corresponding', $arr[6]);
             setPost('joined', $arr[7]);
         }
@@ -124,13 +124,13 @@ class UserObject
         return $this->register(
             post('email'),
             $password,
-            post('name'),
-            post('surname'),
+            post('first_name'),
+            post('last_name'),
             post('country'),
             post('submission'),
             post('ec_id'),
             post('organization'),
-            post('web_site'),
+            post('web_page'),
             post('address'),
             post('tel'),
             post('food'),
@@ -143,7 +143,7 @@ class UserObject
         );
     }
 
-    public function register($email, $password, $firstName, $lastName, $country, $submission, $ecId, $organization, $webSite, $address, $tel, $food, $accommodation, $extra_note, $corresponding, $joined, $admin, $isTest = false)
+    public function register($email, $password, $firstName, $lastName, $country, $submission, $ecId, $organization, $webPage, $address, $tel, $food, $accommodation, $extra_note, $corresponding, $joined, $admin, $isTest = false)
     {
         $email = strtolower($email);
 
@@ -161,16 +161,16 @@ class UserObject
 
         $insertUser = Database::insertReturnID(
             "INSERT INTO users (user_email, user_password, user_first_name, user_last_name, user_country, user_submission, user_ec_id, user_organization, user_web_page, user_address, user_tel, user_food, user_accommodation, user_extra_note, user_is_corresponding, user_joined, user_is_admin) VALUES 
-('{$email}', '{$encryptedPassword}', '{$firstName}', '{$lastName}', {$country}, {$submission}, {$ecId}, '{$organization}', '{$webSite}', '{$address}', '{$tel}', '{$food}', '{$accommodation}', '{$extra_note}', {$corresponding}, {$joined}, {$admin})"
+('{$email}', '{$encryptedPassword}', '{$firstName}', '{$lastName}', {$country}, {$submission}, {$ecId}, '{$organization}', '{$webPage}', '{$address}', '{$tel}', '{$food}', '{$accommodation}', '{$extra_note}', {$corresponding}, {$joined}, {$admin})"
         );
 
         if ($insertUser->status && $insertUser->data != false) {
             Mail::queue($email, Lang::get('mail_title_register'), Lang::get('mail_template_register', $firstName, $lastName, $submission, $ecId, $password), $insertUser->data);
-            Log::insertWithKey('log_user_insert', [70, $submission], [$email, $firstName . ' - ' . $lastName]);
+            Log::insertWithKey('log_user_insert', [70, $submission], [$email, $firstName . ' ' . $lastName]);
 
             return new Output(true, Lang::get('register_success', $email));
         } else {
-            Log::insert('log_user_insert_failure', [71, $submission], [$email, $firstName . ' - ' . $lastName]);
+            Log::insert('log_user_insert_failure', [71, $submission], [$email, $firstName . ' ' . $lastName]);
 
             return new Output(false, Lang::get('register_failure', $email));
         }
@@ -183,13 +183,13 @@ class UserObject
         return InputCheck::checkAll([
             new Input("email", Input::METHOD_POST, "input_email", Input::TYPE_EMAIL, 3, 64),
             new Input('password', Input::METHOD_POST, 'input_password', Input::TYPE_STRING, 0, 32),
-            new Input('name', Input::METHOD_POST, 'input_name', Input::TYPE_STRING, 2, 32),
-            new Input('surname', Input::METHOD_POST, 'input_surname', Input::TYPE_STRING, 2, 32),
+            new Input('first_name', Input::METHOD_POST, 'input_first_name', Input::TYPE_STRING, 2, 32),
+            new Input('last_name', Input::METHOD_POST, 'input_last_name', Input::TYPE_STRING, 2, 32),
             new Input('country', Input::METHOD_POST, 'input_country', Input::TYPE_INT, 1, 8),
             new Input('submission', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
             new Input('ec_id', Input::METHOD_POST, 'input_ec_id', Input::TYPE_INT, 1, 8),
             new Input('organization', Input::METHOD_POST, 'input_organization', Input::TYPE_STRING, 0, 128),
-            new Input('web_site', Input::METHOD_POST, 'input_web_site', Input::TYPE_URL, 0, 128),
+            new Input('web_page', Input::METHOD_POST, 'input_web_page', Input::TYPE_URL, 0, 128),
             new Input('address', Input::METHOD_POST, 'input_address', Input::TYPE_STRING, 0, 128),
             new Input('tel', Input::METHOD_POST, 'input_tel', Input::TYPE_STRING, 0, 128),
             new Input('food', Input::METHOD_POST, 'input_food', Input::TYPE_STRING, 0, 256),

@@ -143,7 +143,6 @@ FROM submissions WHERE submission_id = {$submissionID}");
             $userArray = explode(DEFAULT_HTML_SPLITTER, $postUser);
 
             if (count($userArray) != 8) {
-                echo count($userArray);
                 $secondStep = new Output(false, Lang::get('users_input_wrong'));
                 break;
             }
@@ -445,7 +444,7 @@ FROM submissions WHERE submission_id = {$submissionID}");
     {
         global $user;
 
-        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+        if (!$user->perm(UserObject::AUTHOR_OR_ADMIN, $submissionID)) {
             return new Output(false, Lang::get('perm_error'));
         }
 
@@ -472,7 +471,9 @@ FROM submissions WHERE submission_id = {$submissionID}");
             160, 161, 162, 163,
             165,
             180,181,182,183,185,
-            700
+            700,
+            800,801,802,
+            812,813
         ];
 
         $logIDs = implode(",", $logIDs);
@@ -483,7 +484,7 @@ FROM submissions WHERE submission_id = {$submissionID}");
         if ($select->status && $stats->status) {
             $countData = count($select->data);
             for ($i = 0; $i < $countData; $i++){
-                $select->data[$i]["log_text"] = logLang($select->data[$i]["log_text"], $select->data[$i]["log_param_text_first"], $select->data[$i]["log_param_text_second"], $select->data[$i]["log_param_text_third"], $select->data[$i]["log_param_text_fourt"]);
+                $select->data[$i]["log_text"] = Lang::get($select->data[$i]["log_text"], $select->data[$i]["log_param_text_first"], $select->data[$i]["log_param_text_second"], $select->data[$i]["log_param_text_third"], $select->data[$i]["log_param_text_fourt"]);
             }
 
             return new DataTablesOutput(true, Lang::get('submission_log_select_success'), $select->data, $stats->data[0]['recordsTotal'], $stats->data[0]['recordsFiltered']);

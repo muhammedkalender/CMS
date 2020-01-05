@@ -9,6 +9,10 @@ class Lang
         'lang_code' => '2',
         "constants_code" => "tr",
 
+        "country_tr" => "Türkiye",
+
+
+        "ui_account_system" => "Sistem",
         "api_request_null" => "Sistem Talep Gönderemedi",
 
         'check_input_null' =>  '[[FIRST_PARAM]] değeri boş olamaz',
@@ -140,6 +144,28 @@ class Lang
         "page_request_submission_invoices" => "Makbuz Gönderimleri",
         "page_request_submission_full_papers" => "Tam Metin Gönderimleri",
         "page_filter_submission" => "Makale Filtreleme",
+        "page_login" => "Giriş Yap",
+        "page_insert_submission" => "Makale Girişi",
+
+        "ui_author" => "Yazar",
+
+        "hint_ec_id" => "EC ID",
+        "hint_paper_title" => "Başlık",
+
+        "null_user_change_password" => "Mevcut şifreyi doğru girdiğinizden emin olun",
+
+        "hint_keywords" => "doğa, yenilebilir enerji, sürdürbilirlik",
+        "hint_ec_keyprases" => "EC Keyprases",
+        "hint_topics" => "Yenilebilir Enerjide Güneş",
+        "hint_type_of_contribution" => "Katkı Türü",
+        "hint_abstract_paper" => "Ön Metin",
+
+        "input_authors" => "Yazarlar",
+
+        "ui_forgot_password" => "Şifremi Unuttum !",
+        "ui_register" => "Kayıt Ol",
+
+        "ui_login" => "Giriş Yap",
 
         "ui_id" => "#",
         "ui_created_by" => "Oluşturan",
@@ -252,6 +278,8 @@ class Lang
         "submission_comment_set_completed_success" => "İşlem başarıyla tamamlandı",
         "submission_comment_set_completed_failure" => "İşlem tamamlanırken sorun oluştu",
 
+        "ui_submission_logs" => "İşlem Geçmişi",
+
         "ui_canceled_task" => "İşlemi İptal Et",
         "ui_set_canceled_are_you_sure" => "İşlemi iptal etmek istediğinize eminmisiniz ?",
         "submission_comment_set_canceled_success" => "İşlem iptal edildi",
@@ -357,6 +385,32 @@ class Lang
 
         "request_submission_full_paper_delete_success" => "Tam Metin Gönderimi başarıyla silindi",
         "request_submission_full_paper_delete_failure" => "Tam Metin Gönderimi silinirken sorun oluştu",
+
+        "request_submission_full_paper_insert" => "Tam Metin Gönderildi",
+        "request_submission_invoice_insert" => "Makbuz Gönderildi",
+
+        "ui_submission_comment_insert" => "Makale Yorumu Ekleme",
+        "ui_insert_submission_comment" => "Makale Yorumu Ekleme",
+
+        "ui_dt_info_empty" => "Gösterilecek Veri Yok",
+        "ui_dt_info_filtered" => " - Toplam _MAX_ kayıt içinde",
+
+        "ui_insert" => "Ekle",
+        "hint_message" => "Mesaj",
+
+        "submission_comment_insert_success" => "Makale Yorumu Başarıyla eklendi",
+        "submission_comment_insert_failure" => "Makale Yorumu Eklenirken sorun oluştu",
+
+        "submission_comment_insert" => "Makaleye yorum eklendi",
+
+        "submission_request_submission_invoice_decline" => "Makbuz gönderimi rededildi",
+        "submission_request_submission_invoice_confirm" => "Makbuz gönderimi kabul edildi",
+
+        "submission_request_submission_full_paper_confirm" => "Tam metin gönderimi kabul edildi",
+        "submission_request_submission_full_paper_decline" => "Tam metin gönderimi rededildi",
+
+        "request_submission_invoice_force_confirm" => "Makbuz yönetici tarafından onaylandı",
+        "request_submission_full_paper_force_confirm" => "Tam metin yönetici tarafından onaylandı",
     ];
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')

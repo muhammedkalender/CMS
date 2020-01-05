@@ -48,7 +48,7 @@ class RequestSubmissionInvoiceObject
 
         //todo niyeyse hata veriyor ?
         if ($resultInsert->status) {
-            Log::insertWithKey('request_submission_invoice_insert', [160, $resultInsert->data]);
+            Log::insertWithKey('request_submission_invoice_insert', [160, $submissionID, $resultInsert->data]);
 
             return new Output(true, Lang::get('request_submission_invoice_insert_success'), $resultInsert->data);
         } else {
@@ -148,8 +148,8 @@ class RequestSubmissionInvoiceObject
 
         $submissionID = $resultSelect->data["request_submission_invoice_submission"];
 
-        $resultUpdate = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_status = 2, request_submission_invoice_updated_by = '{$user->id}', request_submission_invoice_updated_At = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
-        $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_invoice = '".$resultSelect->data["request_submission_invoice_url"]."', request_submission_invoice_updated_by = '{$user->id}, request_submission_invoice_updated_At = '".getCustomDate()."' WHERE submission_id = '".$resultSelect->data["request_submission_invoice_submission"]."'");
+        $resultUpdate = Database::exec("UPDATE request_submission_invoices SET request_submission_invoice_status = 2, request_submission_invoice_updated_by = '{$user->id}', request_submission_invoice_updated_at = '".getCustomDate()."' WHERE request_submission_invoice_id = '{$requestSubmissionInvoiceID}'");
+        $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_invoice = '".$resultSelect->data["request_submission_invoice_url"]."', submission_updated_by = '{$user->id}', submission_updated_at = '".getCustomDate()."' WHERE submission_id = '{$resultSelect->data["request_submission_invoice_submission"]}'");
 
         if ($resultRelatedUpdate->status) {
             Log::insertWithKey('request_submission_invoice_confirm', [162, $requestSubmissionInvoiceID]);

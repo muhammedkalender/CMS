@@ -315,6 +315,22 @@ if($callCategory == "user"){
     }
 
     //endregion
+}else if($callCategory == "constants"){
+    //region Constants
+
+    require_once "controllers/ConstController.php";
+
+    if($callRequest == "languages"){
+        $constants = new ConstController();
+
+        $callResult = $constants->languages();
+    }else if($callRequest == "countries"){
+        $constants = new ConstController();
+
+        $callResult = $constants->countries();
+    }
+
+    //endregion
 }
 
 nothing:

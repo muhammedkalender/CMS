@@ -28,6 +28,7 @@
     var langDialogErrorTitle = "<?=uiLang('dialog_error_title')?>";
     var langDefaultOption = "<?=uiLang('default_option')?>";
     var langAllOfThem = "<?=uiLang("all_of_them")?>";
+    var langSystemAccount = "<?=uiLang("account_system")?>";
 </script>
 <script>
     $(document).ready(function () {

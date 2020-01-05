@@ -196,11 +196,13 @@
                     <h3 class="card-title"><?= uiLang('user_announcements') ?></h3>
                 </div>
                 <div class="card-body">
+                    <?php if($user->isAdmin()):?>
                     <div class="form-group">
                         <button class="btn btn-success" data-toggle="modal"
                                 data-target="#modal-user-announcement-insert"
                                 onclick="clearForm($('#form-user-announcement-insert'))"><?= uiLang("insert_user_announcement") ?></button>
                     </div>
+                    <?php endif; ?>
                     <div class="table-responsive">
                         <table id="user-announcements" class="table table-bordered table-hover">
                             <thead>

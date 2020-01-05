@@ -138,8 +138,8 @@ class RequestSubmissionFullPaperObject
 
         $submissionID = $resultSelect->data["request_submission_full_paper_submission"];
 
-        $resultUpdate = Database::exec("UPDATE request_submission_full_papers SET request_submission_full_paper_status = 2, request_submission_full_paper_updated_by = '{$user->id}', request_submission_full_paper_updated_At = '" . getCustomDate() . "' WHERE request_submission_full_paper_id = '{$requestSubmissionFullPaperID}'");
-        $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_full_paper = '" . $resultSelect->data["request_submission_full_paper_url"] . "', request_submission_full_paper_updated_by = '{$user->id}, request_submission_full_paper_updated_At = '" . getCustomDate() . "' WHERE submission_id = '" . $resultSelect->data["request_submission_full_paper_submission"] . "'");
+        $resultUpdate = Database::exec("UPDATE request_submission_full_papers SET request_submission_full_paper_status = 2, request_submission_full_paper_updated_by = '{$user->id}', request_submission_full_paper_updated_at = '" . getCustomDate() . "' WHERE request_submission_full_paper_id = '{$requestSubmissionFullPaperID}'");
+        $resultRelatedUpdate = Database::exec("UPDATE submissions SET submission_full_paper = '" . $resultSelect->data["request_submission_full_paper_url"] . "', submission_updated_by = '{$user->id}', submission_updated_at = '" . getCustomDate() . "' WHERE submission_id = '" . $resultSelect->data["request_submission_full_paper_submission"] . "'");
 
         if ($resultRelatedUpdate->status) {
             Log::insertWithKey('request_submission_full_paper_confirm', [182, $requestSubmissionFullPaperID]);

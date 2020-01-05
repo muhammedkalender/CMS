@@ -45,7 +45,7 @@ class SubmissionCommentObject
         $insertComment = Database::insertReturnID("INSERT INTO submission_comments (submission_comment_submission, submission_comment_message, submission_comment_created_by) VALUES ('{$submissionID}', '{$message}', {$user->id})");
 
         if ($insertComment->status) {
-            Log::insertWithKey('submission_comment_insert', [120, $insertComment->data]);
+            Log::insertWithKey('submission_comment_insert', [120, $submissionID, $insertComment->data]);
 
             return new Output(true, Lang::get('submission_comment_insert_success'), $insertComment->data);
         } else {
@@ -130,7 +130,6 @@ class SubmissionCommentObject
         }
 
         $updateComment = Database::exec("UPDATE submission_comments SET submission_comment_status = 1, submission_comment_updated_by = {$user->id}, submission_comment_updated_at = '" . getCustomDate() . "' WHERE submission_comment_id  = {$commentID}");
-
 
         if ($updateComment->status) {
             Log::insertWithKey('submission_comment_set_complete', [121, $commentID]);
@@ -280,7 +279,7 @@ class SubmissionCommentObject
     {
         global $user;
 
-        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+        if (!$user->perm(UserObject::AUTHOR_OR_ADMIN, $submission)) {
             return new Output(false, Lang::get('perm_error'));
         }
 
@@ -295,7 +294,7 @@ class SubmissionCommentObject
 
         $querySearch = "";
 
-        if (post('keyword')) {
+        if ($keyword) {
             $querySearch = dataTablesLikeQuery(post('keyword'), [
                 'submission_comment_id',
                 'submission_comment_submission',

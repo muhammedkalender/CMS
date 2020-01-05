@@ -186,7 +186,7 @@
 
                         if (json.data[i].request_submission_full_paper_status == 2) {
                             status = '<?=uiLang("confirmed")?>';
-                        } else {
+                        } else if(json.data[i].request_submission_full_paper_status == 1) {
                             status = '<?=uiLang("declined")?>';
                         }
 

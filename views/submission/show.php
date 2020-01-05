@@ -67,15 +67,11 @@
                             <div class="col-md-3">
                                 <label><?= inputLang('full_paper') ?></label>
                                 <div class="form-group inputStatus" data-name="full_paper">
-                                    <!--                                        todo generic birşey, varsa badge çakacak ?-->
-                                    <!--                                        <label class="badge badge-success">Onaylandı</label>-->
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <label><?= inputLang('invoice') ?></label>
                                 <div class="form-group inputStatus" data-name="invoice">
-                                    <!--                                        todo generic birşey, varsa badge çakacak ?-->
-                                    <!--                                        <label class="badge badge-success">Onaylandı</label>-->
                                 </div>
                             </div>
                         </div>
@@ -230,9 +226,11 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <?php if($user->isAdmin()): ?>
                     <div class="form-group">
                         <button class="btn btn-success" onclick="showInsertTask()"><?= uiLang("insert_submission_comment") ?></button>
                     </div>
+                    <?php endif; ?>
                     <table id="submissionComments" class="table table-bordered table-hover">
                         <thead>
                         <th><?= uiLang('id') ?></th>
@@ -289,10 +287,10 @@
                                                    maxlength="64" required>
                                         </div>
                                         <div class="form-group">
-                                            <label><?= inputLang('name') ?></label>
+                                            <label><?= inputLang('first_name') ?></label>
                                             <input type="text" class="form-control"
-                                                   placeholder="<?= hintLang('name') ?>"
-                                                   name="name" id="name"
+                                                   placeholder="<?= hintLang('first_name') ?>"
+                                                   name="first_name" id="first_name"
                                                    minlength="2" maxlength="32" required>
                                         </div>
                                         <div class="form-group">
@@ -319,17 +317,17 @@
                                                    maxlength="128">
                                         </div>
                                         <div class="form-group">
-                                            <label><?= inputLang('surname') ?></label>
+                                            <label><?= inputLang('last_name') ?></label>
                                             <input type="text" class="form-control"
-                                                   placeholder="<?= hintLang('surname') ?>"
-                                                   name="surname" id="surname"
+                                                   placeholder="<?= hintLang('last_name') ?>"
+                                                   name="last_name" id="last_name"
                                                    minlength="2" maxlength="32" required>
                                         </div>
                                         <div class="form-group">
-                                            <label><?= inputLang('web_site') ?></label>
+                                            <label><?= inputLang('web_page') ?></label>
                                             <input type="url" class="form-control"
-                                                   placeholder="<?= hintLang('webs_ite') ?>"
-                                                   name="web_site" id="web_site" maxlength="128">
+                                                   placeholder="<?= hintLang('web_page') ?>"
+                                                   name="web_page" id="web_page" maxlength="128">
                                         </div>
                                         <div class="form-group">
                                             <div class="icheck-info">
@@ -692,10 +690,10 @@
 
         $('#email').val(objData.email);
         $('#organization').val(objData.organization);
-        $('#name').val(objData.name);
-        $('#surname').val(objData.surname);
+        $('#first_name').val(objData.first_name);
+        $('#last_name').val(objData.last_name);
         $('#country').val(objData.country);
-        $('#web_site').val(objData.web_site);
+        $('#web_page').val(objData.web_page);
         $('#corresponding').prop('checked', objData.corresponding == 1 ? true : false);
         $('#joined').prop('checked', objData.joined == 1 ? true : false);
 
@@ -712,10 +710,10 @@
                     key: key,
                     email: $('#email').val(),
                     organization: $('#organization').val(),
-                    name: $('#name').val(),
-                    surname: $('#surname').val(),
+                    first_name: $('#first_name').val(),
+                    last_name: $('#last_name').val(),
                     country: $('#country').val(),
-                    web_site: $('#web_site').val(),
+                    web_page: $('#web_page').val(),
                     corresponding: $('#corresponding').prop('checked') ? 1 : 0,
                     joined: $('#joined').prop('checked') ? 1 : 0
                 };
@@ -731,7 +729,7 @@
         var html = '';
 
         for (var i = 0; i < itemList.length; i++) {
-            html += '<input type="hidden" name="users[]" value="' + itemList[i].name + DEFAULT_HTML_SPLITTER + itemList[i].surname + DEFAULT_HTML_SPLITTER + itemList[i].email + DEFAULT_HTML_SPLITTER + itemList[i].country + DEFAULT_HTML_SPLITTER + itemList[i].organization + DEFAULT_HTML_SPLITTER + itemList[i].web_site + DEFAULT_HTML_SPLITTER + itemList[i].corresponding + DEFAULT_HTML_SPLITTER + itemList[i].joined + '">';
+            html += '<input type="hidden" name="users[]" value="' + itemList[i].first_name + DEFAULT_HTML_SPLITTER + itemList[i].last_name + DEFAULT_HTML_SPLITTER + itemList[i].email + DEFAULT_HTML_SPLITTER + itemList[i].country + DEFAULT_HTML_SPLITTER + itemList[i].organization + DEFAULT_HTML_SPLITTER + itemList[i].web_page + DEFAULT_HTML_SPLITTER + itemList[i].corresponding + DEFAULT_HTML_SPLITTER + itemList[i].joined + '">';
         }
 
         $('#divUsers').html(html);
@@ -809,6 +807,12 @@
                     'id': '<?=$submissionID?>',
                 },
                 'dataSrc': function (json) {
+
+                    for(var i = 0; i < json.data.length; i++){
+                        if(json.data[i].ownerFullName == null || json.data[i].ownerFullName == ''){
+                            json.data[i].ownerFullName = langSystemAccount;
+                        }
+                    }
 
                     arrLogs = json.data;
 
@@ -949,6 +953,22 @@
                 loadInputsFromObject('form-submission-update', response.data, 'submission_');
                 formToView('form-submission-update');
                 hideCardOverlay($('#form-submission-update'));
+
+                if(response.data.submission_full_paper != null){
+                    if(response.data.submission_full_paper == -1){
+                        $('#showFileFullPaper').removeAttr("href").show();
+                    }else{
+                        $('#showFileFullPaper').attr("href", "<?=Config::PATH_UPLOAD_DOCUMENT?>" + response.data.submission_full_paper).show();
+                    }
+                }
+
+                if(response.data.submission_invoice != null){
+                    if(response.data.submission_invoice == -1){
+                        $('#showFileInvoice').removeAttr("href").show();
+                    }else{
+                        $('#showFileInvoice').attr("href", "<?=Config::PATH_UPLOAD_DOCUMENT?>" + response.data.submission_invoice).show();
+                    }
+                }
                 //
                 // loadInputsFromObject('form-user-preferences-update', response.data, 'user_');
                 // hideCardOverlay($('#form-user-preferences-update'));
