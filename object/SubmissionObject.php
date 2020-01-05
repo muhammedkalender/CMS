@@ -494,4 +494,20 @@ FROM submissions WHERE submission_id = {$submissionID}");
     }
 
     //endregion
+
+    public function list(){
+        global $user;
+
+        if (!$user->perm(UserObject::PERM_IS, UserObject::PERM_GROUP_ADMIN)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
+        $submissions = Database::select("SELECT submission_id, submission_paper_title FROM submissions WHERE submission_active = 1");
+
+        if($submissions->status){
+            return new Output(true, Lang::get("submission_list_success"), $submissions->data);
+        }else{
+            return Output::returnWithErrorMessage(Lang::get("submission_list_failure"));
+        }
+    }
 }

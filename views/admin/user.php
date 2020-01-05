@@ -13,7 +13,7 @@
         <div class="container-fluid">
             <div class="from-group">
                 <button class="btn btn-success" data-toggle="modal" data-target="#modal-user-insert"
-                        onclick="clearForm($('#form-user-insert'))"><span
+                        onclick="loadSubmissions(); loadCountries('country', true); clearForm($('#form-user-insert'));"><span
                             class="fas fa-plus"></span> <?= uiLang('add_new') ?>
                 </button>
             </div>
@@ -328,6 +328,32 @@
 </script>
 
 <script>
+    function loadSubmissions() {
+        showModalOverlay("modal-user-insert");
+
+        $.ajax({
+            'url': '<?=apiURL("submission", "list")?>',
+            'type': 'get',
+            'dataType': 'json',
+            'success': function(response){
+                if(response.status){
+                    var html = "";
+
+                    for(var i = 0; i < response.data.length; i++){
+                        html += "<option value=\""+response.data[i].submission_id+"\">" + response.data[i].submission_id + " - " +response.data[i].submission_paper_title.substr(0, 32) + "</option>";
+                    }
+
+                    $("#submission").html(html);
+
+                    hideModalOverlay("modal-user-insert");
+                }else{
+                    formError($('#form-user-insert'), response.message);
+                    hideModalOverlay("modal-user-insert");
+                }
+            }
+        });
+    }
+
     function showDeleteUser(index) {
         loadInputsFromObject('form-user-delete', arrUsers[index], 'user_', 'full_name');
 

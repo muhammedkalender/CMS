@@ -6,7 +6,7 @@ require_once 'core/Output.php';
 $db = null;
 
 try {
-    $db = new PDO("mysql:host=localhost:3306;dbname=cms;charset=utf8mb4", "root", "");
+    $db = new PDO("mysql:host=localhost:3307;dbname=cms;charset=utf8mb4", "root", "");
 } catch (PDOException $e) {
     echo 'Connection error';
     die();

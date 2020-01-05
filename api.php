@@ -11,12 +11,15 @@ require_once 'object/UserObject.php';
 
 $callResult = null;
 
-if (isset($_POST["call_category"]) == false || isset($_POST["call_request"]) == false) {
+if (isset($_POST["call_category"]) && isset($_POST["call_request"])) {
+    $callCategory = $_POST["call_category"];
+    $callRequest = $_POST["call_request"];
+}else if (isset($_GET["call_category"]) && isset($_GET["call_request"])) {
+    $callCategory = $_GET["call_category"];
+    $callRequest = $_GET["call_request"];
+}else{
     goto nothing;
 }
-
-$callCategory = $_POST["call_category"];
-$callRequest = $_POST["call_request"];
 
 if($callCategory == "user"){
     //region User
@@ -101,6 +104,10 @@ if($callCategory == "user"){
         $submission = new SubmissionObject();
 
         $callResult = $submission->dataTablesLogWithInput();
+    }else if($callRequest == "list"){
+        $submission = new SubmissionObject();
+
+        $callResult = $submission->list();
     }
 
     //endregion

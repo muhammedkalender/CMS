@@ -21,7 +21,7 @@ class ConstController
             $array = (object)[
                 "id" => $language["language_id"],
                 "code" => $language["language_code"],
-                "text" => $language["language_text"]
+                "text" => $language["language_name"]
             ];
         }
 

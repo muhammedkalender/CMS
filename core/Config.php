@@ -5,7 +5,7 @@ class Config
 {
     const URL = 'dev.cms.system';
     const PROTOCOL = 'http';
-    const HIDE_LANG = true;
+    const HIDE_LANG = false;
 
     //region Alerts
 

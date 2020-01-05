@@ -7,6 +7,7 @@ class Lang
     private static $data = [
         'test' => 'TR',
         'lang_code' => '2',
+        "constants_code" => "tr",
 
         "api_request_null" => "Sistem Talep Gönderemedi",
 

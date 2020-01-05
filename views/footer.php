@@ -16,6 +16,7 @@
 </div>
 
 <script>
+    var LANG_CODE = "<?=Lang::get("constants_code")?>";
     var DEFAULT_HTML_SPLITTER = "<?=DEFAULT_HTML_SPLITTER?>";
     var langErrorTitle = "<?=uiLang('error')?>";
     var langSuccessTitle = "<?=uiLang('success')?>";
@@ -25,6 +26,7 @@
     var langStatusAccepted = "<?=uiLang('status_accepted')?>";
     var langStatusDeclined = "<?=uiLang('status_declined')?>";
     var langDialogErrorTitle = "<?=uiLang('dialog_error_title')?>";
+    var langDefaultOption = "<?=uiLang('default_option')?>";
 </script>
 <script>
     $(document).ready(function () {
