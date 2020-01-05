@@ -22,9 +22,12 @@ class SubmissionObject
 
     public function loadObject($submissionID)
     {
-        //todo
+        global $user;
 
-        //todo check auth
+        if (!$user->perm(UserObject::AUTHOR_OR_ADMIN, $submissionID)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
         $submission = Database::first("SELECT *, 
 (SELECT COUNT(*) FROM request_submission_full_papers WHERE request_submission_full_paper_submission = {$submissionID} AND request_submission_full_paper_active = 1 AND request_submission_full_paper_status = 'Pending') as fullPaperPendingCount,
 (SELECT COUNT(*) FROM request_submission_full_papers WHERE request_submission_full_paper_submission = {$submissionID} AND request_submission_full_paper_active = 1 AND request_submission_full_paper_status = 'Declined') as fullPaperDeclinedCount,
@@ -53,9 +56,6 @@ FROM submissions WHERE submission_id = {$submissionID}");
                 $submission["submission_invoice"] = 3;
             }
         }
-
-        global $user;
-   //todo grup olarka kontrol edecek birşey ? herhangi biri olabilir çünkü authorslardan
 
         return new Output(true, '', $submission);
     }
@@ -321,9 +321,12 @@ FROM submissions WHERE submission_id = {$submissionID}");
 
     public function show($submissionID)
     {
-        //todo
+        global $user;
 
-        //todo check auth
+        if (!$user->perm(UserObject::AUTHOR_OR_ADMIN, $submissionID)) {
+            return new Output(false, Lang::get('perm_error'));
+        }
+
         $submission = Database::first("SELECT * FROM submissions WHERE submission_id = {$submissionID}");
 
         if (!$submission->status) {
