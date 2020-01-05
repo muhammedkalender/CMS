@@ -45,7 +45,6 @@ class RequestSubmissionFullPaperObject
 
         $resultInsert = Database::insertReturnID("INSERT INTO request_submission_full_papers (request_submission_full_paper_submission, request_submission_full_paper_url, request_submission_full_paper_created_by) VALUES ('{$submissionID}', '{$URL}', {$user->id})");
 
-        //todo niyeyse hata veriyor ?
         if ($resultInsert->status) {
             Log::insertWithKey('request_submission_full_paper_insert', [180, $submissionID, $resultInsert->data]);
 

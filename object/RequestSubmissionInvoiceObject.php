@@ -46,7 +46,6 @@ class RequestSubmissionInvoiceObject
 
         $resultInsert = Database::insertReturnID("INSERT INTO request_submission_invoices (request_submission_invoice_submission, request_submission_invoice_url, request_submission_invoice_created_by) VALUES ('{$submissionID}', '{$URL}', {$user->id})");
 
-        //todo niyeyse hata veriyor ?
         if ($resultInsert->status) {
             Log::insertWithKey('request_submission_invoice_insert', [160, $submissionID, $resultInsert->data]);
 
