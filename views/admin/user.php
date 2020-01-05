@@ -97,7 +97,7 @@
                             </div>
                             <div class="form-group">
                                 <label><?= inputLang('name') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('name') ?>"
+                                <input type="text" class="form-control" placeholder="<?= hintLang('first_name') ?>"
                                        name="name" id="name"
                                        minlength="2" maxlength="32" required>
                             </div>
@@ -124,13 +124,13 @@
                             </div>
                             <div class="form-group">
                                 <label><?= inputLang('surname') ?></label>
-                                <input type="text" class="form-control" placeholder="<?= hintLang('surname') ?>"
+                                <input type="text" class="form-control" placeholder="<?= hintLang('last_name') ?>"
                                        name="surname" id="surname"
                                        minlength="2" maxlength="32" required>
                             </div>
                             <div class="form-group">
                                 <label><?= inputLang('web_site') ?></label>
-                                <input type="url" class="form-control" placeholder="<?= hintLang('webs_ite') ?>"
+                                <input type="url" class="form-control" placeholder="<?= hintLang('web_page') ?>"
                                        name="web_site" id="web_site" maxlength="128">
                             </div>
                         </div>

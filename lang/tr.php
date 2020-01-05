@@ -1,5 +1,6 @@
 <?php
 
+require_once "core/Config.php";
 
 class Lang
 {
@@ -65,6 +66,8 @@ class Lang
         "input_ec_keyprases" => "EC Keyprases",
         "input_topics" => "Konular",
         "input_abstract_paper" => "Ön Metin",
+        "input_admin" => "Yönetici mi ?",
+        "input_corresponding" => "Başyazar mı ?",
 
         "hint_email" => "example@domain.com",
         "hint_organization" => "Open Source Fo.",
@@ -130,6 +133,7 @@ class Lang
         "page_profile" => "Kullanıcı Profili",
         "page_view_submission" => "Makale",
         "page_submission" => "Makale Yönetimi",
+        "page_user" => "Kullanıcılar",
 
         "ui_id" => "#",
         "ui_created_by" => "Oluşturan",
@@ -146,6 +150,10 @@ class Lang
         "ui_first_name" => "İsim",
         "ui_last_name" => "Soy İsim",
         "ui_email" => "Eposta",
+        "ui_submission_id" => "Makale",
+        "ui_add_new" => "Yeni Ekle",
+
+        "ui_users" => "Kullanıcılar",
 
         "ui_authors" => "Yazarlar",
         "ui_submission" => "Makale",
@@ -155,13 +163,19 @@ class Lang
         "ui_user_info" => "Kullanıcı Bilgileri",
         "ui_user_preferences" => "Kullanıcı Tercihleri",
         "ui_user_password" => "Şifre Değişikliği",
+        "ui_user_delete" => "Kullanıcıyı Sil",
 
         "ui_announcements" => "Duyurular",
         "ui_user_announcements" => "Kullanıcı Duyuruları",
         "ui_unread_messages" => "Okunmamış mesajlar",
 
+        "ui_delete_user" => "Kullanıcıyı Sil",
+        "user_delete_success" => "Kullanıcı Başarıyla Silindi",
+        "user_delete_failure" => "Kullanıcı Silinirken Sorun Oluştu",
+
         "ui_announcement_view" => "Duyuruyu Görüntüle",
 
+        "ui_insert_user" => "Yeni Kullanıcı Ekle",
         "ui_insert_user_announcement" => "Yeni Duyuru Ekle",
         "ui_user_announcement_view" => "Duyuruyu Görüntüle",
         "ui_user_announcement_update" => "Duyuruyu Güncelle",

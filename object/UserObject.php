@@ -282,7 +282,7 @@ class UserObject
 
         $user = Database::first("SELECT * FROM users WHERE user_email = '{$userName}'  AND user_password = '{$encryptedPassword}' AND user_active = 1");
 
-        if(isset($user->data['user_login_attempt']) && $user->data['login_attempt'] >= Config::ALERT_LOGIN_ATTEMPT){
+        if(isset($user->data['user_login_attempt']) && $user->data['user_login_attempt'] >= Config::ALERT_LOGIN_ATTEMPT){
             //TODO
 
             return new Output(false, Lang::get('user_wrong_brute_force'), null);

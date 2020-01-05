@@ -430,3 +430,28 @@ function collapseCard(obj){
 }
 
 //endregion
+
+//region Language
+
+function loadLanguage(select, defaultOption = false){
+    var html = "";
+
+    if(defaultOption){
+        html = "<option value=''>" + langDefaultOption + "</option>"
+    }
+
+    $.ajax({
+        'url': '/consts/languages.json',
+        'type': 'get',
+        'dataType': 'json',
+        'success': function(response){
+            for(var i = 0; i < response.length; i++){
+                html += "<option value='" + response[i].id +"'>"+response[i].text+"</option>";
+            }
+
+            $("#" + select).html(html);
+        }
+    });
+}
+
+//endregion
