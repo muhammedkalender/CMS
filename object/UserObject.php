@@ -670,7 +670,6 @@ class UserObject
             return new Output(false, Lang::get('perm_error'));
         }
 
-        //TODO SELECT
         $select = Database::first("SELECT user_accommodation, user_address, user_country, user_ec_id, user_email, user_extra_note, user_first_name, user_food, user_id, user_is_admin, user_is_corresponding, user_joined, user_last_name, user_login_attempt, user_organization, user_submission, user_tel, user_web_page FROM users WHERE user_id = {$userID}");
 
         if ($select->status) {

@@ -155,7 +155,7 @@
 
                     <div class="form-group">
                         <label><?= inputLang('language') ?></label>
-                        <select class="form-control" name="language_code" required>
+                        <select class="form-control" name="language" required>
                             <!--                            todo-->
                             <option value="1">All</option>
                         </select>

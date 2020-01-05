@@ -283,7 +283,7 @@ FROM submissions WHERE submission_id = {$submissionID}");
                 'submission_authors'
             ]);
         }
-//SELECT GROUP_CONCAT(user_first_name SEPARATOR ', ') FROM users WHERE user_active = 1 AND user_submission = submission_id todo
+
         $select = Database::select("SELECT submission_id, submission_ec_id, submission_submit_date, submission_paper_title, submission_presentation_type, submission_invoice, submission_abstract_paper, submission_full_paper, (SELECT GROUP_CONCAT(CONCAT_WS(' ', user_first_name, user_last_name) SEPARATOR ', ') FROM users WHERE user_active = 1 AND user_submission = submission_id) as submission_authors FROM submissions WHERE submission_active = 1 {$querySearch} ORDER BY {$columns[$orderColumn]} {$orderDir} LIMIT  {$length} OFFSET {$start}");
         $stats = Database::select("SELECT COUNT(*) as recordsFiltered, (SELECT COUNT(*) FROM submissions WHERE submission_active = 1) as recordsTotal FROM submissions WHERE submission_active = 1 {$querySearch}");
 
