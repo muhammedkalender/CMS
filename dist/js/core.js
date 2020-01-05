@@ -268,18 +268,6 @@ function loadInputsFromObject(formID, object, prefix = '', deleteKey = '') {
 
 //endregion
 
-//region Loader
-
-function showLoader() {
-    //todo
-}
-
-function hideLoader() {
-    //todo
-}
-
-//endregion
-
 //region Date Format
 
 function formatOnlyDate(datetime) {
