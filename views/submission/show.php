@@ -713,7 +713,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': 'api.php',
+                'url': '/api.php',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -724,7 +724,7 @@
                 'dataSrc': function (json) {
                     for (var i = 0; i < json.data.length; i++) {
                         <?php if($user->isAdmin()): ?>
-                        json.data[i].options = '<a class="btn btn-primary" href="' + internalURL('user', 'profile', 'user', json.data[i].user_id) + '" target="_blank" title="<?=uiLang("user_view")?>"><span class="fas fa-eye"></span></a>';
+                        json.data[i].options = '<a class="btn btn-primary" href="' + internalURL('user', 'profile', json.data[i].user_id) + '" target="_blank" title="<?=uiLang("user_view")?>"><span class="fas fa-eye"></span></a>';
                         <?php else: ?>
                         json.data[i].options = '-';
                         <?php endif; ?>
@@ -753,7 +753,7 @@
                 {'data': 'log_created_at'}
             ],
             'ajax': {
-                'url': 'api.php',
+                'url': '/api.php',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -808,7 +808,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': 'api.php',
+                'url': '/api.php',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -889,7 +889,7 @@
         });
 
         $.ajax({
-            'url': 'api.php',
+            'url': '/api.php',
             'type': 'post',
             'dataType': 'json',
             'data': {
@@ -951,7 +951,7 @@
 
         $.ajax({
             type: 'post',
-            url: "api.php",
+            url: "/api.php",
             processData: false,
             contentType: false,
             data: files,
@@ -995,7 +995,7 @@
 
         $.ajax({
             type: 'post',
-            url: "api.php",
+            url: "/api.php",
             processData: false,
             contentType: false,
             data: files,

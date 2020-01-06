@@ -308,7 +308,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': 'api.php',
+                'url': '/api.php',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -322,7 +322,7 @@
 
                         json.data[i].options = '<div class="btn-group" role="group"><button id="btnGroupDropSubmission" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?=uiLang("dropdown")?></button><div class="dropdown-menu" aria-labelledby="btnGroupDropSubmission">';
                         json.data[i].options += '<a class="dropdown-item text-info" onclick="loadSubmissionComments(' + json.data[i].submission_id + ')" title="<?=uiLang("submission_message_view")?>"><span class="fas fa-list"></span> <?=uiLang("submission_message_view")?></a>';
-                        json.data[i].options += '<a class="dropdown-item text-primary" target="_blank" href="' + internalURL('submission', 'show', 'submission', json.data[i].submission_id) + '" title="<?=uiLang("view")?>"><span class="fas fa-edit"></span> <?=uiLang("view")?></a>';
+                        json.data[i].options += '<a class="dropdown-item text-primary" target="_blank" href="' + internalURL('submission', 'show', json.data[i].submission_id) + '" title="<?=uiLang("view")?>"><span class="fas fa-edit"></span> <?=uiLang("view")?></a>';
                         json.data[i].options += '<a class="dropdown-item text-danger" onclick="showDeleteSubmission(' + i + ')" title="<?=uiLang("delete")?>"><span class="fas fa-trash"></span> <?=uiLang("delete")?></a>';
                         json.data[i].options += '</div></div>';
                     }
@@ -368,7 +368,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': 'api.php',
+                'url': '/api.php',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {

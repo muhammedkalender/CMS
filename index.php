@@ -6,6 +6,7 @@ require_once 'object/UserObject.php';
 $showSidebar = true;
 $title = 'CMS';
 $allowAccess = true;
+$page = null;
 
 if (!isset($_GET['call_category']) || !isset($_GET['call_request'])) {
     if ($user->isLogged()) {
@@ -39,8 +40,8 @@ if ($category == 'user') {
 
         $userID = $user->id;
 
-        if(isset($_GET['user'])){
-            $userID = intval($_GET['user']);
+        if(isset($_GET['id'])){
+            $userID = intval($_GET['id']);
 
             if(!$userID){
                 $userID = $user->id;
@@ -57,10 +58,12 @@ if ($category == 'user') {
 
         $page = 'views/user/login.php';
     }else if($request == 'forgot-password'){
-        //todo
+        $title = pageLang("forgot_password");
+
+        $page = "views/user/forgot-password.php";
     }
 } else if ($category == 'basic') {
-
+//TODO
 } else if ($category == 'submission') {
     if ($request == 'insert') {
         $title = pageLang('insert_submission');
@@ -72,8 +75,8 @@ if ($category == 'user') {
         $title = pageLang('view_submission');
         $submissionID = 0;
 
-        if(isset($_GET['submission'])){
-            $submissionID = intval($_GET['submission']);
+        if(isset($_GET['id'])){
+            $submissionID = intval($_GET['id']);
         }else{
             redirect('/');
         }
@@ -109,12 +112,14 @@ if ($category == 'user') {
 
 
 if($allowAccess){
-    require_once 'views/header.php';
-    require_once $page;
-    require_once 'views/footer.php';
+    if($page == null){
+        require_once 'views/http/404.html';
+    }else{
+        require_once 'views/header.php';
+        require_once $page;
+        require_once 'views/footer.php';
+    }
 }else{
-    //todo
-    //require_once '';
-    echo 'asdasd';
+    require_once 'views/http/401.html';
 }
 

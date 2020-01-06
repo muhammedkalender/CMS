@@ -21,7 +21,7 @@ function checkForm(form) {
         } else if (isCardLoader) {
             showCardOverlay(form);
         } else {
-            showLoader();
+            //NOTE LOADER OLMAYACAK FULL PAGE İÇİN
         }
 
         $.ajax({
@@ -372,8 +372,8 @@ function initialize() {
 
 //region URL
 
-function internalURL(category, request, additional = '', additionalValue = '') {
-    return "/index.php?call_category=" + category + "&call_request=" + request + (additional ? "&" + additional + "=" + additionalValue : "");
+function internalURL(category, request, additionalValue = '') {
+    return "/" + category + "/" + request + (additionalValue ? "/" + additionalValue : "");
 }
 
 //endregion

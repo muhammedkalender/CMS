@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^index\.php$ - [L]
+RewriteRule ^([a-z0-9_-]+)/([a-z0-9_-]+)$ index.php?call_category=$1&call_request=$2
+RewriteRule ^([a-z0-9_-]+)/([a-z0-9_-]+)/([0-9]+)$ index.php?call_category=$1&call_request=$2&id=$3

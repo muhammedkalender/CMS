@@ -440,7 +440,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': 'api.php',
+                'url': '/api.php',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -491,7 +491,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': 'api.php',
+                'url': '/api.php',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -535,7 +535,7 @@
     showCardOverlay($('#form-user-preferences-update'));
 
     $.ajax({
-        'url': 'api.php',
+        'url': '/api.php',
         'type': 'post',
         'dataType': 'json',
         'data': {
@@ -616,7 +616,7 @@
         showModalOverlay('modal-user-announcement-message');
 
         $.ajax({
-            'url': 'api.php',
+            'url': '/api.php',
             'type': 'post',
             'dataType': 'json',
             'data': {
@@ -655,7 +655,7 @@
         showModalOverlay('modal-user-announcement-message');
 
         $.ajax({
-            'url': 'api.php',
+            'url': '/api.php',
             'type': 'post',
             'dataType': 'json',
             'data': {

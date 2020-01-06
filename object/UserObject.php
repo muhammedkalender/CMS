@@ -730,11 +730,12 @@ class UserObject
         $password = Text::generate(16);
         $encryptedPassword = Text::encryptPassword($password);
 
-        $updateUser = Database::exec("UPDATE users SET user_password = '{$encryptedPassword}', user_updated_by = -1, user_updated_at = '" . getCustomDate() . "' WHERE user_id = " . $user['id']);
+        $updateUser = Database::exec("UPDATE users SET user_password = '{$encryptedPassword}', user_updated_by = -1, user_updated_at = '" . getCustomDate() . "' WHERE user_id = " . $user->data['user_id']);
 
-        if ($updateUser->status && $updateUser->data != false) {
+        if ($updateUser->status) {
+            //TODO QUEUE DEĞİLDE DİREK GÖNDERİM OLÇACAK
             Mail::queue($email, Lang::get('mail_title_forgot_password'), Lang::get('mail_template_forgot_password', $password));
-            Log::insertWithKey('log_user_forgot_password', [200, $user['id']]);
+            Log::insertWithKey('log_user_forgot_password', [200, $user->data['user_id']]);
 
             return new Output(true, Lang::get('forgot_password_success', $email));
         } else {

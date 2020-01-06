@@ -212,7 +212,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': 'api.php',
+                'url': '/api.php',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {

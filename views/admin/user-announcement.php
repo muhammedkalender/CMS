@@ -258,7 +258,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': 'api.php',
+                'url': '/api.php',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -297,7 +297,7 @@
         });
 
         $.ajax({
-            'url': 'api.php',
+            'url': '/api.php',
             'type': 'post',
             'dataType': 'json',
             'data': {
@@ -357,7 +357,7 @@
         showModalOverlay('modal-user-announcement-message');
 
         $.ajax({
-            'url': 'api.php',
+            'url': '/api.php',
             'type': 'post',
             'dataType': 'json',
             'data': {
@@ -396,7 +396,7 @@
         showModalOverlay('modal-user-announcement-message');
 
         $.ajax({
-            'url': 'api.php',
+            'url': '/api.php',
             'type': 'post',
             'dataType': 'json',
             'data': {

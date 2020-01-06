@@ -15,7 +15,7 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="info">
-                <a href="<?= internalURL('user', 'profile', 'user', $user->id) ?>"
+                <a href="<?= internalURL('user', 'profile', $user->id) ?>"
                    class="d-block"><i class="nav-icon fas fa-user"></i> <?= $user->getFullName() ?></a>
             </div>
         </div>
@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= internalURL('user', 'profile', 'user', $user->id) ?>" class="nav-link">
+                    <a href="<?= internalURL('user', 'profile', $user->id) ?>" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p><?= sidebarLang('profile') ?></p>
                     </a>

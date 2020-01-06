@@ -26,7 +26,7 @@ function getCustomDate()
 
 function folder()
 {
-    return '';
+    return domain() . '/';
     //return '../cms/';
 }
 
@@ -107,12 +107,12 @@ function redirect($URL)
 
 function domain()
 {
-    return Config::PROTOCOL . "//" . Config::URL . "/";
+    return Config::PROTOCOL . "://" . Config::URL . "/";
 }
 
-function internalURL($category, $request, $additional = '', $additionalValue = '')
+function internalURL($category, $request, $additionalValue = '')
 {
-    return "/index.php?call_category={$category}&call_request={$request}" . ($additional ? "&{$additional}={$additionalValue}" : "");
+    return "/{$category}/{$request}" . ($additionalValue ? "/{$additionalValue}" : "");
 }
 
 function apiURL($category, $request){

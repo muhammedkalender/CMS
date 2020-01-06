@@ -146,6 +146,15 @@ class Lang
         "page_filter_submission" => "Makale Filtreleme",
         "page_login" => "Giriş Yap",
         "page_insert_submission" => "Makale Girişi",
+        "page_forget_password" => "Şifre Yenileme",
+
+
+        "null_user" => "Kullanıcı Bulunamadı",
+
+        "forgot_password_failure" => "İşlem sırasında bir hata oluştu",
+        "forgot_password_success" => "Yeni şifreniz mail adresinize gönderilecektir",
+
+        "mail_title_forgot_password" => "Yeni Şifreniz",
 
         "ui_author" => "Yazar",
 
@@ -411,6 +420,10 @@ class Lang
 
         "request_submission_invoice_force_confirm" => "Makbuz yönetici tarafından onaylandı",
         "request_submission_full_paper_force_confirm" => "Tam metin yönetici tarafından onaylandı",
+
+        "ui_send_password" => "Şifreyi Gönder",
+
+        "mail_template_forgot_password" => "Merhabalar,<br>Şifre yenileme talebiniz başarıyla işleme alınmıştır.<br>Yeni Şifreniz :<b>[[FIRST_PARAM]]</b>",
     ];
 
     public static function get($name, $firstParam = '', $secondParam = '', $thirdParam = '', $fourthParam = '', $fifthParam = '')
