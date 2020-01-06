@@ -6,7 +6,7 @@
     <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
-            <form action="/api.php" method="post" onsubmit="return checkForm(this)">
+            <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)">
                 <input type="hidden" name="call_category" value="user">
                 <input type="hidden" name="call_request" value="forgot-password">
 

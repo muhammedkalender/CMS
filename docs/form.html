@@ -8,7 +8,7 @@
     // call_category => İşlemin üst başlığu ( Kullanıcılar gibi )
     // call_request => İşlemin kendisi ( Kayıt Ol gibi )
 </script>
-<form action="/api.php" method="post" onsubmit="return checkForm(this)"
+<form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
       submit-redirect="test.html" submit-delay="2000">
     <input type="hidden" name="call_category" value="user">
     <input type="hidden" name="call_request" value="login">

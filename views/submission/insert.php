@@ -6,7 +6,7 @@
     <!-- /.login-logo -->
     <div class="card col-12">
         <div class="card-body login-card-body">
-            <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+            <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                   submit-redirect="/" submit-delay="2000">
                 <input type="hidden" name="call_category" value="submission">
                 <input type="hidden" name="call_request" value="insert">

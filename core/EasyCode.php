@@ -115,8 +115,12 @@ function internalURL($category, $request, $additionalValue = '')
     return "/{$category}/{$request}" . ($additionalValue ? "/{$additionalValue}" : "");
 }
 
-function apiURL($category, $request){
-    return "/api.php?call_category={$category}&call_request={$request}";
+function apiURL($category = "", $request = ""){
+    if($category && $request){
+        return "/api/{$category}/{$request}";
+    }else{
+        return "/api";
+    }
 }
 
 function sidebar()

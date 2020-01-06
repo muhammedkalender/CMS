@@ -164,7 +164,7 @@
                 {'data': 'options'}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -200,7 +200,7 @@
                 {'data': 'options'}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -247,7 +247,7 @@
         showModalOverlay('modal-user-announcement-message');
 
         $.ajax({
-            'url': '/api.php',
+            'url': '<?=apiURL()?>',
             'type': 'post',
             'dataType': 'json',
             'data': {
@@ -264,7 +264,7 @@
                 var html = '';
 
                 for (var i = response.data.length - 1; i >= 0; i--) {
-                    html += '<div class="direct-chat-msg ' + (response.data[i].user_announcement_message_created_by == USER_ID ? '' : 'right') + '"><div class="direct-chat-infos clearfix text-dark"><span class="direct-chat-name float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'right' : 'left') + '">' + response.data[i].userFullName + '</span><span class="direct-chat-timestamp float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'left' : 'right') + '">' + response.data[i].user_announcement_message_created_at + '</span></div><img class="direct-chat-img" src="../dist/img/user1-128x128.jpg"><div class="direct-chat-text">' + response.data[i].user_announcement_message_message + '</div></div>';
+                    html += '<div class="direct-chat-msg ' + (response.data[i].user_announcement_message_created_by == USER_ID ? '' : 'right') + '"><div class="direct-chat-infos clearfix text-dark"><span class="direct-chat-name float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'right' : 'left') + '">' + response.data[i].userFullName + '</span><span class="direct-chat-timestamp float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'left' : 'right') + '">' + response.data[i].user_announcement_message_created_at + '</span></div><img class="direct-chat-img" src="../dist/img/AdminLTELogo.png"><div class="direct-chat-text">' + response.data[i].user_announcement_message_message + '</div></div>';
                 }
 
                 $('#direct-chat-messages').html(html);
@@ -286,7 +286,7 @@
         showModalOverlay('modal-user-announcement-message');
 
         $.ajax({
-            'url': '/api.php',
+            'url': '<?=apiURL()?>',
             'type': 'post',
             'dataType': 'json',
             'data': {

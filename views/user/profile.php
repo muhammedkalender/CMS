@@ -16,7 +16,7 @@
                     <h3 class="card-title"><?= uiLang('user_info') ?></h3>
                 </div>
                 <div class="card-body">
-                    <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-user-update-info"
+                    <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)" id="form-user-update-info"
                           submit-datatable="users"
                           card-loader="ok">
                         <input type="hidden" name="call_category" value="user">
@@ -115,7 +115,7 @@
                     <h3 class="card-title"><?= uiLang('user_preferences') ?></h3>
                 </div>
                 <div class="card-body">
-                    <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                    <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                           id="form-user-preferences-update"
                           card-loader="ok">
                         <input type="hidden" name="call_category" value="user">
@@ -154,7 +154,7 @@
                     <h3 class="card-title"><?= uiLang('user_password') ?></h3>
                 </div>
                 <div class="card-body">
-                    <form action="/api.php" method="post" onsubmit="return checkPassword(this);"
+                    <form action="<?=apiURL()?>" method="post" onsubmit="return checkPassword(this);"
                           id="form-user-password-update"
                           card-loader="ok">
                         <input type="hidden" name="call_category" value="user">
@@ -234,7 +234,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                       id="form-user-announcement-insert"
                       submit-datatable="user-announcements"
                       modal-loader="modal-user-announcement-insert">
@@ -293,7 +293,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                       id="form-user-announcement-update"
                       submit-datatable="user-announcements"
                       modal-loader="modal-user-announcement-update">
@@ -340,7 +340,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                       id="form-user-announcement-delete"
                       submit-datatable="user-announcements"
                       modal-loader="modal-user-announcement-delete">
@@ -440,7 +440,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -491,7 +491,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -535,7 +535,7 @@
     showCardOverlay($('#form-user-preferences-update'));
 
     $.ajax({
-        'url': '/api.php',
+        'url': '<?=apiURL()?>',
         'type': 'post',
         'dataType': 'json',
         'data': {
@@ -616,7 +616,7 @@
         showModalOverlay('modal-user-announcement-message');
 
         $.ajax({
-            'url': '/api.php',
+            'url': '<?=apiURL()?>',
             'type': 'post',
             'dataType': 'json',
             'data': {
@@ -633,7 +633,7 @@
                 var html = '';
 
                 for (var i = response.data.length - 1; i >= 0; i--) {
-                    html += '<div class="direct-chat-msg ' + (response.data[i].user_announcement_message_created_by == USER_ID ? '' : 'right') + '"><div class="direct-chat-infos clearfix text-dark"><span class="direct-chat-name float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'right' : 'left') + '">' + response.data[i].userFullName + '</span><span class="direct-chat-timestamp float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'left' : 'right') + '">' + response.data[i].user_announcement_message_created_at + '</span></div><img class="direct-chat-img" src="../dist/img/user1-128x128.jpg"><div class="direct-chat-text">' + response.data[i].user_announcement_message_message + '</div></div>';
+                    html += '<div class="direct-chat-msg ' + (response.data[i].user_announcement_message_created_by == USER_ID ? '' : 'right') + '"><div class="direct-chat-infos clearfix text-dark"><span class="direct-chat-name float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'right' : 'left') + '">' + response.data[i].userFullName + '</span><span class="direct-chat-timestamp float-' + (response.data[i].user_announcement_message_created_by == USER_ID ? 'left' : 'right') + '">' + response.data[i].user_announcement_message_created_at + '</span></div><img class="direct-chat-img" src="../dist/img/AdminLTELogo.png"><div class="direct-chat-text">' + response.data[i].user_announcement_message_message + '</div></div>';
                 }
 
                 $('#direct-chat-messages').html(html);
@@ -655,7 +655,7 @@
         showModalOverlay('modal-user-announcement-message');
 
         $.ajax({
-            'url': '/api.php',
+            'url': '<?=apiURL()?>',
             'type': 'post',
             'dataType': 'json',
             'data': {

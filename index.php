@@ -1,5 +1,7 @@
 <?php
 
+$allowFileAccess = true;
+
 require_once 'core/EasyCode.php';
 require_once 'object/UserObject.php';
 

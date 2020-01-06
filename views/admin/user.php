@@ -76,7 +76,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-user-insert"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)" id="form-user-insert"
                       submit-datatable="users"
                       modal-loader="modal-user-insert">
                     <input type="hidden" name="call_category" value="user">
@@ -184,7 +184,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-update"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)" id="form-announcement-update"
                       submit-datatable="announcements"
                       modal-loader="modal-announcement-update">
                     <input type="hidden" name="call_category" value="announcement">
@@ -230,7 +230,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-user-delete"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)" id="form-user-delete"
                       submit-datatable="users"
                       modal-loader="modal-user-delete">
                     <input type="hidden" name="call_category" value="user">
@@ -288,7 +288,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {

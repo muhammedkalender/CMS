@@ -20,6 +20,28 @@ class SubmissionObject
         }
     }
 
+    //region Load
+
+    public function loadObjectWithInput()
+    {
+        $inputCheck = $this->loadObjectInputCheck();
+
+        if ($inputCheck->status == false) {
+            return $inputCheck;
+        }
+
+        return $this->loadObject(
+            post('id')
+        );
+    }
+
+    public function loadObjectInputCheck()
+    {
+        return InputCheck::checkAll([
+            new Input('id', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
+        ]);
+    }
+
     public function loadObject($submissionID)
     {
         global $user;
@@ -60,6 +82,10 @@ FROM submissions WHERE submission_id = {$submissionID}");
         return new Output(true, '', $submission);
     }
 
+    //endregion
+
+    //region Insert
+
     public function insertWithInput()
     {
         $inputCheck = $this->insertInputCheck();
@@ -82,27 +108,6 @@ FROM submissions WHERE submission_id = {$submissionID}");
             post('users')
         );
     }
-
-    public function loadObjectWithInput()
-    {
-        $inputCheck = $this->loadObjectInputCheck();
-
-        if ($inputCheck->status == false) {
-            return $inputCheck;
-        }
-
-        return $this->loadObject(
-            post('id')
-        );
-    }
-
-    public function loadObjectInputCheck()
-    {
-        return InputCheck::checkAll([
-            new Input('id', Input::METHOD_POST, 'input_submission', Input::TYPE_INT, 1, 8),
-        ]);
-    }
-
 
     public function insertInputCheck()
     {
@@ -206,6 +211,8 @@ FROM submissions WHERE submission_id = {$submissionID}");
 
         return new Output(true, $message, $submissionID);
     }
+
+    //endregion
 
     //region Data Tables
 
@@ -499,6 +506,8 @@ FROM submissions WHERE submission_id = {$submissionID}");
 
     //endregion
 
+    //region List
+
     public function list(){
         global $user;
 
@@ -514,4 +523,6 @@ FROM submissions WHERE submission_id = {$submissionID}");
             return Output::returnWithErrorMessage(Lang::get("submission_list_failure"));
         }
     }
+
+    //endregion
 }

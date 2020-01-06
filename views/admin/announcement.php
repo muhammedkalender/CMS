@@ -73,7 +73,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-insert"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)" id="form-announcement-insert"
                       submit-datatable="announcements"
                       modal-loader="modal-announcement-insert">
                     <input type="hidden" name="call_category" value="announcement">
@@ -114,7 +114,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-update"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)" id="form-announcement-update"
                       submit-datatable="announcements"
                       modal-loader="modal-announcement-update">
                     <input type="hidden" name="call_category" value="announcement">
@@ -158,7 +158,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-announcement-delete"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)" id="form-announcement-delete"
                       submit-datatable="announcements"
                       modal-loader="modal-announcement-delete">
                     <input type="hidden" name="call_category" value="announcement">
@@ -212,7 +212,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {

@@ -37,7 +37,7 @@
                     <h5 class="card-title"><?= uiLang('submission') ?></h5>
                 </div>
                 <div class="card-body submission-update-body">
-                    <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                    <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                           id="form-submission-update" submit-delay="2000" card-loader="ok">
                         <input type="hidden" name="call_category" value="submission">
                         <input type="hidden" name="call_request" value="insert">
@@ -159,7 +159,7 @@
                             </div>
                         </div>
                     <?php endif; ?>
-                    <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                    <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                           id="form-full-paper-insert" submit-delay="2000" card-loader="ok" call-function="showFullPaperButton">
                         <input type="hidden" name="call_category" value="request-submission-full-paper">
                         <input type="hidden" name="call_request" value="insert">
@@ -193,7 +193,7 @@
                             </div>
                         </div>
                     <?php endif; ?>
-                    <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                    <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                           id="form-invoice-insert" submit-delay="2000" card-loader="ok" call-function="showInvoiceButton">
                         <input type="hidden" name="call_category" value="request-submission-invoice">
                         <input type="hidden" name="call_request" value="insert">
@@ -360,7 +360,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                            <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                                   id="form-force-request-submission-invoice"
                                   modal-loader="modal-force-request-submission-invoice">
                                 <input type="hidden" name="call_category" value="request-submission-invoice">
@@ -393,7 +393,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                            <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                                   id="form-force-request-submission-full-paper"
                                   modal-loader="modal-force-request-submission-full-paper">
                                 <input type="hidden" name="call_category" value="request-submission-full-paper">
@@ -442,7 +442,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/api.php" method="post" onsubmit="return checkForm(this)" id="form-submission-delete"
+                            <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)" id="form-submission-delete"
                                   submit-datatable="submissions"
                                   modal-loader="modal-submission-delete">
                                 <input type="hidden" name="call_category" value="submission">
@@ -476,7 +476,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                            <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                                   id="form-submission-comment-complete"
                                   submit-datatable="submissionComments"
                                   modal-loader="modal-submission-comment-complete">
@@ -510,7 +510,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                            <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                                   id="form-submission-comment-canceled"
                                   submit-datatable="submissionComments"
                                   modal-loader="modal-submission-comment-canceled">
@@ -544,7 +544,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                            <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                                   id="form-submission-comment-pending"
                                   submit-datatable="submissionComments"
                                   modal-loader="modal-submission-comment-pending">
@@ -578,7 +578,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                            <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                                   id="form-submission-comment-insert"
                                   submit-datatable="submissionComments"
                                   modal-loader="modal-submission-comment-insert">
@@ -713,7 +713,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -753,7 +753,7 @@
                 {'data': 'log_created_at'}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -808,7 +808,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
@@ -889,7 +889,7 @@
         });
 
         $.ajax({
-            'url': '/api.php',
+            'url': '<?=apiURL()?>',
             'type': 'post',
             'dataType': 'json',
             'data': {
@@ -957,7 +957,7 @@
 
         $.ajax({
             type: 'post',
-            url: "/api.php",
+            url: "<?=apiURL()?>",
             processData: false,
             contentType: false,
             data: files,
@@ -1001,7 +1001,7 @@
 
         $.ajax({
             type: 'post',
-            url: "/api.php",
+            url: "<?=apiURL()?>",
             processData: false,
             contentType: false,
             data: files,

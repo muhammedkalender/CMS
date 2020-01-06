@@ -45,7 +45,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                       id="form-request-submission-invoice-confirm"
                       submit-datatable="request-submission-invoices"
                       modal-loader="modal-request-submission-invoice-confirm">
@@ -80,7 +80,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                       id="form-request-submission-invoice-decline"
                       submit-datatable="request-submission-invoices"
                       modal-loader="modal-request-submission-invoice-decline">
@@ -115,7 +115,7 @@
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form action="/api.php" method="post" onsubmit="return checkForm(this)"
+                <form action="<?=apiURL()?>" method="post" onsubmit="return checkForm(this)"
                       id="form-request-submission-invoice-delete"
                       submit-datatable="request-submission-invoices"
                       modal-loader="modal-request-submission-invoice-delete">
@@ -171,7 +171,7 @@
                 {'data': 'options', 'orderable': false}
             ],
             'ajax': {
-                'url': '/api.php',
+                'url': '<?=apiURL()?>',
                 'type': 'post',
                 'dataType': 'json',
                 'data': {
