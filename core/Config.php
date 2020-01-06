@@ -7,6 +7,12 @@ class Config
     const PROTOCOL = 'http';
     const HIDE_LANG = false;
 
+    //region Language
+
+    const DEFAULT_LANGUAGE = "tr";
+
+    //endregion
+
     //region Alerts
 
     const ALERT_LOGIN_ATTEMPT = 5;

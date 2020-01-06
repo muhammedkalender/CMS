@@ -1,5 +1,7 @@
 <?php
 
+require_once "core/Output.php";
+
 //https://stackoverflow.com/a/18542272
 if (session_status() == PHP_SESSION_NONE) {
     session_start();

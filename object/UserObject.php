@@ -289,6 +289,12 @@ class UserObject
             return new Output(false, Lang::get('user_wrong_login'), null);
         }
 
+        if($user->data["user_language"]){
+            Session::set("language", $user->data["user_language"]);
+        }else{
+            Database::exec("UPDATE users SET user_language = '". Session::get("language")."' WHERE user_id = ".$user->data["user_id"]);
+        }
+
         $userID = $user->data['user_id'];
 
         $tokenLock = Text::generate();

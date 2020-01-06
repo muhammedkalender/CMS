@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= internalURL('user', 'logout', 'user') ?>" class="nav-link">
+                    <a href="<?= internalURL('user', 'logout') ?>" class="nav-link">
                         <i class="fas fa-sign-out-alt nav-icon"></i>
                         <p><?= sidebarLang('exit') ?></p>
                     </a>
