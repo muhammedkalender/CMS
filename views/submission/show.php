@@ -152,7 +152,7 @@
                 <div class="card-body">
                     <? //https://stackoverflow.com/a/722395 ?>
                     <?php if ($user->isAdmin()): ?>
-                        <div class="col-md-3">
+                        <div class="col-md-3" id="divForceRequestFullPaper">
                             <div class="form-group">
                                 <button class="btn btn-danger form-control" data-toggle="modal"
                                         data-target="#modal-force-request-submission-full-paper"><?= uiLang('force_request_submission_full_paper') ?></button>
@@ -173,12 +173,10 @@
                             <input type="file" class="form-control" id="fileURLFullPaper" onchange="uploadFullPaper();"
                                    required/>
                         </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success" id="btnFullPaper" disabled><i
-                                        class="fas fa-save"></i> <?= uiLang('save') ?></button>
-                            <a target="_blank" class="btn btn-warning" href="" id="showFileFullPaper" style="display: none"><i class="fas fa-eye"></i> <?= uiLang('show_file') ?></a>
-                        </div>
                     </form>
+                    <div class="form-group">
+                        <a target="_blank" class="btn btn-warning" href="" id="showFileFullPaper" style="display: none"><i class="fas fa-eye"></i> <?= uiLang('show_file') ?></a>
+                    </div>
                 </div>
             </div>
             <div class="card card-info">
@@ -188,7 +186,7 @@
                 <div class="card-body">
                     <? //https://stackoverflow.com/a/722395 ?>
                     <?php if ($user->isAdmin()): ?>
-                        <div class="col-md-3">
+                        <div class="col-md-3" id="divForceRequestInvoice">
                             <div class="form-group">
                                 <button class="btn btn-danger form-control" data-toggle="modal"
                                         data-target="#modal-force-request-submission-invoice"><?= uiLang('force_request_submission_invoice') ?></button>
@@ -212,9 +210,11 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-success" id="btnInvoice" disabled><i
                                         class="fas fa-save"></i> <?= uiLang('save') ?></button>
-                            <a target="_blank" class="btn btn-warning" href="" id="showFileInvoice" style="display: none"><i class="fas fa-eye"></i> <?= uiLang('show_file') ?></a>
                         </div>
                     </form>
+                    <div class="form-group">
+                        <a target="_blank" class="btn btn-warning" href="" id="showFileInvoice" style="display: none"><i class="fas fa-eye"></i> <?= uiLang('show_file') ?></a>
+                    </div>
                 </div>
             </div>
             <div class="card card-success collapsed-card">
@@ -913,6 +913,9 @@
                     }else{
                         $('#showFileFullPaper').attr("href", "<?=Config::PATH_UPLOAD_DOCUMENT?>" + response.data.submission_full_paper).show();
                     }
+
+                    $("#divForceRequestFullPaper").hide();
+                    $("#form-full-paper-insert").hide();
                 }
 
                 if(response.data.submission_invoice != null){
@@ -921,6 +924,9 @@
                     }else{
                         $('#showFileInvoice').attr("href", "<?=Config::PATH_UPLOAD_DOCUMENT?>" + response.data.submission_invoice).show();
                     }
+
+                    $("#divForceRequestInvoice").hide();
+                    $("#form-invoice-insert").hide();
                 }
                 //
                 // loadInputsFromObject('form-user-preferences-update', response.data, 'user_');

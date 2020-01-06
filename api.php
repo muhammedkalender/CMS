@@ -331,6 +331,18 @@ if($callCategory == "user"){
     }
 
     //endregion
+}else if($callCategory = "mails"){
+    //region Mail
+
+    require_once "core/Mail.php";
+
+    if($callRequest == "queue"){
+        $mail = new Mail();
+
+        $callResult = $mail->sendMails();
+    }
+
+    //endregion
 }
 
 nothing:

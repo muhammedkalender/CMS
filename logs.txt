@@ -52,3 +52,6 @@
 
 812 => submission_request_submission_full_paper_confirm [ SUBMISSION_ID, REQUEST_SUBMISSION_FULL_PAPER_ID ]
 813 => submission_request_full_paper_decline [SUBMISSION_ID, REQUEST_SUBMISSION_FULL_PAPER_ID ]
+
+900 => mail_send_success [ MAIL_ID ]
+901 => mail_send_failure [ MAIL_ID ] [ ERROR ]

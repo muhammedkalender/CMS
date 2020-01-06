@@ -18,4 +18,16 @@ class Config
     const PATH_UPLOAD_DOCUMENT = "/upload/document/";
 
     //endregion
+
+    //region Mail
+
+    const MAIL_SEND_TRY = 3;
+    const MAIL_SEND_COUNT = 2; //todo
+    const MAIL_SERVER = "smtp.gmail.com";
+    const MAIL_PORT = 587;
+    const MAIL_LOGIN = "noreply.set2020@gmail.com";
+    const MAIL_PASSWORD = "123set2020";
+    const MAIL_FROM_NAME = "Muhammed Kalender";
+
+    //endregion
 }
